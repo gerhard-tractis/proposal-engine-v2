@@ -122,3 +122,24 @@
     @apply bg-background text-foreground;
   }
 }
+
+/* Proposal Branding Styles */
+.proposal-branded h1,
+.proposal-branded h2,
+.proposal-branded h3 {
+  color: var(--brand-primary);
+}
+
+.proposal-branded a {
+  color: var(--brand-accent);
+}
+
+.proposal-branded a:hover {
+  color: var(--brand-primary);
+}
+
+.proposal-branded .border-b,
+.proposal-branded .border-t {
+  border-color: var(--brand-primary);
+  opacity: 0.3;
+}

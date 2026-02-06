@@ -14,7 +14,10 @@ export function ExecutiveSummary({ content }: ExecutiveSummaryProps) {
       transition={{ duration: 0.5 }}
       className="space-y-4"
     >
-      <h2 className="text-3xl font-semibold tracking-tight text-foreground">
+      <h2
+        className="text-3xl font-semibold tracking-tight"
+        style={{ color: 'var(--brand-primary)' }}
+      >
         Executive Summary
       </h2>
       <p className="text-lg leading-relaxed text-muted-foreground">{content}</p>
