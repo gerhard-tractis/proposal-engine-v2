@@ -125,9 +125,22 @@
 
 /* Proposal Branding Styles - Tractis Design System */
 .proposal-branded {
-  /* Force light theme colors */
-  background-color: var(--background);
-  color: var(--foreground);
+  /* Force light theme colors - override dark mode */
+  background-color: var(--background) !important;
+  color: var(--foreground) !important;
+}
+
+/* Force light theme for all proposal elements */
+.proposal-branded *:not(.lucide):not(svg):not(path) {
+  color: inherit;
+}
+
+.proposal-branded .bg-background {
+  background-color: var(--background) !important;
+}
+
+.proposal-branded .bg-card {
+  background-color: var(--card) !important;
 }
 
 .proposal-branded h1,

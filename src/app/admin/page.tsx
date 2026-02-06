@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
@@ -15,9 +16,19 @@ export default function AdminPage() {
       <div className="mx-auto max-w-6xl space-y-8">
         {/* Header */}
         <div className="flex items-center justify-between">
-          <div>
-            <h1 className="text-4xl font-bold">Proposal Admin</h1>
-            <p className="text-muted-foreground">Create and manage customer proposals</p>
+          <div className="flex items-center gap-4">
+            <Image
+              src="/logos/tractis-white.svg"
+              alt="Tractis"
+              width={140}
+              height={40}
+              className="h-10 w-auto"
+              priority
+            />
+            <div className="border-l border-border pl-4">
+              <h1 className="text-4xl font-bold">Proposal Admin</h1>
+              <p className="text-muted-foreground">Create and manage customer proposals</p>
+            </div>
           </div>
           <div className="flex gap-2">
             <Button
