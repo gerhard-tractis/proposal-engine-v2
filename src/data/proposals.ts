@@ -23,8 +23,8 @@ export const proposals: Proposal[] = [
       name: 'Tractis AI',
       logo: '/logos/tractis-color.svg',
       colors: {
-        primary: '#e6c15c', // Tractis Gold
-        accent: '#5e6b7b', // Tractis Slate
+        primary: '#dfad30', // Tractis Gold (Dembrandt extracted)
+        accent: '#7b8b9d', // Tractis Border/Accent (Dembrandt extracted)
       },
     },
     proposal: {

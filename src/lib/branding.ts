@@ -35,40 +35,40 @@ export function generateBrandingCSSVars(proposal: Proposal): React.CSSProperties
   const theme = TRACTIS_THEME;
 
   return {
-    // Brand colors from scraped palette
-    '--brand-primary': branding.colors.primary,
-    '--brand-accent': branding.colors.accent,
+    // Brand colors - Dembrandt extracted
+    '--brand-primary': '#dfad30', // Gold from Dembrandt (buttons, accents)
+    '--brand-accent': '#7b8b9d', // Border/accent color from Dembrandt
     '--brand-primary-hover': adjustColorBrightness(branding.colors.primary, -10),
     '--brand-accent-hover': adjustColorBrightness(branding.colors.accent, -10),
 
-    // Surface colors - Testing dark gray background
-    '--background': theme.colors.gray['800'], // #1e293b (dark gray)
-    '--foreground': theme.colors.text.inverse, // #ffffff (white text on dark)
-    '--card': theme.colors.gray['700'], // #334155 (darker cards)
-    '--card-foreground': theme.colors.text.inverse, // #ffffff (white text)
+    // Surface colors - Dembrandt extracted palette
+    '--background': '#485360', // Dark slate (from Dembrandt)
+    '--foreground': '#ffffff', // White text (from Dembrandt)
+    '--card': '#3a424c', // Slightly darker for cards (from Dembrandt colors)
+    '--card-foreground': '#ffffff', // White text
     '--popover': theme.colors.surface.card,
     '--popover-foreground': theme.colors.text.primary,
 
     // Primary brand colors
-    '--primary': branding.colors.primary, // #e6c15c
-    '--primary-foreground': theme.colors.gray['900'], // #0f172a
+    '--primary': '#dfad30', // Gold from Dembrandt
+    '--primary-foreground': '#21262c', // Very dark text (from Dembrandt button text)
 
     // Secondary colors - Light grays
     '--secondary': theme.colors.gray['100'], // #f1f5f9
     '--secondary-foreground': theme.colors.text.primary,
 
     // Muted colors for less prominent text
-    '--muted': theme.colors.gray['700'],
-    '--muted-foreground': theme.colors.gray['400'], // #94a3b8 (lighter gray for dark bg)
+    '--muted': '#545f6b', // Muted background
+    '--muted-foreground': '#f1f5f9', // Light grey text (from Dembrandt links)
 
     // Accent colors
     '--accent': theme.colors.gray['100'],
     '--accent-foreground': theme.colors.text.primary,
 
-    // Borders - Subtle light gray
-    '--border': theme.colors.border.subtle, // #e2e8f0
-    '--input': theme.colors.border.default, // #cbd5e1
-    '--ring': branding.colors.primary,
+    // Borders - From Dembrandt
+    '--border': '#7b8b9d', // Border color from Dembrandt
+    '--input': '#596573', // Input background (darker)
+    '--ring': '#dfad30', // Gold ring
 
     // Destructive
     '--destructive': theme.colors.semantic.error.DEFAULT,
