@@ -41,11 +41,11 @@ export function generateBrandingCSSVars(proposal: Proposal): React.CSSProperties
     '--brand-primary-hover': adjustColorBrightness(branding.colors.primary, -10),
     '--brand-accent-hover': adjustColorBrightness(branding.colors.accent, -10),
 
-    // Surface colors - Light theme from scraped Tractis palette
-    '--background': theme.colors.surface.page, // #f8fafc
-    '--foreground': theme.colors.text.primary, // #334155
-    '--card': theme.colors.surface.card, // #ffffff
-    '--card-foreground': theme.colors.text.primary, // #334155
+    // Surface colors - Testing dark gray background
+    '--background': theme.colors.gray['800'], // #1e293b (dark gray)
+    '--foreground': theme.colors.text.inverse, // #ffffff (white text on dark)
+    '--card': theme.colors.gray['700'], // #334155 (darker cards)
+    '--card-foreground': theme.colors.text.inverse, // #ffffff (white text)
     '--popover': theme.colors.surface.card,
     '--popover-foreground': theme.colors.text.primary,
 
@@ -58,8 +58,8 @@ export function generateBrandingCSSVars(proposal: Proposal): React.CSSProperties
     '--secondary-foreground': theme.colors.text.primary,
 
     // Muted colors for less prominent text
-    '--muted': theme.colors.gray['100'],
-    '--muted-foreground': theme.colors.text.secondary, // #64748b
+    '--muted': theme.colors.gray['700'],
+    '--muted-foreground': theme.colors.gray['400'], // #94a3b8 (lighter gray for dark bg)
 
     // Accent colors
     '--accent': theme.colors.gray['100'],
