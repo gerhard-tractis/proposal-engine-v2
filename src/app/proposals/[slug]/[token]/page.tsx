@@ -46,7 +46,7 @@ export default async function ProposalPage({ params }: ProposalPageProps) {
   }
 
   return (
-    <div className="mx-auto max-w-5xl px-6 py-12 space-y-16">
+    <div className="mx-auto max-w-5xl px-6 py-12 space-y-16" style={{ backgroundColor: 'var(--background)' }}>
       {/* Title Section */}
       <div className="text-center space-y-4 py-8 border-b-2" style={{ borderColor: 'var(--brand-primary)' }}>
         <h1 className="text-4xl font-bold tracking-tight" style={{ color: 'var(--brand-primary)' }}>

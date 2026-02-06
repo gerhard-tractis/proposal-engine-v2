@@ -23,9 +23,23 @@ export default async function ProposalLayout({
   const brandingStyles = generateBrandingCSSVars(proposal);
 
   return (
-    <div style={brandingStyles} className="min-h-screen bg-background text-foreground proposal-branded">
+    <div
+      style={{
+        ...brandingStyles,
+        backgroundColor: 'var(--background)',
+        color: 'var(--foreground)',
+      }}
+      className="min-h-screen proposal-branded"
+    >
       {/* Header with logo */}
-      <header className="border-b bg-card sticky top-0 z-50 backdrop-blur" style={{ borderColor: 'var(--brand-primary)', borderWidth: '2px' }}>
+      <header
+        className="border-b sticky top-0 z-50 backdrop-blur"
+        style={{
+          backgroundColor: 'var(--card)',
+          borderColor: 'var(--brand-primary)',
+          borderWidth: '2px'
+        }}
+      >
         <div className="mx-auto max-w-5xl px-6 py-6">
           <div className="flex items-center justify-between">
             <Image
