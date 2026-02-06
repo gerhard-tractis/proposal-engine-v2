@@ -52,8 +52,8 @@ export const ClientSchema = z.object({
   name: z.string().min(1),
   logo: z.string().min(1).regex(/^\/[\w\/\-\.]+\.(svg|png|jpg|jpeg|webp)$/i, 'Invalid logo path format'),
   colors: z.object({
-    primary: z.string().regex(/^(#[0-9a-f]{3,8}|rgb|hsl|oklch)\(/i, 'Invalid CSS color format'),
-    accent: z.string().regex(/^(#[0-9a-f]{3,8}|rgb|hsl|oklch)\(/i, 'Invalid CSS color format'),
+    primary: z.string().regex(/^(#[0-9a-f]{3,8}|rgb\(|hsl\(|oklch\()/i, 'Invalid CSS color format'),
+    accent: z.string().regex(/^(#[0-9a-f]{3,8}|rgb\(|hsl\(|oklch\()/i, 'Invalid CSS color format'),
   }),
 });
 
