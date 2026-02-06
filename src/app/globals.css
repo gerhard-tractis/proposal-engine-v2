@@ -123,24 +123,44 @@
   }
 }
 
-/* Proposal Branding Styles - Tractis Design System */
+/* Proposal Branding Styles - Scraped from client website */
+/* Simulates agent extracting colors from customer site */
+
 .proposal-branded {
-  /* Force light theme colors - override dark mode */
+  /* Force light theme - override parent dark mode */
   background-color: var(--background) !important;
   color: var(--foreground) !important;
+
+  /* Reset any dark mode inherited styles */
+  --tw-bg-opacity: 1;
+  --tw-text-opacity: 1;
 }
 
-/* Force light theme for all proposal elements */
+/* Ensure all text inherits light theme colors */
 .proposal-branded *:not(.lucide):not(svg):not(path) {
-  color: inherit;
+  border-color: var(--border);
 }
 
+/* Force backgrounds to light theme */
 .proposal-branded .bg-background {
   background-color: var(--background) !important;
 }
 
 .proposal-branded .bg-card {
   background-color: var(--card) !important;
+}
+
+.proposal-branded .bg-muted {
+  background-color: var(--muted) !important;
+}
+
+/* Force text colors */
+.proposal-branded .text-foreground {
+  color: var(--foreground) !important;
+}
+
+.proposal-branded .text-card-foreground {
+  color: var(--card-foreground) !important;
 }
 
 .proposal-branded h1,

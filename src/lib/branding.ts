@@ -28,51 +28,58 @@ export function getProposalBranding(proposal: Proposal) {
 
 /**
  * Generate CSS variables for client branding
- * Applies full Tractis theme including surfaces, text, borders
+ * Uses scraped palette to simulate agent extraction from customer website
  */
 export function generateBrandingCSSVars(proposal: Proposal): React.CSSProperties {
   const branding = getProposalBranding(proposal);
   const theme = TRACTIS_THEME;
 
   return {
-    // Brand colors
+    // Brand colors from scraped palette
     '--brand-primary': branding.colors.primary,
     '--brand-accent': branding.colors.accent,
     '--brand-primary-hover': adjustColorBrightness(branding.colors.primary, -10),
     '--brand-accent-hover': adjustColorBrightness(branding.colors.accent, -10),
 
-    // Surface colors (light theme)
-    '--background': theme.colors.surface.page,
-    '--foreground': theme.colors.text.primary,
-    '--card': theme.colors.surface.card,
-    '--card-foreground': theme.colors.text.primary,
+    // Surface colors - Light theme from scraped Tractis palette
+    '--background': theme.colors.surface.page, // #f8fafc
+    '--foreground': theme.colors.text.primary, // #334155
+    '--card': theme.colors.surface.card, // #ffffff
+    '--card-foreground': theme.colors.text.primary, // #334155
     '--popover': theme.colors.surface.card,
     '--popover-foreground': theme.colors.text.primary,
 
     // Primary brand colors
-    '--primary': branding.colors.primary,
-    '--primary-foreground': theme.colors.gray['900'],
+    '--primary': branding.colors.primary, // #e6c15c
+    '--primary-foreground': theme.colors.gray['900'], // #0f172a
 
-    // Secondary colors
-    '--secondary': theme.colors.gray['100'],
+    // Secondary colors - Light grays
+    '--secondary': theme.colors.gray['100'], // #f1f5f9
     '--secondary-foreground': theme.colors.text.primary,
 
-    // Muted colors
+    // Muted colors for less prominent text
     '--muted': theme.colors.gray['100'],
-    '--muted-foreground': theme.colors.text.secondary,
+    '--muted-foreground': theme.colors.text.secondary, // #64748b
 
     // Accent colors
     '--accent': theme.colors.gray['100'],
     '--accent-foreground': theme.colors.text.primary,
 
-    // Borders
-    '--border': theme.colors.border.subtle,
-    '--input': theme.colors.border.default,
+    // Borders - Subtle light gray
+    '--border': theme.colors.border.subtle, // #e2e8f0
+    '--input': theme.colors.border.default, // #cbd5e1
     '--ring': branding.colors.primary,
 
     // Destructive
     '--destructive': theme.colors.semantic.error.DEFAULT,
     '--destructive-foreground': theme.colors.semantic.error.text,
+
+    // Chart colors
+    '--chart-1': theme.colors.charts.series[0],
+    '--chart-2': theme.colors.charts.series[1],
+    '--chart-3': theme.colors.charts.series[2],
+    '--chart-4': theme.colors.charts.series[3],
+    '--chart-5': theme.colors.charts.series[4],
   } as React.CSSProperties;
 }
 
