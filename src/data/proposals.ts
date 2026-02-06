@@ -21,10 +21,10 @@ export const proposals: Proposal[] = [
     token: 'xK8pQ2mN7v', // Generated via nanoid(10)
     client: {
       name: 'Tractis AI',
-      logo: '/logos/tractis.svg',
+      logo: '/logos/tractis-color.svg',
       colors: {
-        primary: 'oklch(0.488 0.243 264.376)', // Purple/blue
-        accent: 'oklch(0.696 0.17 162.48)', // Teal
+        primary: '#e6c15c', // Tractis Gold
+        accent: '#5e6b7b', // Tractis Slate
       },
     },
     proposal: {

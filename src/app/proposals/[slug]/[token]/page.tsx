@@ -47,15 +47,15 @@ export default async function ProposalPage({ params }: ProposalPageProps) {
 
   return (
     <div className="mx-auto max-w-5xl px-6 py-12 space-y-16">
-      {/* Header */}
-      <header className="text-center space-y-4 border-b border-border pb-12">
+      {/* Title Section */}
+      <div className="text-center space-y-4 py-8">
         <h1 className="text-4xl font-bold tracking-tight text-foreground">
-          Proposal for {proposal.client.name}
+          Custom AI Solution
         </h1>
-        <p className="text-muted-foreground">
-          Custom AI Solution Tailored to Your Needs
+        <p className="text-xl text-muted-foreground">
+          Tailored to Your Business Needs
         </p>
-      </header>
+      </div>
 
       {/* 8 Sections */}
       <ProposalErrorBoundary>
