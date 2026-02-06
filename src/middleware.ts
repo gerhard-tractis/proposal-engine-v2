@@ -1,6 +1,16 @@
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
-import { validateToken } from '@/lib/proposal-helpers';
+
+// Valid proposal tokens (Edge Runtime compatible)
+// TODO: When proposals scale, move to Vercel Edge Config or KV
+const VALID_TOKENS = new Map<string, string>([
+  ['tractis-demo', 'xK8pQ2mN7v'],
+  // Add more as: ['slug', 'token']
+]);
+
+function validateToken(slug: string, token: string): boolean {
+  return VALID_TOKENS.get(slug) === token;
+}
 
 // Basic rate limiter (in-memory, per-worker)
 // Production: Use Vercel Edge Config, Upstash Redis, or @vercel/rate-limit
@@ -50,10 +60,7 @@ export function middleware(request: NextRequest) {
       const slug = pathParts[1];
       const token = pathParts[2];
 
-      // validateToken imports proposals.ts at module level (cached in memory)
-      // On Vercel Edge: cache persists across requests in same worker
-      // On redeployment: new workers get fresh cache
-      // In dev mode: HMR updates the cache automatically
+      // Validate token
       if (!validateToken(slug, token)) {
         // Log failed authentication attempt for security monitoring
         console.warn('Failed proposal access attempt:', {
