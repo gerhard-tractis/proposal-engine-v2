@@ -1,5 +1,5 @@
 import tractisTheme from '@/data/tractis-theme.json';
-import type { Proposal } from '@/types/proposal';
+import type { Proposal } from '@repo/shared';
 
 /**
  * Tractis Design System

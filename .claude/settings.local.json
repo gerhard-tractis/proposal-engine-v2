@@ -23,7 +23,10 @@
       "Bash(node --input-type=module -e:*)",
       "Bash(src/app/globals.css << 'EOF'\n\n/* Proposal Branding Styles */\n.proposal-branded h1,\n.proposal-branded h2,\n.proposal-branded h3 {\n  color: var\\(--brand-primary\\);\n}\n\n.proposal-branded a {\n  color: var\\(--brand-accent\\);\n}\n\n.proposal-branded a:hover {\n  color: var\\(--brand-primary\\);\n}\n\n.proposal-branded .border-b,\n.proposal-branded .border-t {\n  border-color: var\\(--brand-primary\\);\n  opacity: 0.3;\n}\nEOF)",
       "WebFetch(domain:tractis.ai)",
-      "Bash(dembrandt:*)"
+      "Bash(dembrandt:*)",
+      "Bash(pnpm install:*)",
+      "Bash(pnpm run build:*)",
+      "Bash(git reset:*)"
     ]
   }
 }

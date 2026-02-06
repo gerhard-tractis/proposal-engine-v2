@@ -1,7 +1,7 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import type { Feature } from '@/types/proposal';
+import type { Feature } from '@repo/shared';
 import * as Icons from 'lucide-react';
 
 interface FeaturesSectionProps {

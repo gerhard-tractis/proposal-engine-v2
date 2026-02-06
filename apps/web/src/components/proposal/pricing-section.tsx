@@ -1,4 +1,4 @@
-import type { PricingSection } from '@/types/proposal';
+import type { PricingSection } from '@repo/shared';
 import { Check } from 'lucide-react';
 
 interface PricingSectionProps {

@@ -1,4 +1,4 @@
-import type { RoadmapItem } from '@/types/proposal';
+import type { RoadmapItem } from '@repo/shared';
 import { Calendar } from 'lucide-react';
 
 interface RoadmapProps {

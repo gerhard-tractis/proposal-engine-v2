@@ -1,4 +1,4 @@
-import type { Proposal } from '@/types/proposal';
+import type { Proposal } from '@repo/shared';
 
 /**
  * Proposal data storage

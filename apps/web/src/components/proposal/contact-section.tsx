@@ -1,4 +1,4 @@
-import type { ContactInfo } from '@/types/proposal';
+import type { ContactInfo } from '@repo/shared';
 import { Mail, Phone, Calendar, ArrowRight } from 'lucide-react';
 
 interface ContactSectionProps {

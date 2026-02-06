@@ -1,5 +1,5 @@
 import { proposals } from '@/data/proposals';
-import { ProposalSchema, type Proposal } from '@/types/proposal';
+import { ProposalSchema, type Proposal } from '@repo/shared';
 
 /**
  * Get proposal by slug and token with Zod validation
