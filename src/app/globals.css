@@ -123,15 +123,46 @@
   }
 }
 
-/* Proposal Branding Styles */
+/* Proposal Branding Styles - Tractis Design System */
+.proposal-branded {
+  /* Force light theme colors */
+  background-color: var(--background);
+  color: var(--foreground);
+}
+
 .proposal-branded h1,
 .proposal-branded h2,
-.proposal-branded h3 {
+.proposal-branded h3,
+.proposal-branded h4 {
   color: var(--brand-primary);
+  font-weight: 600;
+}
+
+.proposal-branded h1 {
+  font-size: clamp(2rem, 4vw, 3rem);
+  font-weight: 700;
+  letter-spacing: -0.015em;
+}
+
+.proposal-branded h2 {
+  font-size: clamp(1.5rem, 3vw, 2.25rem);
+  letter-spacing: -0.01em;
+}
+
+.proposal-branded h3 {
+  font-size: 1.5rem;
+  letter-spacing: -0.005em;
+}
+
+.proposal-branded p {
+  color: var(--foreground);
+  line-height: 1.6;
 }
 
 .proposal-branded a {
   color: var(--brand-accent);
+  text-decoration: none;
+  transition: color 0.2s ease;
 }
 
 .proposal-branded a:hover {
@@ -142,4 +173,35 @@
 .proposal-branded .border-t {
   border-color: var(--brand-primary);
   opacity: 0.3;
+}
+
+/* Card components in proposals */
+.proposal-branded [class*="card"],
+.proposal-branded [class*="Card"] {
+  background-color: var(--card);
+  color: var(--card-foreground);
+  border: 1px solid var(--border);
+}
+
+/* Text color utilities for proposals */
+.proposal-branded .text-muted-foreground {
+  color: var(--muted-foreground) !important;
+}
+
+.proposal-branded .text-foreground {
+  color: var(--foreground) !important;
+}
+
+/* Background utilities */
+.proposal-branded .bg-background {
+  background-color: var(--background) !important;
+}
+
+.proposal-branded .bg-card {
+  background-color: var(--card) !important;
+}
+
+/* Border utilities */
+.proposal-branded .border {
+  border-color: var(--border) !important;
 }

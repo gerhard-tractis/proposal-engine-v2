@@ -28,15 +28,51 @@ export function getProposalBranding(proposal: Proposal) {
 
 /**
  * Generate CSS variables for client branding
+ * Applies full Tractis theme including surfaces, text, borders
  */
 export function generateBrandingCSSVars(proposal: Proposal): React.CSSProperties {
   const branding = getProposalBranding(proposal);
+  const theme = TRACTIS_THEME;
 
   return {
+    // Brand colors
     '--brand-primary': branding.colors.primary,
     '--brand-accent': branding.colors.accent,
     '--brand-primary-hover': adjustColorBrightness(branding.colors.primary, -10),
     '--brand-accent-hover': adjustColorBrightness(branding.colors.accent, -10),
+
+    // Surface colors (light theme)
+    '--background': theme.colors.surface.page,
+    '--foreground': theme.colors.text.primary,
+    '--card': theme.colors.surface.card,
+    '--card-foreground': theme.colors.text.primary,
+    '--popover': theme.colors.surface.card,
+    '--popover-foreground': theme.colors.text.primary,
+
+    // Primary brand colors
+    '--primary': branding.colors.primary,
+    '--primary-foreground': theme.colors.gray['900'],
+
+    // Secondary colors
+    '--secondary': theme.colors.gray['100'],
+    '--secondary-foreground': theme.colors.text.primary,
+
+    // Muted colors
+    '--muted': theme.colors.gray['100'],
+    '--muted-foreground': theme.colors.text.secondary,
+
+    // Accent colors
+    '--accent': theme.colors.gray['100'],
+    '--accent-foreground': theme.colors.text.primary,
+
+    // Borders
+    '--border': theme.colors.border.subtle,
+    '--input': theme.colors.border.default,
+    '--ring': branding.colors.primary,
+
+    // Destructive
+    '--destructive': theme.colors.semantic.error.DEFAULT,
+    '--destructive-foreground': theme.colors.semantic.error.text,
   } as React.CSSProperties;
 }
 
