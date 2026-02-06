@@ -142,14 +142,13 @@ function CreateProposal() {
   const [formData, setFormData] = useState({
     clientName: '',
     websiteUrl: '',
-    logoFile: null as File | null,
     proposalFile: null as File | null,
   });
 
   const [isProcessing, setIsProcessing] = useState(false);
 
-  const handleFileChange = (field: 'logoFile' | 'proposalFile', file: File | null) => {
-    setFormData({ ...formData, [field]: file });
+  const handleFileChange = (file: File | null) => {
+    setFormData({ ...formData, proposalFile: file });
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -213,24 +212,7 @@ function CreateProposal() {
               placeholder="https://acme.com"
             />
             <p className="text-xs text-muted-foreground mt-1">
-              Agent 1 will extract brand colors, fonts, and styling from this website
-            </p>
-          </div>
-
-          {/* Logo Upload */}
-          <div>
-            <label className="block text-sm font-medium mb-2">
-              Upload Logo *
-            </label>
-            <input
-              type="file"
-              required
-              accept=".svg,.png,.jpg,.jpeg"
-              onChange={(e) => handleFileChange('logoFile', e.target.files?.[0] || null)}
-              className="w-full px-3 py-2 border rounded-md"
-            />
-            <p className="text-xs text-muted-foreground mt-1">
-              Accepted formats: SVG, PNG, JPG
+              Agent 1 will extract brand colors, fonts, styling, and logo from this website
             </p>
           </div>
 
@@ -243,7 +225,7 @@ function CreateProposal() {
               type="file"
               required
               accept=".pdf,.md,.docx,.txt"
-              onChange={(e) => handleFileChange('proposalFile', e.target.files?.[0] || null)}
+              onChange={(e) => handleFileChange(e.target.files?.[0] || null)}
               className="w-full px-3 py-2 border rounded-md"
             />
             <p className="text-xs text-muted-foreground mt-1">
@@ -257,7 +239,7 @@ function CreateProposal() {
         <div className="bg-blue-50 border border-blue-200 rounded-md p-4 text-sm space-y-2">
           <p className="font-semibold">What happens when you submit:</p>
           <ol className="list-decimal list-inside space-y-1 text-sm">
-            <li><strong>Agent 1 (Brand Extraction):</strong> Scrapes website, analyzes logo, extracts brand colors</li>
+            <li><strong>Agent 1 (Brand Extraction):</strong> Scrapes website, downloads logo, extracts brand colors and fonts</li>
             <li><strong>Agent 2 (Content Generation):</strong> Parses your document, generates 8-section proposal</li>
             <li><strong>Auto-Processing:</strong> Generates secure token, uses Tractis contact info</li>
             <li><strong>Deployment:</strong> Saves proposal and returns shareable URL</li>
