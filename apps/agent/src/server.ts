@@ -48,7 +48,8 @@ app.use((err: any, req: express.Request, res: express.Response, next: express.Ne
 });
 
 // Start server
-app.listen(PORT, () => {
-  console.log(`🚀 Tractis Agent API running on http://localhost:${PORT}`);
-  console.log(`📡 Health check: http://localhost:${PORT}/health`);
+app.listen(PORT, '0.0.0.0', () => {
+  console.log(`🚀 Tractis Agent API running on port ${PORT}`);
+  console.log(`📡 Health check available at /health`);
+  console.log(`🌍 Environment: ${process.env.NODE_ENV || 'development'}`);
 });
