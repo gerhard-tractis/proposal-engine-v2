@@ -26,7 +26,9 @@
       "Bash(dembrandt:*)",
       "Bash(pnpm install:*)",
       "Bash(pnpm run build:*)",
-      "Bash(git reset:*)"
+      "Bash(git reset:*)",
+      "Bash(pnpm --filter @repo/agent build:*)",
+      "WebFetch(domain:repoagent-production-420c.up.railway.app)"
     ]
   }
 }
