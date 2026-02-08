@@ -27,9 +27,16 @@ export async function generateMetadata({
     };
   }
 
+  // Use client favicon if available, otherwise Tractis default
+  const faviconUrl = proposal.client.favicon || '/favicon.png';
+
   return {
     title: `Proposal for ${proposal.client.name} | Tractis`,
     description: `Custom AI proposal for ${proposal.client.name}`,
+    icons: {
+      icon: faviconUrl,
+      apple: faviconUrl,
+    },
     robots: {
       index: false,
       follow: false,

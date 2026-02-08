@@ -1,7 +1,7 @@
 import { notFound } from 'next/navigation';
-import Image from 'next/image';
 import { getProposalBySlugAndToken } from '@/lib/proposal-helpers';
 import { generateBrandingCSSVars } from '@/lib/branding';
+import { LogoWithFallback } from '@/components/proposal/logo-with-fallback';
 
 interface ProposalLayoutProps {
   children: React.ReactNode;
@@ -42,9 +42,11 @@ export default async function ProposalLayout({
       >
         <div className="mx-auto max-w-5xl px-6 py-6">
           <div className="flex items-center justify-between">
-            <Image
+            <LogoWithFallback
               src={proposal.client.logo}
               alt={`${proposal.client.name} logo`}
+              fallbackSrc="/logos/tractis-white.svg"
+              fallbackAlt="Tractis logo"
               width={180}
               height={60}
               className="h-12 w-auto"
