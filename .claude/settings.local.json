@@ -28,7 +28,8 @@
       "Bash(pnpm run build:*)",
       "Bash(git reset:*)",
       "Bash(pnpm --filter @repo/agent build:*)",
-      "WebFetch(domain:repoagent-production-420c.up.railway.app)"
+      "WebFetch(domain:repoagent-production-420c.up.railway.app)",
+      "WebFetch(domain:proposal.tractis.ai)"
     ]
   }
 }

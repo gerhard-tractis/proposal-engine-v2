@@ -6,6 +6,8 @@ import Image from 'next/image';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
+import { Input } from '@/components/ui/input';
+import { FileUpload } from '@/components/ui/file-upload';
 import { proposals } from '@/data/proposals';
 
 export default function AdminPage() {
@@ -185,30 +187,28 @@ function CreateProposal() {
         <div className="space-y-4">
           {/* Client Name */}
           <div>
-            <label className="block text-sm font-medium mb-2">
+            <label className="block text-sm font-medium mb-2 text-foreground">
               Client Name *
             </label>
-            <input
+            <Input
               type="text"
               required
               value={formData.clientName}
               onChange={(e) => setFormData({ ...formData, clientName: e.target.value })}
-              className="w-full px-3 py-2 border rounded-md"
               placeholder="Acme Corporation"
             />
           </div>
 
           {/* Website URL */}
           <div>
-            <label className="block text-sm font-medium mb-2">
+            <label className="block text-sm font-medium mb-2 text-foreground">
               Website URL *
             </label>
-            <input
+            <Input
               type="url"
               required
               value={formData.websiteUrl}
               onChange={(e) => setFormData({ ...formData, websiteUrl: e.target.value })}
-              className="w-full px-3 py-2 border rounded-md"
               placeholder="https://acme.com"
             />
             <p className="text-xs text-muted-foreground mt-1">
@@ -218,27 +218,25 @@ function CreateProposal() {
 
           {/* Proposal Content Upload */}
           <div>
-            <label className="block text-sm font-medium mb-2">
+            <label className="block text-sm font-medium mb-2 text-foreground">
               Upload Proposal Content *
             </label>
-            <input
-              type="file"
-              required
+            <FileUpload
               accept=".pdf,.md,.docx,.txt"
-              onChange={(e) => handleFileChange(e.target.files?.[0] || null)}
-              className="w-full px-3 py-2 border rounded-md"
+              onChange={handleFileChange}
+              value={formData.proposalFile}
+              required
             />
             <p className="text-xs text-muted-foreground mt-1">
-              Accepted formats: PDF, Markdown, DOCX, TXT<br />
-              Agent 2 will parse this document and generate the 8-section proposal structure
+              Accepted formats: PDF, Markdown, DOCX, TXT • Agent 2 will parse this document and generate the 8-section proposal structure
             </p>
           </div>
         </div>
 
         {/* Info Box */}
-        <div className="bg-blue-50 border border-blue-200 rounded-md p-4 text-sm space-y-2">
-          <p className="font-semibold">What happens when you submit:</p>
-          <ol className="list-decimal list-inside space-y-1 text-sm">
+        <div className="bg-primary/10 border border-primary/20 rounded-md p-4 text-sm space-y-2">
+          <p className="font-semibold text-foreground">What happens when you submit:</p>
+          <ol className="list-decimal list-inside space-y-1 text-sm text-foreground">
             <li><strong>Agent 1 (Brand Extraction):</strong> Scrapes website, downloads logo, extracts brand colors and fonts</li>
             <li><strong>Agent 2 (Content Generation):</strong> Parses your document, generates 8-section proposal</li>
             <li><strong>Auto-Processing:</strong> Generates secure token, uses Tractis contact info</li>
