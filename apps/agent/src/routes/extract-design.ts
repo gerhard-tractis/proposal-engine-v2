@@ -31,6 +31,7 @@ async function extractFavicon(url: string): Promise<string | null> {
       ];
 
       for (const selector of selectors) {
+        // @ts-ignore - document exists in browser context
         const element = document.querySelector(selector);
         if (element) {
           const href = element.getAttribute('href');
