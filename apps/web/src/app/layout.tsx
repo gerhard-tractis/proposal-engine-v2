@@ -19,8 +19,12 @@ export const metadata: Metadata = {
   title: "Tractis Proposal Engine",
   description: "AI-powered proposal platform for Tractis",
   icons: {
-    icon: '/favicon.svg',
-    apple: '/favicon.svg',
+    icon: '/favicon.png',
+    apple: '/apple-touch-icon.png',
+    other: {
+      rel: 'icon',
+      url: '/android-chrome-192x192.png',
+    },
   },
 };
 
