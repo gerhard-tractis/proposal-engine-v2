@@ -49,3 +49,7 @@ nul
 
 # Turborepo
 .turbo
+
+# Claude Code
+# Note: .claude/settings.local.json.backup is intentionally tracked
+# for easy recovery from corruption issues
