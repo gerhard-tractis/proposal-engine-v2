@@ -129,7 +129,15 @@ export const proposals: Proposal[] = [
     },
   },
 
+  // ==================================================================================
   // STANDARD 8-SECTION PROPOSAL: Tractis Demo - FULL FEATURES
+  // ⚠️  CRITICAL: DO NOT MODIFY THIS STRUCTURE WHEN DEBUGGING IMPERIAL OR OTHER ISSUES
+  // ⚠️  This is the reference implementation - keep ALL features intact:
+  //     - businessCase with ROI calculations
+  //     - techStack with all categories
+  //     - Full contact info (role, website, linkedin, calendly, cta)
+  //     - All variant fields (executiveSummaryVariant, needsVariant, etc.)
+  // ==================================================================================
   {
     slug: 'tractis-demo',
     token: 'xK8pQ2mN7v',
