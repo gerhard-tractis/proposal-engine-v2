@@ -2,12 +2,44 @@
 
 Professional monorepo architecture for the Tractis AI proposal generation platform.
 
+## 🎯 Current Status
+
+**Production URLs:**
+- **Web App:** https://proposal.tractis.ai
+- **Agent API:** https://repoagent-production-420c.up.railway.app
+- **Imperial Proposal (Live):** https://proposal.tractis.ai/proposals/imperial/Zh3zaPJV4U
+
+**Latest Updates:**
+- ✅ **Responsive Design Complete** (Feb 10, 2026) - Imperial proposal fully optimized for mobile/tablet/desktop
+- ✅ **Admin Dashboard** - Password-protected proposal management
+- ✅ **Custom Proposals** - Imperial (Aureon Connect) with custom component
+- ✅ **Standard Proposals** - 8-section structure with variant system
+
+**Key Documentation:**
+- `RESPONSIVE_DESIGN.md` - Complete responsive design implementation guide
+- `VERCEL_DEBUG.md` - Deployment troubleshooting (CRITICAL: never modify tractis-demo when debugging)
+- `VARIANT_SYSTEM.md` - Component variant architecture
+- `TEST_COVERAGE.md` - Test coverage status
+
 ## 📁 Project Structure
 
 ```
 tractis-proposal-engine-monorepo/
 ├── apps/
 │   ├── web/              # Next.js frontend (deploy to Vercel)
+│   │   ├── src/
+│   │   │   ├── app/
+│   │   │   │   ├── proposals/[slug]/[token]/  # Dynamic proposal routes
+│   │   │   │   └── admin/                     # Admin dashboard (password-protected)
+│   │   │   ├── components/
+│   │   │   │   └── proposal/
+│   │   │   │       ├── custom/                # Custom proposal components
+│   │   │   │       │   └── imperial-custom.tsx  # RESPONSIVE: Imperial Aureon Connect
+│   │   │   │       └── variants/              # Standard proposal variants
+│   │   │   ├── data/
+│   │   │   │   └── proposals.ts               # Proposal data storage
+│   │   │   └── lib/
+│   │   │       └── branding.ts                # Dynamic branding system
 │   └── agent/            # Express backend + LangChain agent (deploy to Railway)
 ├── packages/
 │   └── shared/           # Shared types and utilities
@@ -15,6 +47,38 @@ tractis-proposal-engine-monorepo/
 ├── turbo.json            # Turborepo build pipeline
 └── package.json          # Workspace root
 ```
+
+## ✨ Features
+
+### Proposal System
+- **Dynamic Branding** - CSS variables for client-specific theming
+- **Token-Protected Routes** - Secure proposal access via unique tokens
+- **Responsive Design** - Fully optimized for mobile, tablet, and desktop
+- **Two Proposal Types:**
+  - **Standard (8-section)** - Variant-based components for consistent structure
+  - **Custom** - Fully customized components (e.g., Imperial Aureon Connect)
+
+### Admin Dashboard
+- **Password Protection** - Session-based authentication
+- **Proposal Management** - View, manage, and copy proposal URLs
+- **Visual Indicators** - Badges to distinguish Standard vs Custom proposals
+- **Type Checking** - All proposals validated with Zod at runtime
+
+### Responsive Features (Imperial Proposal)
+- **Mobile-First Design** - Optimized for 375px+ screens
+- **Adaptive Components:**
+  - Hero section with responsive stats grid (1 col → 3 cols)
+  - Sticky header with logo constraint (max 45% width on mobile)
+  - Solution diagram arrows (down on mobile, right on desktop)
+  - 2x2 grid for transport systems on mobile
+  - Responsive typography and spacing throughout
+- **Clean Mobile UX** - Removed redundant branding, simplified CTA
+- **Touch-Friendly** - Proper spacing and button sizes for mobile
+
+### AI Agent (In Progress)
+- **Design Extraction** - Scrape brand colors, fonts, and logos from websites
+- **Text Extraction** - Parse PDF, DOCX, Markdown, and TXT files
+- **Proposal Generation** - LangChain + Groq LLM for content generation
 
 ## 🚀 Architecture
 
