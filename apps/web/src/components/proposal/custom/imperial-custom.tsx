@@ -509,13 +509,13 @@ export default function ImperialCustomProposal({ proposal }: ImperialCustomProps
             </p>
 
             <motion.a
-              href={content.contact.calendlyUrl || `mailto:${content.contact.email}`}
+              href={content.contact.calendly || `mailto:${content.contact.email}`}
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
               className="inline-flex items-center gap-2 px-8 py-4 bg-white rounded-xl font-bold text-lg shadow-xl hover:shadow-2xl transition-shadow"
               style={{ color: client.colors.primary }}
             >
-              Agendar Demo
+              {content.contact.cta}
               <ArrowRight size={20} />
             </motion.a>
 
@@ -527,17 +527,15 @@ export default function ImperialCustomProposal({ proposal }: ImperialCustomProps
               >
                 📧 {content.contact.email}
               </a>
-              {content.contact.phone && (
-                <a
-                  href={`https://wa.me/${content.contact.phone.replace(/[^0-9]/g, '')}?text=Hola, me interesa conocer más sobre Aureon Connect`}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="transition-colors"
-                  style={{ color: '#ffffff' }}
-                >
-                  📱 {content.contact.phone}
-                </a>
-              )}
+              <a
+                href={`https://wa.me/${content.contact.phone.replace(/[^0-9]/g, '')}?text=Hola, me interesa conocer más sobre Aureon Connect`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="transition-colors"
+                style={{ color: '#ffffff' }}
+              >
+                📱 {content.contact.phone}
+              </a>
             </div>
           </div>
 

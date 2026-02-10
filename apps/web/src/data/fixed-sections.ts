@@ -3,7 +3,7 @@
  * These don't need to be processed by AI agents
  */
 
-import type { WhyUsVariant, ContactVariant } from '@repo/shared';
+import type { WhyUsVariant, ContactSectionVariant } from '@repo/shared';
 
 /**
  * Tractis Contact Information
@@ -63,7 +63,7 @@ The same discipline that ensures delivery trucks stay on route, operations run 2
  */
 export const FIXED_SECTION_VARIANTS = {
   whyUs: 'list' as WhyUsVariant,
-  contact: 'standard' as ContactVariant,
+  contact: 'standard' as ContactSectionVariant,
 } as const;
 
 /**
