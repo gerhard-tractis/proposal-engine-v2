@@ -8,6 +8,8 @@
     "start": "turbo run start",
     "lint": "turbo run lint",
     "type-check": "turbo run type-check",
+    "test": "turbo run test",
+    "test:web": "pnpm --filter @repo/web test:run",
     "web:dev": "pnpm --filter @repo/web dev",
     "agent:dev": "pnpm --filter @repo/agent dev"
   },

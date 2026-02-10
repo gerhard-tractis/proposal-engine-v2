@@ -19,7 +19,7 @@ import { TRACTIS_WHY_US, TRACTIS_CONTACT, FIXED_SECTION_VARIANTS } from './fixed
  *   → These are consistent across all proposals and don't need AI processing
  */
 export const proposals: Proposal[] = [
-  // CUSTOM PROPOSAL: Imperial - Uses custom component, minimal data
+  // CUSTOM PROPOSAL: Imperial - Aureon Connect
   {
     slug: 'imperial',
     token: 'Zh3zaPJV4U',
@@ -31,16 +31,50 @@ export const proposals: Proposal[] = [
       favicon: '/logos/imperial-favicon.jpg',
       colors: {
         primary: '#f72e3c',
-        accent: '#85909e',
+        accent: '#0c3a63',
       },
     },
     proposal: {
-      executiveSummary: 'Elimine la dependencia de un solo proveedor TMS.',
-      executiveSummaryVariant: 'brief',
-      needs: ['Dummy data - custom component renders its own content'],
+      executiveSummary:
+        'Elimine la dependencia de un solo proveedor TMS y agregue cualquier transportista a su red en 48 horas. Middleware agnóstico que traduce automáticamente entre cualquier sistema (Beetrack, Driv.in, Simpliroute, Excel) y su TMS actual.',
+      executiveSummaryVariant: 'detailed',
+      needs: [
+        'Dependes de un solo proveedor TMS - si suben precios o cambian condiciones, tu operación está en riesgo',
+        'No puedes agregar transportistas que usan Beetrack, Driv.in o Excel - pierdes capacidad disponible',
+        'Integrar un nuevo transporte toma 3-4 semanas - muy lento para escalar rápidamente',
+        'Cambiar de TMS significa perder toda tu red de transportes configurada',
+        'Cada transporte usa su propio sistema - visibilidad fragmentada y operación compleja',
+        'La tecnología limita tu crecimiento - no puedes elegir transportes por calidad de servicio',
+      ],
       needsVariant: 'list',
-      solution: 'Agrega cualquier transportista a tu red en 48 horas.',
+      solution:
+        'Agrega cualquier transportista a tu red en 48 horas, sin importar qué sistema usen. Ellos trabajan con sus herramientas actuales, tú ves todo unificado en tu TMS. Sin capacitación, sin fricción.',
       solutionVariant: 'narrative',
+      businessCase: undefined,
+      techStack: {
+        categories: [
+          {
+            name: 'Middleware/API',
+            technologies: ['Node.js', 'Express', 'TypeScript', 'REST/GraphQL', 'WebSockets'],
+          },
+          {
+            name: 'Integraciones',
+            technologies: ['Simpliroute API', 'Beetrack API', 'Driv.in API', 'Custom Adapters'],
+          },
+          {
+            name: 'Base de Datos',
+            technologies: ['PostgreSQL', 'Redis Cache', 'Event Sourcing'],
+          },
+          {
+            name: 'Infraestructura',
+            technologies: ['Railway', 'Docker', 'CI/CD', 'Monitoring 24/7'],
+          },
+          {
+            name: 'Seguridad',
+            technologies: ['JWT Auth', 'API Rate Limiting', 'Encryption at Rest', 'Audit Logs'],
+          },
+        ],
+      },
       features: [],
       featuresVariant: 'grid',
       roadmap: [],
@@ -48,9 +82,39 @@ export const proposals: Proposal[] = [
       whyUs: 'Custom component has its own content',
       whyUsVariant: 'list',
       pricing: {
-        tiers: [],
+        tiers: [
+          {
+            name: 'Modelo Recurrente',
+            price: 'Setup + Licencia Mensual',
+            period: 'Pay-per-use: Cobro mensual por orden procesada',
+            features: [
+              'Setup inicial de implementación (pago único)',
+              'Licencia mensual por cada orden que pasa por el integrador',
+              'Modelo pay-per-use: solo pagas por órdenes procesadas',
+              'Escala según tu volumen real de operación',
+              'Soporte continuo y actualizaciones incluidas',
+              'Infraestructura y monitoreo 24/7',
+            ],
+            recommended: true,
+          },
+          {
+            name: 'Modelo de Compra',
+            price: 'Licencia Perpetua',
+            period: 'Inversión única - todo incluido',
+            features: [
+              'Código fuente completo (llave en mano)',
+              'Es tuyo para siempre - sin mensualidades',
+              'Control total de tu infraestructura',
+              'Documentación técnica completa',
+              'Sin dependencia de terceros',
+              'Ideal para equipos técnicos in-house',
+            ],
+          },
+        ],
+        customNote:
+          '💬 Inversión personalizada según tu operación. Agenda 30 minutos y construimos la propuesta perfecta para ti.',
       },
-      pricingVariant: 'custom',
+      pricingVariant: 'tiers',
       contact: {
         name: 'Gerhard Neumann',
         role: 'Solutions Architect',

@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { Button } from '@/components/ui/button';
@@ -10,8 +10,77 @@ import { Input } from '@/components/ui/input';
 import { FileUpload } from '@/components/ui/file-upload';
 import { proposals } from '@/data/proposals';
 
+// SECURITY: Change this password before deployment
+const ADMIN_PASSWORD = 'tractis2024'; // TODO: Move to environment variable
+
 export default function AdminPage() {
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [passwordInput, setPasswordInput] = useState('');
   const [activeTab, setActiveTab] = useState<'create' | 'dashboard'>('dashboard');
+
+  // Check if already authenticated in session
+  useEffect(() => {
+    const authStatus = sessionStorage.getItem('admin_authenticated');
+    if (authStatus === 'true') {
+      setIsAuthenticated(true);
+    }
+  }, []);
+
+  const handleLogin = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (passwordInput === ADMIN_PASSWORD) {
+      setIsAuthenticated(true);
+      sessionStorage.setItem('admin_authenticated', 'true');
+      setPasswordInput('');
+    } else {
+      alert('Incorrect password');
+      setPasswordInput('');
+    }
+  };
+
+  const handleLogout = () => {
+    setIsAuthenticated(false);
+    sessionStorage.removeItem('admin_authenticated');
+  };
+
+  // Show login screen if not authenticated
+  if (!isAuthenticated) {
+    return (
+      <div className="min-h-screen bg-background flex items-center justify-center p-8">
+        <Card className="w-full max-w-md p-8">
+          <div className="flex flex-col items-center gap-6">
+            <Image
+              src="/logos/tractis-white.svg"
+              alt="Tractis"
+              width={140}
+              height={40}
+              className="h-10 w-auto"
+              priority
+            />
+            <div className="text-center">
+              <h1 className="text-2xl font-bold mb-2">Admin Login</h1>
+              <p className="text-sm text-muted-foreground">
+                Enter password to access proposal dashboard
+              </p>
+            </div>
+            <form onSubmit={handleLogin} className="w-full space-y-4">
+              <Input
+                type="password"
+                placeholder="Enter admin password"
+                value={passwordInput}
+                onChange={(e) => setPasswordInput(e.target.value)}
+                autoFocus
+                className="w-full"
+              />
+              <Button type="submit" className="w-full" size="lg">
+                Login
+              </Button>
+            </form>
+          </div>
+        </Card>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-background p-8">
@@ -44,6 +113,13 @@ export default function AdminPage() {
               onClick={() => setActiveTab('create')}
             >
               Create Proposal
+            </Button>
+            <Button
+              variant="outline"
+              onClick={handleLogout}
+              className="text-red-500 hover:text-red-600"
+            >
+              Logout
             </Button>
           </div>
         </div>

@@ -35,9 +35,9 @@ export function generateBrandingCSSVars(proposal: Proposal): React.CSSProperties
   const theme = TRACTIS_THEME;
 
   return {
-    // Brand colors - Dembrandt extracted
-    '--brand-primary': '#dfad30', // Gold from Dembrandt (buttons, accents)
-    '--brand-accent': '#7b8b9d', // Border/accent color from Dembrandt
+    // Brand colors - Client-specific (uses proposal.client.colors)
+    '--brand-primary': branding.colors.primary, // Client primary color
+    '--brand-accent': branding.colors.accent, // Client accent color
     '--brand-primary-hover': adjustColorBrightness(branding.colors.primary, -10),
     '--brand-accent-hover': adjustColorBrightness(branding.colors.accent, -10),
 
@@ -49,8 +49,8 @@ export function generateBrandingCSSVars(proposal: Proposal): React.CSSProperties
     '--popover': theme.colors.surface.card,
     '--popover-foreground': theme.colors.text.primary,
 
-    // Primary brand colors
-    '--primary': '#dfad30', // Gold from Dembrandt
+    // Primary brand colors - Uses client colors
+    '--primary': branding.colors.primary, // Client primary color
     '--primary-foreground': '#21262c', // Very dark text (from Dembrandt button text)
 
     // Secondary colors - Light grays
@@ -65,10 +65,10 @@ export function generateBrandingCSSVars(proposal: Proposal): React.CSSProperties
     '--accent': theme.colors.gray['100'],
     '--accent-foreground': theme.colors.text.primary,
 
-    // Borders - From Dembrandt
-    '--border': '#7b8b9d', // Border color from Dembrandt
+    // Borders - Uses client accent color
+    '--border': branding.colors.accent, // Client accent color for borders
     '--input': '#596573', // Input background (darker)
-    '--ring': '#dfad30', // Gold ring
+    '--ring': branding.colors.primary, // Client primary for focus rings
 
     // Destructive
     '--destructive': theme.colors.semantic.error.DEFAULT,
