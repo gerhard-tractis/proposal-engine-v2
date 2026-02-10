@@ -107,7 +107,6 @@ export const proposals: Proposal[] = [
     proposal: {
       executiveSummary:
         "We're proposing a custom AI solution tailored to your business needs. This platform will automate key workflows, enhance decision-making with intelligent insights, and scale seamlessly as your organization grows.\n\nOur approach combines cutting-edge AI technology with practical implementation strategies to deliver measurable ROI within the first quarter.\n\nWith our proven track record and deep technical expertise, we'll transform your operations while ensuring seamless integration with your existing systems.",
-      executiveSummaryVariant: 'detailed' as const,
       needs: [
         'Automate repetitive manual processes that consume 20+ hours per week',
         'Improve decision-making with data-driven insights and predictive analytics',
@@ -115,10 +114,8 @@ export const proposals: Proposal[] = [
         'Integrate AI capabilities with existing tools and workflows',
         'Maintain data security and compliance throughout the AI implementation',
       ],
-      needsVariant: 'list' as const,
       solution:
         "We'll build a custom AI platform that integrates directly with your existing systems. The solution includes natural language processing for document automation, predictive analytics for forecasting, and intelligent workflows that adapt to your team's patterns. Everything is deployed on secure infrastructure with full audit trails and compliance controls.",
-      solutionVariant: 'narrative' as const,
       businessCase: {
         costSaving: {
           value: "$250K annually",
@@ -231,7 +228,6 @@ export const proposals: Proposal[] = [
           icon: 'Brain',
         },
       ],
-      featuresVariant: 'grid' as const,
       roadmap: [
         {
           phase: 'Discovery & Planning',
@@ -289,9 +285,7 @@ export const proposals: Proposal[] = [
           ],
         },
       ],
-      roadmapVariant: 'timeline' as const,
-      whyUs: TRACTIS_WHY_US, // Fixed content - consistent across all proposals
-      whyUsVariant: FIXED_SECTION_VARIANTS.whyUs,
+      whyUs: [TRACTIS_WHY_US], // Fixed content - consistent across all proposals (wrapped in array for local schema)
       pricing: {
         tiers: [
           {
@@ -323,9 +317,7 @@ export const proposals: Proposal[] = [
         customNote:
           'Pricing includes all development, infrastructure setup, and initial training. Monthly support is optional but recommended for continuous improvement.',
       },
-      pricingVariant: 'tiers' as const,
       contact: TRACTIS_CONTACT, // Fixed content - consistent across all proposals
-      contactVariant: FIXED_SECTION_VARIANTS.contact,
     },
   },
 ];
