@@ -35,8 +35,8 @@ export default async function ProposalLayout({
             borderWidth: '2px'
           }}
         >
-          <div className="mx-auto max-w-7xl px-6 py-4">
-            <div className="flex items-center justify-between">
+          <div className="mx-auto max-w-7xl px-4 sm:px-6 py-3 sm:py-4">
+            <div className="flex items-center justify-between gap-4">
               <LogoWithFallback
                 src={proposal.client.logo}
                 alt={`${proposal.client.name} logo`}
@@ -44,19 +44,19 @@ export default async function ProposalLayout({
                 fallbackAlt="Tractis logo"
                 width={140}
                 height={46}
-                className="h-10 w-auto"
+                className="h-8 sm:h-10 w-auto max-w-[45%] sm:max-w-none object-contain"
                 priority
               />
               <div className="text-right">
                 {proposal.slug === 'imperial' ? (
                   <>
-                    <p className="text-sm font-semibold text-white">Aureon Connect</p>
-                    <p className="text-xs text-white/80">Propuesta Confidencial</p>
+                    <p className="text-xs sm:text-sm font-semibold text-white">Aureon Connect</p>
+                    <p className="text-[10px] sm:text-xs text-white/80">Propuesta Confidencial</p>
                   </>
                 ) : (
                   <>
-                    <p className="text-sm text-white/80">Custom Proposal</p>
-                    <p className="font-medium text-white">{proposal.client.name}</p>
+                    <p className="text-xs sm:text-sm text-white/80">Custom Proposal</p>
+                    <p className="text-sm sm:text-base font-medium text-white">{proposal.client.name}</p>
                   </>
                 )}
               </div>
