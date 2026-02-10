@@ -130,9 +130,9 @@ export function extractAndValidateJSON<T>(
     return schema.parse(parsed);
   } catch (error) {
     if (error instanceof z.ZodError) {
-      console.error(`[${agentName}] Schema validation failed:`, error.errors);
+      console.error(`[${agentName}] Schema validation failed:`, error.issues);
       console.error(`[${agentName}] Parsed JSON:`, JSON.stringify(parsed, null, 2));
-      throw new Error(`${agentName} returned invalid output structure: ${error.errors.map(e => `${e.path.join('.')}: ${e.message}`).join(', ')}`);
+      throw new Error(`${agentName} returned invalid output structure: ${error.issues.map((e: any) => `${e.path.join('.')}: ${e.message}`).join(', ')}`);
     }
     throw error;
   }

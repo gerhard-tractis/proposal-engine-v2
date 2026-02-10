@@ -7,9 +7,10 @@
  * 3. Agent 3: Select variants and finalize
  */
 
-import { agent2A_parser, type Agent2AOutput } from './agent-2a-parser.js';
+import { agent2A_parser } from './agent-2a-parser.js';
 import { startEnrichment, continueEnrichment } from './agent-2b-enrichment.js';
 import { agent3_designer } from './agent-3-designer.js';
+import type { Agent2AOutput } from '../lib/agent-schemas.js';
 
 export interface ProposalGenerationInput {
   documentText: string;
