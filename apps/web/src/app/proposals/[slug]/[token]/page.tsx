@@ -109,8 +109,6 @@ export default async function ProposalPage({ params }: ProposalPageProps) {
       <ProposalErrorBoundary>
         <SolutionComponent
           content={proposal.proposal.solution}
-          businessCase={proposal.proposal.businessCase}
-          techStack={proposal.proposal.techStack}
         />
       </ProposalErrorBoundary>
 
