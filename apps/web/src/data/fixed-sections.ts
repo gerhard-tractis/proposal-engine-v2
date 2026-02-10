@@ -3,7 +3,7 @@
  * These don't need to be processed by AI agents
  */
 
-import type { WhyUsVariant, ContactVariant } from '@repo/shared/types/proposal';
+import type { WhyUsVariant, ContactVariant } from '@repo/shared';
 
 /**
  * Tractis Contact Information
