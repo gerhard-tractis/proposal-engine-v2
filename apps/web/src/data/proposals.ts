@@ -36,7 +36,6 @@ export const proposals: Proposal[] = [
     proposal: {
       executiveSummary:
         'Elimine la dependencia de un solo proveedor TMS y agregue cualquier transportista a su red en 48 horas. Middleware agnóstico que traduce automáticamente entre cualquier sistema (Beetrack, Driv.in, Simpliroute, Excel) y su TMS actual.',
-      executiveSummaryVariant: 'detailed' as const,
       needs: [
         'Dependes de un solo proveedor TMS - si suben precios o cambian condiciones, tu operación está en riesgo',
         'No puedes agregar transportistas que usan Beetrack, Driv.in o Excel - pierdes capacidad disponible',
@@ -45,35 +44,8 @@ export const proposals: Proposal[] = [
         'Cada transporte usa su propio sistema - visibilidad fragmentada y operación compleja',
         'La tecnología limita tu crecimiento - no puedes elegir transportes por calidad de servicio',
       ],
-      needsVariant: 'list' as const,
       solution:
         'Agrega cualquier transportista a tu red en 48 horas, sin importar qué sistema usen. Ellos trabajan con sus herramientas actuales, tú ves todo unificado en tu TMS. Sin capacitación, sin fricción.',
-      solutionVariant: 'narrative' as const,
-      businessCase: undefined,
-      techStack: {
-        categories: [
-          {
-            name: 'Middleware/API',
-            technologies: ['Node.js', 'Express', 'TypeScript', 'REST/GraphQL', 'WebSockets'],
-          },
-          {
-            name: 'Integraciones',
-            technologies: ['Simpliroute API', 'Beetrack API', 'Driv.in API', 'Custom Adapters'],
-          },
-          {
-            name: 'Base de Datos',
-            technologies: ['PostgreSQL', 'Redis Cache', 'Event Sourcing'],
-          },
-          {
-            name: 'Infraestructura',
-            technologies: ['Railway', 'Docker', 'CI/CD', 'Monitoring 24/7'],
-          },
-          {
-            name: 'Seguridad',
-            technologies: ['JWT Auth', 'API Rate Limiting', 'Encryption at Rest', 'Audit Logs'],
-          },
-        ],
-      },
       features: [], // Not used in custom template
       roadmap: [], // Not used in custom template
       whyUs: ['Not used in custom template'], // Custom component has its own content
