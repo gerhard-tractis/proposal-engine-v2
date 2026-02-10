@@ -527,15 +527,17 @@ export default function ImperialCustomProposal({ proposal }: ImperialCustomProps
               >
                 📧 {content.contact.email}
               </a>
-              <a
-                href={`https://wa.me/${content.contact.phone.replace(/[^0-9]/g, '')}?text=Hola, me interesa conocer más sobre Aureon Connect`}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="transition-colors"
-                style={{ color: '#ffffff' }}
-              >
-                📱 {content.contact.phone}
-              </a>
+              {content.contact.phone && (
+                <a
+                  href={`https://wa.me/${content.contact.phone.replace(/[^0-9]/g, '')}?text=Hola, me interesa conocer más sobre Aureon Connect`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="transition-colors"
+                  style={{ color: '#ffffff' }}
+                >
+                  📱 {content.contact.phone}
+                </a>
+              )}
             </div>
           </div>
 
