@@ -153,6 +153,12 @@ function ProposalDashboard() {
                 <div className="flex-1">
                   <div className="flex items-center gap-3 mb-2">
                     <h3 className="text-xl font-semibold">{proposal.client.name}</h3>
+                    <Badge
+                      variant={proposal.type === 'standard' ? 'default' : 'secondary'}
+                      className="font-semibold text-xs uppercase"
+                    >
+                      {proposal.type === 'standard' ? '📋 Standard' : '✨ Custom'}
+                    </Badge>
                     <Badge variant="outline" className="font-mono text-xs">
                       {proposal.slug}
                     </Badge>
