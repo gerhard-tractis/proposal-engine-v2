@@ -18,7 +18,7 @@ export const TRACTIS_CONTACT = {
     "Review technical requirements and goals",
     "Receive a customized proposal within 48 hours",
   ],
-} as const;
+};
 
 /**
  * Tractis Why Us Content
