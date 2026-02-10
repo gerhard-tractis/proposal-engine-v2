@@ -3,8 +3,6 @@
  * These don't need to be processed by AI agents
  */
 
-import type { WhyUsVariant, ContactSectionVariant } from '@repo/shared';
-
 /**
  * Tractis Contact Information
  * Used in all proposals - never changes
@@ -62,8 +60,8 @@ The same discipline that ensures delivery trucks stay on route, operations run 2
  * Default variants for fixed sections
  */
 export const FIXED_SECTION_VARIANTS = {
-  whyUs: 'list' as WhyUsVariant,
-  contact: 'standard' as ContactSectionVariant,
+  whyUs: 'list',
+  contact: 'standard',
 } as const;
 
 /**

@@ -75,11 +75,8 @@ export const proposals: Proposal[] = [
         ],
       },
       features: [], // Not used in custom template
-      featuresVariant: 'grid' as const,
       roadmap: [], // Not used in custom template
-      roadmapVariant: 'timeline' as const,
-      whyUs: TRACTIS_WHY_US,
-      whyUsVariant: FIXED_SECTION_VARIANTS.whyUs,
+      whyUs: ['Not used in custom template'], // Custom component has its own content
       pricing: {
         tiers: [
           {
@@ -113,7 +110,6 @@ export const proposals: Proposal[] = [
         customNote:
           '💬 Inversión personalizada según tu operación. Agenda 30 minutos y construimos la propuesta perfecta para ti.',
       },
-      pricingVariant: 'tiers' as const,
       contact: {
         name: 'Gerhard Neumann',
         email: 'gerhard@tractis.ai',
@@ -125,7 +121,6 @@ export const proposals: Proposal[] = [
           'Construimos una propuesta personalizada',
         ],
       },
-      contactVariant: FIXED_SECTION_VARIANTS.contact,
     },
   },
   {
