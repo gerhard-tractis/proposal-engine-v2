@@ -75,15 +75,15 @@ export default async function ProposalPage({ params }: ProposalPageProps) {
   }
 
   // Standard 8-section proposal
-  // Dynamically select components based on variant preferences
-  const ExecutiveSummaryComponent = getExecutiveSummaryComponent(proposal.proposal.executiveSummaryVariant);
-  const UnderstandingNeedsComponent = getUnderstandingNeedsComponent(proposal.proposal.needsVariant);
-  const SolutionComponent = getSolutionComponent(proposal.proposal.solutionVariant);
-  const FeaturesSectionComponent = getFeaturesSectionComponent(proposal.proposal.featuresVariant);
-  const RoadmapComponent = getRoadmapComponent(proposal.proposal.roadmapVariant);
-  const WhyUsComponent = getWhyUsComponent(proposal.proposal.whyUsVariant);
-  const PricingSectionComponent = getPricingSectionComponent(proposal.proposal.pricingVariant);
-  const ContactSectionComponent = getContactSectionComponent(proposal.proposal.contactVariant);
+  // Use default components (local schema doesn't support variants)
+  const ExecutiveSummaryComponent = getExecutiveSummaryComponent('detailed');
+  const UnderstandingNeedsComponent = getUnderstandingNeedsComponent('list');
+  const SolutionComponent = getSolutionComponent('narrative');
+  const FeaturesSectionComponent = getFeaturesSectionComponent('grid');
+  const RoadmapComponent = getRoadmapComponent('timeline');
+  const WhyUsComponent = getWhyUsComponent('list');
+  const PricingSectionComponent = getPricingSectionComponent('tiers');
+  const ContactSectionComponent = getContactSectionComponent('standard');
 
   return (
     <div className="mx-auto max-w-5xl px-6 py-12 space-y-16" style={{ backgroundColor: 'var(--background)' }}>
