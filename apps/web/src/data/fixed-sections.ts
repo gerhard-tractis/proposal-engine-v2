@@ -6,16 +6,18 @@
 /**
  * Tractis Contact Information
  * Used in all proposals - never changes
+ * Matches local ContactInfo schema: name, email, phone?, calendlyUrl?, nextSteps[]
  */
 export const TRACTIS_CONTACT = {
   name: "Gerhard Neumann",
-  role: "Founder & CEO",
   email: "gerhard@tractis.ai",
   phone: "+56 990210364",
-  website: "https://tractis.ai",
-  linkedin: "https://linkedin.com/in/gneumannv",
-  calendly: null, // Add Calendly link when available
-  cta: "Schedule a call to discuss how we can transform your proposal process"
+  calendlyUrl: "https://calendly.com/gerhard-tractis/30min",
+  nextSteps: [
+    "Schedule a 30-minute discovery call",
+    "Review technical requirements and goals",
+    "Receive a customized proposal within 48 hours",
+  ],
 } as const;
 
 /**
