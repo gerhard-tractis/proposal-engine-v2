@@ -22,8 +22,6 @@ export const proposals: Proposal[] = [
   {
     slug: 'imperial',
     token: 'Zh3zaPJV4U', // Generated via nanoid(10)
-    type: 'customized',
-    customComponent: 'imperial-custom',
     client: {
       name: 'Imperial',
       logo: '/logos/imperial-logo.png',

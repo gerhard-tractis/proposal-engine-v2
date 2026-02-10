@@ -1,15 +1,17 @@
 import { notFound } from 'next/navigation';
 import type { Metadata } from 'next';
 import { getProposalBySlugAndToken } from '@/lib/proposal-helpers';
-import { ExecutiveSummary } from '@/components/proposal/executive-summary';
-import { UnderstandingNeeds } from '@/components/proposal/understanding-needs';
-import { Solution } from '@/components/proposal/solution';
-import { FeaturesSection } from '@/components/proposal/features-section';
-import { Roadmap } from '@/components/proposal/roadmap';
-import { WhyUs } from '@/components/proposal/why-us';
-import { PricingSection } from '@/components/proposal/pricing-section';
-import { ContactSection } from '@/components/proposal/contact-section';
 import { ProposalErrorBoundary } from '@/components/proposal/proposal-error-boundary';
+import {
+  getExecutiveSummaryComponent,
+  getUnderstandingNeedsComponent,
+  getSolutionComponent,
+  getFeaturesSectionComponent,
+  getRoadmapComponent,
+  getWhyUsComponent,
+  getPricingSectionComponent,
+  getContactSectionComponent,
+} from '@/lib/variant-mapper';
 
 interface ProposalPageProps {
   params: Promise<{ slug: string; token: string }>;
@@ -31,8 +33,12 @@ export async function generateMetadata({
   const faviconUrl = proposal.client.favicon || '/favicon.png';
 
   return {
-    title: `Proposal for ${proposal.client.name} | Tractis`,
-    description: `Custom AI proposal for ${proposal.client.name}`,
+    title: proposal.slug === 'imperial'
+      ? 'Aureon Connect - Integrador Universal de Última Milla | Tractis'
+      : `Proposal for ${proposal.client.name} | Tractis`,
+    description: proposal.slug === 'imperial'
+      ? 'Elimina el vendor lock-in y conecta cualquier sistema de transporte en 48 horas'
+      : `Custom AI proposal for ${proposal.client.name}`,
     icons: {
       icon: faviconUrl,
       apple: faviconUrl,
@@ -52,6 +58,33 @@ export default async function ProposalPage({ params }: ProposalPageProps) {
     notFound();
   }
 
+  // Check if this is Imperial - use custom component
+  if (proposal.slug === 'imperial') {
+    try {
+      const CustomComponent = (await import(`@/components/proposal/custom/imperial-custom`)).default;
+      return <CustomComponent proposal={proposal} />;
+    } catch (error) {
+      console.error(`Failed to load Imperial custom component`, error);
+      return (
+        <div className="mx-auto max-w-5xl px-6 py-12">
+          <h1 className="text-2xl font-bold text-red-600">Custom Proposal Error</h1>
+          <p>Failed to load Imperial custom proposal component</p>
+        </div>
+      );
+    }
+  }
+
+  // Standard 8-section proposal
+  // Dynamically select components based on variant preferences
+  const ExecutiveSummaryComponent = getExecutiveSummaryComponent(proposal.proposal.executiveSummaryVariant);
+  const UnderstandingNeedsComponent = getUnderstandingNeedsComponent(proposal.proposal.needsVariant);
+  const SolutionComponent = getSolutionComponent(proposal.proposal.solutionVariant);
+  const FeaturesSectionComponent = getFeaturesSectionComponent(proposal.proposal.featuresVariant);
+  const RoadmapComponent = getRoadmapComponent(proposal.proposal.roadmapVariant);
+  const WhyUsComponent = getWhyUsComponent(proposal.proposal.whyUsVariant);
+  const PricingSectionComponent = getPricingSectionComponent(proposal.proposal.pricingVariant);
+  const ContactSectionComponent = getContactSectionComponent(proposal.proposal.contactVariant);
+
   return (
     <div className="mx-auto max-w-5xl px-6 py-12 space-y-16" style={{ backgroundColor: 'var(--background)' }}>
       {/* Title Section */}
@@ -64,37 +97,41 @@ export default async function ProposalPage({ params }: ProposalPageProps) {
         </p>
       </div>
 
-      {/* 8 Sections */}
+      {/* 8 Sections - Now using dynamic variant components */}
       <ProposalErrorBoundary>
-        <ExecutiveSummary content={proposal.proposal.executiveSummary} />
+        <ExecutiveSummaryComponent content={proposal.proposal.executiveSummary} />
       </ProposalErrorBoundary>
 
       <ProposalErrorBoundary>
-        <UnderstandingNeeds needs={proposal.proposal.needs} />
+        <UnderstandingNeedsComponent needs={proposal.proposal.needs} />
       </ProposalErrorBoundary>
 
       <ProposalErrorBoundary>
-        <Solution content={proposal.proposal.solution} />
+        <SolutionComponent
+          content={proposal.proposal.solution}
+          businessCase={proposal.proposal.businessCase}
+          techStack={proposal.proposal.techStack}
+        />
       </ProposalErrorBoundary>
 
       <ProposalErrorBoundary>
-        <FeaturesSection features={proposal.proposal.features} />
+        <FeaturesSectionComponent features={proposal.proposal.features} />
       </ProposalErrorBoundary>
 
       <ProposalErrorBoundary>
-        <Roadmap items={proposal.proposal.roadmap} />
+        <RoadmapComponent items={proposal.proposal.roadmap} />
       </ProposalErrorBoundary>
 
       <ProposalErrorBoundary>
-        <WhyUs points={proposal.proposal.whyUs} />
+        <WhyUsComponent content={proposal.proposal.whyUs} />
       </ProposalErrorBoundary>
 
       <ProposalErrorBoundary>
-        <PricingSection pricing={proposal.proposal.pricing} />
+        <PricingSectionComponent pricing={proposal.proposal.pricing} />
       </ProposalErrorBoundary>
 
       <ProposalErrorBoundary>
-        <ContactSection contact={proposal.proposal.contact} />
+        <ContactSectionComponent contact={proposal.proposal.contact} />
       </ProposalErrorBoundary>
     </div>
   );
