@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Proposal Variant Components Reference</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+      padding: 40px 20px;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    h1 {
+      text-align: center;
+      color: white;
+      font-size: 2.5rem;
+      margin-bottom: 10px;
+      text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+    }
+
+    .subtitle {
+      text-align: center;
+      color: rgba(255,255,255,0.9);
+      margin-bottom: 40px;
+      font-size: 1.1rem;
+    }
+
+    .section-card {
+      background: white;
+      border-radius: 12px;
+      padding: 24px;
+      margin-bottom: 24px;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+      transition: transform 0.2s;
+    }
+
+    .section-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 8px 12px rgba(0,0,0,0.15);
+    }
+
+    .section-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 16px;
+      padding-bottom: 16px;
+      border-bottom: 2px solid #f0f0f0;
+    }
+
+    .section-title {
+      font-size: 1.5rem;
+      color: #2d3748;
+      font-weight: 600;
+    }
+
+    .section-number {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+      font-size: 0.9rem;
+    }
+
+    .variants-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 16px;
+    }
+
+    .variant-card {
+      border: 2px solid #e2e8f0;
+      border-radius: 8px;
+      padding: 16px;
+      transition: all 0.2s;
+      position: relative;
+    }
+
+    .variant-card.built {
+      border-color: #48bb78;
+      background: #f0fff4;
+    }
+
+    .variant-card.todo {
+      border-color: #e2e8f0;
+      background: #fafafa;
+    }
+
+    .variant-card:hover {
+      border-color: #667eea;
+      transform: scale(1.02);
+    }
+
+    .variant-name {
+      font-weight: 600;
+      color: #2d3748;
+      margin-bottom: 8px;
+      font-size: 1.1rem;
+      text-transform: capitalize;
+    }
+
+    .variant-status {
+      display: inline-block;
+      padding: 4px 12px;
+      border-radius: 12px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      text-transform: uppercase;
+    }
+
+    .status-built {
+      background: #48bb78;
+      color: white;
+    }
+
+    .status-todo {
+      background: #cbd5e0;
+      color: #4a5568;
+    }
+
+    .variant-description {
+      color: #718096;
+      font-size: 0.9rem;
+      margin-top: 8px;
+      line-height: 1.5;
+    }
+
+    .stats {
+      display: flex;
+      gap: 24px;
+      justify-content: center;
+      margin-bottom: 40px;
+      flex-wrap: wrap;
+    }
+
+    .stat-box {
+      background: white;
+      padding: 20px 32px;
+      border-radius: 12px;
+      text-align: center;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    }
+
+    .stat-number {
+      font-size: 2.5rem;
+      font-weight: bold;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .stat-label {
+      color: #718096;
+      font-size: 0.9rem;
+      margin-top: 4px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>🎨 Proposal Variant Components</h1>
+    <p class="subtitle">AI Agent selects the optimal component for each section based on content characteristics</p>
+
+    <div class="stats">
+      <div class="stat-box">
+        <div class="stat-number">8</div>
+        <div class="stat-label">Sections</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-number">32</div>
+        <div class="stat-label">Total Variants</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-number">1</div>
+        <div class="stat-label">Built</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-number">31</div>
+        <div class="stat-label">To Build</div>
+      </div>
+    </div>
+
+    <!-- Section 1: Executive Summary -->
+    <div class="section-card">
+      <div class="section-header">
+        <h2 class="section-title">Executive Summary</h2>
+        <div class="section-number">1</div>
+      </div>
+      <div class="variants-grid">
+        <div class="variant-card todo">
+          <div class="variant-name">Brief</div>
+          <span class="variant-status status-todo">Default</span>
+          <p class="variant-description">Simple, concise summary. Best for short proposals (100-200 words).</p>
+        </div>
+        <div class="variant-card built">
+          <div class="variant-name">Detailed</div>
+          <span class="variant-status status-built">✅ Built</span>
+          <p class="variant-description">Visual cards with icons per paragraph. Best for 300+ word summaries.</p>
+        </div>
+        <div class="variant-card todo">
+          <div class="variant-name">Visual</div>
+          <span class="variant-status status-todo">TODO</span>
+          <p class="variant-description">Heavy visual emphasis with graphics. Best for creative/design proposals.</p>
+        </div>
+        <div class="variant-card todo">
+          <div class="variant-name">Timeline</div>
+          <span class="variant-status status-todo">TODO</span>
+          <p class="variant-description">Timeline-based summary. Best for project-based proposals.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Section 2: Understanding Needs -->
+    <div class="section-card">
+      <div class="section-header">
+        <h2 class="section-title">Understanding Needs</h2>
+        <div class="section-number">2</div>
+      </div>
+      <div class="variants-grid">
+        <div class="variant-card todo">
+          <div class="variant-name">List</div>
+          <span class="variant-status status-todo">Default</span>
+          <p class="variant-description">Simple bullet list. Best for 3-5 clear needs.</p>
+        </div>
+        <div class="variant-card todo">
+          <div class="variant-name">Grid</div>
+          <span class="variant-status status-todo">TODO</span>
+          <p class="variant-description">Grid layout with icons. Best for 4-8 needs.</p>
+        </div>
+        <div class="variant-card todo">
+          <div class="variant-name">Cards</div>
+          <span class="variant-status status-todo">TODO</span>
+          <p class="variant-description">Detailed card view. Best for complex needs with descriptions.</p>
+        </div>
+        <div class="variant-card todo">
+          <div class="variant-name">Timeline</div>
+          <span class="variant-status status-todo">TODO</span>
+          <p class="variant-description">Chronological needs flow. Best for project evolution context.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Section 3: Solution -->
+    <div class="section-card">
+      <div class="section-header">
+        <h2 class="section-title">Solution</h2>
+        <div class="section-number">3</div>
+      </div>
+      <div class="variants-grid">
+        <div class="variant-card todo">
+          <div class="variant-name">Narrative</div>
+          <span class="variant-status status-todo">Default</span>
+          <p class="variant-description">Story-driven solution. Best for consulting/service proposals.</p>
+        </div>
+        <div class="variant-card todo">
+          <div class="variant-name">Structured</div>
+          <span class="variant-status status-todo">TODO</span>
+          <p class="variant-description">Organized sections with headers. Best for technical solutions.</p>
+        </div>
+        <div class="variant-card todo">
+          <div class="variant-name">Visual</div>
+          <span class="variant-status status-todo">TODO</span>
+          <p class="variant-description">Diagram-heavy presentation. Best for architecture/design solutions.</p>
+        </div>
+        <div class="variant-card todo">
+          <div class="variant-name">Comparison</div>
+          <span class="variant-status status-todo">TODO</span>
+          <p class="variant-description">Before/after or competitive comparison. Best for replacement solutions.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Section 4: Features -->
+    <div class="section-card">
+      <div class="section-header">
+        <h2 class="section-title">Features</h2>
+        <div class="section-number">4</div>
+      </div>
+      <div class="variants-grid">
+        <div class="variant-card todo">
+          <div class="variant-name">Grid</div>
+          <span class="variant-status status-todo">Default</span>
+          <p class="variant-description">Grid of feature cards. Best for 6-12 features.</p>
+        </div>
+        <div class="variant-card todo">
+          <div class="variant-name">List</div>
+          <span class="variant-status status-todo">TODO</span>
+          <p class="variant-description">Detailed list with descriptions. Best for 3-6 major features.</p>
+        </div>
+        <div class="variant-card todo">
+          <div class="variant-name">Showcase</div>
+          <span class="variant-status status-todo">TODO</span>
+          <p class="variant-description">Hero feature + supporting. Best for highlighting key differentiator.</p>
+        </div>
+        <div class="variant-card todo">
+          <div class="variant-name">Tabbed</div>
+          <span class="variant-status status-todo">TODO</span>
+          <p class="variant-description">Categorized in tabs. Best for 12+ features across categories.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Section 5: Roadmap -->
+    <div class="section-card">
+      <div class="section-header">
+        <h2 class="section-title">Roadmap</h2>
+        <div class="section-number">5</div>
+      </div>
+      <div class="variants-grid">
+        <div class="variant-card todo">
+          <div class="variant-name">Timeline</div>
+          <span class="variant-status status-todo">Default</span>
+          <p class="variant-description">Linear timeline view. Best for sequential projects.</p>
+        </div>
+        <div class="variant-card todo">
+          <div class="variant-name">Phases</div>
+          <span class="variant-status status-todo">TODO</span>
+          <p class="variant-description">Phase-based breakdown. Best for waterfall/staged projects.</p>
+        </div>
+        <div class="variant-card todo">
+          <div class="variant-name">Gantt</div>
+          <span class="variant-status status-todo">TODO</span>
+          <p class="variant-description">Gantt-style chart. Best for complex projects with dependencies.</p>
+        </div>
+        <div class="variant-card todo">
+          <div class="variant-name">Milestones</div>
+          <span class="variant-status status-todo">TODO</span>
+          <p class="variant-description">Key milestone focus. Best for agile/iterative projects.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Section 6: Why Us -->
+    <div class="section-card">
+      <div class="section-header">
+        <h2 class="section-title">Why Us</h2>
+        <div class="section-number">6</div>
+      </div>
+      <div class="variants-grid">
+        <div class="variant-card todo">
+          <div class="variant-name">List</div>
+          <span class="variant-status status-todo">Default</span>
+          <p class="variant-description">Simple list of reasons. Best for 3-5 clear differentiators.</p>
+        </div>
+        <div class="variant-card todo">
+          <div class="variant-name">Grid</div>
+          <span class="variant-status status-todo">TODO</span>
+          <p class="variant-description">Grid with icons. Best for 4-8 value props.</p>
+        </div>
+        <div class="variant-card todo">
+          <div class="variant-name">Testimonial</div>
+          <span class="variant-status status-todo">TODO</span>
+          <p class="variant-description">Client testimonials focus. Best for trust-building.</p>
+        </div>
+        <div class="variant-card todo">
+          <div class="variant-name">Stats</div>
+          <span class="variant-status status-todo">TODO</span>
+          <p class="variant-description">Data-driven metrics. Best for enterprise/B2B.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Section 7: Pricing -->
+    <div class="section-card">
+      <div class="section-header">
+        <h2 class="section-title">Pricing</h2>
+        <div class="section-number">7</div>
+      </div>
+      <div class="variants-grid">
+        <div class="variant-card todo">
+          <div class="variant-name">Tiers</div>
+          <span class="variant-status status-todo">Default</span>
+          <p class="variant-description">3-tier pricing cards. Best for SaaS/subscription models.</p>
+        </div>
+        <div class="variant-card todo">
+          <div class="variant-name">Table</div>
+          <span class="variant-status status-todo">TODO</span>
+          <p class="variant-description">Detailed comparison table. Best for complex pricing.</p>
+        </div>
+        <div class="variant-card todo">
+          <div class="variant-name">Custom</div>
+          <span class="variant-status status-todo">TODO</span>
+          <p class="variant-description">Custom/enterprise focus. Best for high-touch sales.</p>
+        </div>
+        <div class="variant-card todo">
+          <div class="variant-name">Simple</div>
+          <span class="variant-status status-todo">TODO</span>
+          <p class="variant-description">Single price point. Best for fixed-fee projects.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Section 8: Contact -->
+    <div class="section-card">
+      <div class="section-header">
+        <h2 class="section-title">Contact</h2>
+        <div class="section-number">8</div>
+      </div>
+      <div class="variants-grid">
+        <div class="variant-card todo">
+          <div class="variant-name">Standard</div>
+          <span class="variant-status status-todo">Default</span>
+          <p class="variant-description">Standard contact section. Best for general use.</p>
+        </div>
+        <div class="variant-card todo">
+          <div class="variant-name">Card</div>
+          <span class="variant-status status-todo">TODO</span>
+          <p class="variant-description">Visual contact card. Best for personal touch.</p>
+        </div>
+        <div class="variant-card todo">
+          <div class="variant-name">Inline</div>
+          <span class="variant-status status-todo">TODO</span>
+          <p class="variant-description">Inline CTA with contact. Best for conversion focus.</p>
+        </div>
+        <div class="variant-card todo">
+          <div class="variant-name">Footer</div>
+          <span class="variant-status status-todo">TODO</span>
+          <p class="variant-description">Minimal footer contact. Best for clean endings.</p>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</body>
+</html>

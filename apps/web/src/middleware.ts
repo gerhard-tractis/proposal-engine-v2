@@ -5,6 +5,7 @@ import type { NextRequest } from 'next/server';
 // TODO: When proposals scale, move to Vercel Edge Config or KV
 const VALID_TOKENS = new Map<string, string>([
   ['tractis-demo', 'xK8pQ2mN7v'],
+  ['imperial', 'Zh3zaPJV4U'], // Imperial - Aureon Connect proposal
   // Add more as: ['slug', 'token']
 ]);
 

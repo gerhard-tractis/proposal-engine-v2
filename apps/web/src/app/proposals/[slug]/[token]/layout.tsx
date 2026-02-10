@@ -53,7 +53,7 @@ export default async function ProposalLayout({
               priority
             />
             <div className="text-right">
-              {proposal.slug === 'imperial' ? (
+              {proposal.type === 'customized' && proposal.slug === 'imperial' ? (
                 <>
                   <p className="text-sm font-semibold" style={{ color: 'var(--brand-primary)' }}>Aureon Connect</p>
                   <p className="text-xs text-muted-foreground">Propuesta Confidencial</p>

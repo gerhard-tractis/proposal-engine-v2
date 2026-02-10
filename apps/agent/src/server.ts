@@ -4,6 +4,7 @@ import { config } from 'dotenv';
 import extractDesignRouter from './routes/extract-design.js';
 import extractTextRouter from './routes/extract-text.js';
 import createProposalRouter from './routes/create-proposal.js';
+import generateProposalRouter from './routes/generate-proposal.js';
 
 // Load environment variables
 config();
@@ -25,6 +26,8 @@ app.get('/', (req, res) => {
       'POST /api/extract-design',
       'POST /api/extract-text',
       'POST /api/create-proposal',
+      'POST /api/generate-proposal',
+      'POST /api/enrich-proposal',
     ],
   });
 });
@@ -37,6 +40,7 @@ app.get('/health', (req, res) => {
 app.use('/api/extract-design', extractDesignRouter);
 app.use('/api/extract-text', extractTextRouter);
 app.use('/api/create-proposal', createProposalRouter);
+app.use('/api', generateProposalRouter); // New AI agent routes
 
 // Error handling
 app.use((err: any, req: express.Request, res: express.Response, next: express.NextFunction) => {

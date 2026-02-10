@@ -16,7 +16,14 @@
       "Bash(taskkill *)",
       "Bash(git *)",
       "Bash(dembrandt *)",
-      "Bash(test *)"
+      "Bash(test *)",
+      "Bash(timeout /t 5 /nobreak:*)",
+      "Bash(powershell:*)",
+      "Bash(netstat:*)",
+      "Bash(findstr:*)",
+      "Bash(git commit -m \"$\\(cat <<''EOF''\nAdd Imperial custom proposal with enhanced Tractis branding\n\n- Create custom Imperial proposal component for Aureon Connect product\n- Add Imperial branding assets \\(logo and favicon extracted via Dembrandt\\)\n- Remove unrealistic features: 30-day pilot and 40-hour training\n- Enhance Tractis visibility throughout proposal:\n  * Prominent \"Powered by Tractis\" badge in hero section\n  * Tractis attribution in Aureon Connect middleware diagram\n  * Tractis logo in tech section\n  * Compact footer with Tractis branding and tractis.ai link\n- Implement modern animations with Framer Motion\n- Add Spanish localized content focused on business value\n- Configure pay-per-use pricing model \\(per order processed\\)\n- Include visual flow diagram showing TMS integration architecture\n\nCo-Authored-By: Claude Sonnet 4.5 <noreply@anthropic.com>\nEOF\n\\)\")",
+      "Bash(git commit -m \"$\\(cat <<''EOF''\nAdd missing fixed-sections.ts file for proposals\n\n- Add TRACTIS_CONTACT with company contact information\n- Add TRACTIS_WHY_US with company expertise and track record\n- Add FIXED_SECTION_VARIANTS for default section variants\n- Required by proposals.ts for consistent branding across proposals\n\nCo-Authored-By: Claude Sonnet 4.5 <noreply@anthropic.com>\nEOF\n\\)\")",
+      "Bash(git commit:*)"
     ]
   }
 }

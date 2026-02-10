@@ -33,10 +33,10 @@ export async function generateMetadata({
   const faviconUrl = proposal.client.favicon || '/favicon.png';
 
   return {
-    title: proposal.slug === 'imperial'
+    title: proposal.type === 'customized' && proposal.slug === 'imperial'
       ? 'Aureon Connect - Integrador Universal de Última Milla | Tractis'
       : `Proposal for ${proposal.client.name} | Tractis`,
-    description: proposal.slug === 'imperial'
+    description: proposal.type === 'customized' && proposal.slug === 'imperial'
       ? 'Elimina el vendor lock-in y conecta cualquier sistema de transporte en 48 horas'
       : `Custom AI proposal for ${proposal.client.name}`,
     icons: {
@@ -58,32 +58,33 @@ export default async function ProposalPage({ params }: ProposalPageProps) {
     notFound();
   }
 
-  // Check if this is Imperial - use custom component
-  if (proposal.slug === 'imperial') {
+  // Check if this is a customized proposal
+  if (proposal.type === 'customized' && proposal.customComponent) {
+    // Dynamically import and render custom component
     try {
-      const CustomComponent = (await import(`@/components/proposal/custom/imperial-custom`)).default;
+      const CustomComponent = (await import(`@/components/proposal/custom/${proposal.customComponent}`)).default;
       return <CustomComponent proposal={proposal} />;
     } catch (error) {
-      console.error(`Failed to load Imperial custom component`, error);
+      console.error(`Failed to load custom component: ${proposal.customComponent}`, error);
       return (
         <div className="mx-auto max-w-5xl px-6 py-12">
           <h1 className="text-2xl font-bold text-red-600">Custom Proposal Error</h1>
-          <p>Failed to load Imperial custom proposal component</p>
+          <p>Failed to load custom proposal component: {proposal.customComponent}</p>
         </div>
       );
     }
   }
 
   // Standard 8-section proposal
-  // Use default components (local schema doesn't support variants)
-  const ExecutiveSummaryComponent = getExecutiveSummaryComponent('detailed');
-  const UnderstandingNeedsComponent = getUnderstandingNeedsComponent('list');
-  const SolutionComponent = getSolutionComponent('narrative');
-  const FeaturesSectionComponent = getFeaturesSectionComponent('grid');
-  const RoadmapComponent = getRoadmapComponent('timeline');
-  const WhyUsComponent = getWhyUsComponent('list');
-  const PricingSectionComponent = getPricingSectionComponent('tiers');
-  const ContactSectionComponent = getContactSectionComponent('standard');
+  // Dynamically select components based on variant preferences
+  const ExecutiveSummaryComponent = getExecutiveSummaryComponent(proposal.proposal.executiveSummaryVariant);
+  const UnderstandingNeedsComponent = getUnderstandingNeedsComponent(proposal.proposal.needsVariant);
+  const SolutionComponent = getSolutionComponent(proposal.proposal.solutionVariant);
+  const FeaturesSectionComponent = getFeaturesSectionComponent(proposal.proposal.featuresVariant);
+  const RoadmapComponent = getRoadmapComponent(proposal.proposal.roadmapVariant);
+  const WhyUsComponent = getWhyUsComponent(proposal.proposal.whyUsVariant);
+  const PricingSectionComponent = getPricingSectionComponent(proposal.proposal.pricingVariant);
+  const ContactSectionComponent = getContactSectionComponent(proposal.proposal.contactVariant);
 
   return (
     <div className="mx-auto max-w-5xl px-6 py-12 space-y-16" style={{ backgroundColor: 'var(--background)' }}>
@@ -109,6 +110,8 @@ export default async function ProposalPage({ params }: ProposalPageProps) {
       <ProposalErrorBoundary>
         <SolutionComponent
           content={proposal.proposal.solution}
+          businessCase={proposal.proposal.businessCase}
+          techStack={proposal.proposal.techStack}
         />
       </ProposalErrorBoundary>
 

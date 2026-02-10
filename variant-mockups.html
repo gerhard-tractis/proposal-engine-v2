@@ -1,0 +1,1588 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Proposal Component Variants - Visual Mockups</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+      background: #f5f5f5;
+      padding: 40px 20px;
+    }
+
+    .container {
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+
+    h1 {
+      text-align: center;
+      color: #1a202c;
+      margin-bottom: 40px;
+      font-size: 2.5rem;
+    }
+
+    .section-wrapper {
+      margin-bottom: 80px;
+    }
+
+    .section-title {
+      font-size: 2rem;
+      color: #2d3748;
+      margin-bottom: 30px;
+      padding-bottom: 10px;
+      border-bottom: 3px solid #667eea;
+    }
+
+    .variants-container {
+      display: grid;
+      gap: 30px;
+    }
+
+    .variant-mockup {
+      background: white;
+      border-radius: 12px;
+      padding: 24px;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    }
+
+    .variant-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+      padding-bottom: 12px;
+      border-bottom: 2px solid #e2e8f0;
+    }
+
+    .variant-name {
+      font-size: 1.3rem;
+      font-weight: 600;
+      color: #2d3748;
+      text-transform: capitalize;
+    }
+
+    .variant-badge {
+      padding: 4px 12px;
+      border-radius: 12px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      text-transform: uppercase;
+    }
+
+    .badge-built {
+      background: #48bb78;
+      color: white;
+    }
+
+    .badge-todo {
+      background: #cbd5e0;
+      color: #4a5568;
+    }
+
+    .mockup-content {
+      background: #f7fafc;
+      border-radius: 8px;
+      padding: 24px;
+      min-height: 200px;
+    }
+
+    /* Executive Summary Variants */
+    .exec-brief {
+      line-height: 1.8;
+      color: #4a5568;
+    }
+
+    .exec-detailed {
+      display: grid;
+      gap: 16px;
+    }
+
+    .exec-detailed-card {
+      display: flex;
+      gap: 16px;
+      background: white;
+      padding: 16px;
+      border-radius: 8px;
+      border-left: 4px solid #667eea;
+    }
+
+    .exec-detailed-icon {
+      font-size: 2rem;
+    }
+
+    .exec-visual {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+      align-items: center;
+    }
+
+    .exec-visual-text {
+      line-height: 1.8;
+      color: #4a5568;
+    }
+
+    .exec-visual-graphic {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      height: 200px;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-size: 3rem;
+    }
+
+    .exec-timeline {
+      display: flex;
+      gap: 20px;
+    }
+
+    .timeline-item {
+      flex: 1;
+      position: relative;
+      padding-left: 30px;
+    }
+
+    .timeline-item::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 16px;
+      height: 16px;
+      background: #667eea;
+      border-radius: 50%;
+    }
+
+    .timeline-item::after {
+      content: '';
+      position: absolute;
+      left: 7px;
+      top: 16px;
+      width: 2px;
+      height: calc(100% - 16px);
+      background: #cbd5e0;
+    }
+
+    .timeline-item:last-child::after {
+      display: none;
+    }
+
+    /* Understanding Needs Variants */
+    .needs-list ul {
+      list-style: none;
+      display: grid;
+      gap: 12px;
+    }
+
+    .needs-list li {
+      padding: 12px 12px 12px 40px;
+      background: white;
+      border-radius: 6px;
+      position: relative;
+    }
+
+    .needs-list li::before {
+      content: '✓';
+      position: absolute;
+      left: 12px;
+      color: #48bb78;
+      font-weight: bold;
+      font-size: 1.2rem;
+    }
+
+    .needs-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 16px;
+    }
+
+    .needs-grid-item {
+      background: white;
+      padding: 20px;
+      border-radius: 8px;
+      text-align: center;
+    }
+
+    .needs-grid-icon {
+      font-size: 2.5rem;
+      margin-bottom: 12px;
+    }
+
+    .needs-cards {
+      display: grid;
+      gap: 16px;
+    }
+
+    .needs-card {
+      background: white;
+      padding: 20px;
+      border-radius: 8px;
+      border-top: 4px solid #667eea;
+    }
+
+    .needs-card h4 {
+      margin-bottom: 8px;
+      color: #2d3748;
+    }
+
+    /* Solution Variants */
+    .solution-narrative {
+      line-height: 1.8;
+      color: #4a5568;
+    }
+
+    .solution-structured {
+      display: grid;
+      gap: 20px;
+    }
+
+    .solution-section {
+      background: white;
+      padding: 16px;
+      border-radius: 8px;
+      border-left: 4px solid #667eea;
+    }
+
+    .solution-section h4 {
+      margin-bottom: 8px;
+      color: #2d3748;
+    }
+
+    .solution-visual {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+    }
+
+    .solution-diagram {
+      background: white;
+      padding: 20px;
+      border-radius: 8px;
+      text-align: center;
+      border: 2px dashed #cbd5e0;
+    }
+
+    .solution-comparison {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+    }
+
+    .comparison-column {
+      background: white;
+      padding: 20px;
+      border-radius: 8px;
+    }
+
+    .comparison-column.before {
+      border-top: 4px solid #fc8181;
+    }
+
+    .comparison-column.after {
+      border-top: 4px solid #48bb78;
+    }
+
+    /* Features Variants */
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+    }
+
+    .feature-card {
+      background: white;
+      padding: 20px;
+      border-radius: 8px;
+      text-align: center;
+    }
+
+    .feature-icon {
+      font-size: 2rem;
+      margin-bottom: 12px;
+    }
+
+    .features-list {
+      display: grid;
+      gap: 16px;
+    }
+
+    .feature-list-item {
+      background: white;
+      padding: 20px;
+      border-radius: 8px;
+      display: flex;
+      gap: 16px;
+    }
+
+    .features-showcase {
+      display: grid;
+      gap: 16px;
+    }
+
+    .showcase-hero {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      padding: 32px;
+      border-radius: 8px;
+      text-align: center;
+    }
+
+    .showcase-supporting {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+    }
+
+    .features-tabbed {
+      display: grid;
+      gap: 16px;
+    }
+
+    .tabs {
+      display: flex;
+      gap: 8px;
+      border-bottom: 2px solid #e2e8f0;
+    }
+
+    .tab {
+      padding: 12px 24px;
+      background: white;
+      border: none;
+      border-bottom: 3px solid transparent;
+      cursor: pointer;
+      font-weight: 600;
+    }
+
+    .tab.active {
+      border-bottom-color: #667eea;
+      color: #667eea;
+    }
+
+    /* Roadmap Variants */
+    .roadmap-timeline {
+      display: flex;
+      gap: 0;
+      position: relative;
+    }
+
+    .roadmap-timeline::before {
+      content: '';
+      position: absolute;
+      top: 30px;
+      left: 0;
+      right: 0;
+      height: 2px;
+      background: #cbd5e0;
+    }
+
+    .roadmap-item {
+      flex: 1;
+      text-align: center;
+      position: relative;
+    }
+
+    .roadmap-dot {
+      width: 20px;
+      height: 20px;
+      background: #667eea;
+      border-radius: 50%;
+      margin: 0 auto 12px;
+      position: relative;
+      z-index: 1;
+      border: 4px solid #f7fafc;
+    }
+
+    .roadmap-phases {
+      display: grid;
+      gap: 16px;
+    }
+
+    .phase {
+      background: white;
+      padding: 20px;
+      border-radius: 8px;
+      border-left: 6px solid #667eea;
+    }
+
+    .phase h4 {
+      color: #2d3748;
+      margin-bottom: 8px;
+    }
+
+    .roadmap-gantt {
+      background: white;
+      padding: 20px;
+      border-radius: 8px;
+    }
+
+    .gantt-row {
+      display: grid;
+      grid-template-columns: 150px 1fr;
+      gap: 16px;
+      margin-bottom: 12px;
+      align-items: center;
+    }
+
+    .gantt-bar {
+      height: 30px;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      border-radius: 4px;
+    }
+
+    .roadmap-milestones {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 16px;
+    }
+
+    .milestone {
+      background: white;
+      padding: 20px;
+      border-radius: 8px;
+      border-top: 4px solid #48bb78;
+      text-align: center;
+    }
+
+    /* Why Us Variants */
+    .whyus-list ul {
+      list-style: none;
+      display: grid;
+      gap: 12px;
+    }
+
+    .whyus-list li {
+      padding: 16px;
+      background: white;
+      border-radius: 6px;
+      padding-left: 50px;
+      position: relative;
+    }
+
+    .whyus-list li::before {
+      content: '⭐';
+      position: absolute;
+      left: 16px;
+      font-size: 1.5rem;
+    }
+
+    .whyus-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 16px;
+    }
+
+    .whyus-grid-item {
+      background: white;
+      padding: 20px;
+      border-radius: 8px;
+      text-align: center;
+    }
+
+    .whyus-testimonial {
+      display: grid;
+      gap: 20px;
+    }
+
+    .testimonial {
+      background: white;
+      padding: 24px;
+      border-radius: 8px;
+      position: relative;
+      padding-top: 40px;
+    }
+
+    .testimonial::before {
+      content: '"';
+      position: absolute;
+      top: 10px;
+      left: 20px;
+      font-size: 4rem;
+      color: #667eea;
+      opacity: 0.3;
+    }
+
+    .whyus-stats {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px;
+    }
+
+    .stat {
+      background: white;
+      padding: 24px;
+      border-radius: 8px;
+      text-align: center;
+    }
+
+    .stat-number {
+      font-size: 2.5rem;
+      font-weight: bold;
+      color: #667eea;
+    }
+
+    /* Pricing Variants */
+    .pricing-tiers {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+    }
+
+    .pricing-tier {
+      background: white;
+      padding: 24px;
+      border-radius: 8px;
+      text-align: center;
+      border-top: 4px solid #cbd5e0;
+    }
+
+    .pricing-tier.featured {
+      border-top-color: #667eea;
+      transform: scale(1.05);
+      box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+    }
+
+    .price {
+      font-size: 2.5rem;
+      font-weight: bold;
+      color: #2d3748;
+      margin: 16px 0;
+    }
+
+    .pricing-table {
+      background: white;
+      border-radius: 8px;
+      overflow: hidden;
+    }
+
+    .pricing-table table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    .pricing-table th,
+    .pricing-table td {
+      padding: 16px;
+      text-align: left;
+      border-bottom: 1px solid #e2e8f0;
+    }
+
+    .pricing-table th {
+      background: #f7fafc;
+      font-weight: 600;
+    }
+
+    .pricing-custom {
+      background: white;
+      padding: 40px;
+      border-radius: 8px;
+      text-align: center;
+    }
+
+    .pricing-simple {
+      background: white;
+      padding: 32px;
+      border-radius: 8px;
+      text-align: center;
+      border: 3px solid #667eea;
+    }
+
+    /* Contact Variants */
+    .contact-standard {
+      background: white;
+      padding: 24px;
+      border-radius: 8px;
+    }
+
+    .contact-info {
+      display: grid;
+      gap: 16px;
+    }
+
+    .contact-item {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+    }
+
+    .contact-card {
+      background: white;
+      padding: 32px;
+      border-radius: 12px;
+      max-width: 400px;
+      margin: 0 auto;
+      text-align: center;
+      box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+    }
+
+    .contact-avatar {
+      width: 100px;
+      height: 100px;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      border-radius: 50%;
+      margin: 0 auto 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-size: 2.5rem;
+    }
+
+    .contact-inline {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      padding: 32px;
+      border-radius: 8px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .contact-inline button {
+      background: white;
+      color: #667eea;
+      border: none;
+      padding: 12px 32px;
+      border-radius: 6px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    .contact-footer {
+      background: #2d3748;
+      color: white;
+      padding: 24px;
+      border-radius: 8px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>🎨 Component Variant Visual Mockups</h1>
+
+    <!-- EXECUTIVE SUMMARY -->
+    <div class="section-wrapper">
+      <h2 class="section-title">1. Executive Summary</h2>
+
+      <div class="variants-container">
+        <!-- Brief -->
+        <div class="variant-mockup">
+          <div class="variant-header">
+            <div class="variant-name">Brief (Default)</div>
+            <span class="variant-badge badge-todo">Default Component</span>
+          </div>
+          <div class="mockup-content exec-brief">
+            <p>We propose a comprehensive AI-powered solution to transform your proposal generation process. Our platform combines advanced language models with intelligent design extraction to create branded, professional proposals in minutes instead of hours. This approach will reduce manual work by 80% while increasing proposal quality and consistency across your organization.</p>
+          </div>
+        </div>
+
+        <!-- Detailed -->
+        <div class="variant-mockup">
+          <div class="variant-header">
+            <div class="variant-name">Detailed</div>
+            <span class="variant-badge badge-built">✅ Built</span>
+          </div>
+          <div class="mockup-content exec-detailed">
+            <div class="exec-detailed-card">
+              <div class="exec-detailed-icon">🎯</div>
+              <div>
+                <strong>Problem & Opportunity:</strong> Manual proposal creation takes 4-6 hours per proposal, limiting your team's capacity and creating inconsistent results.
+              </div>
+            </div>
+            <div class="exec-detailed-card">
+              <div class="exec-detailed-icon">💡</div>
+              <div>
+                <strong>Our Solution:</strong> AI-powered platform that generates branded proposals in minutes using advanced language models and intelligent design extraction.
+              </div>
+            </div>
+            <div class="exec-detailed-card">
+              <div class="exec-detailed-icon">📈</div>
+              <div>
+                <strong>Expected Impact:</strong> 80% reduction in manual work, 3x more proposals per quarter, consistent branding and messaging across all documents.
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Visual -->
+        <div class="variant-mockup">
+          <div class="variant-header">
+            <div class="variant-name">Visual</div>
+            <span class="variant-badge badge-todo">TODO</span>
+          </div>
+          <div class="mockup-content exec-visual">
+            <div class="exec-visual-text">
+              <p><strong>Transform Your Proposal Process</strong></p>
+              <p>From hours of manual work to automated excellence. Our AI-powered platform delivers professional, branded proposals that win.</p>
+            </div>
+            <div class="exec-visual-graphic">
+              📊
+            </div>
+          </div>
+        </div>
+
+        <!-- Timeline -->
+        <div class="variant-mockup">
+          <div class="variant-header">
+            <div class="variant-name">Timeline</div>
+            <span class="variant-badge badge-todo">TODO</span>
+          </div>
+          <div class="mockup-content exec-timeline">
+            <div class="timeline-item">
+              <strong>Week 1-2</strong>
+              <p>Setup & Integration</p>
+            </div>
+            <div class="timeline-item">
+              <strong>Week 3-4</strong>
+              <p>Training & Testing</p>
+            </div>
+            <div class="timeline-item">
+              <strong>Week 5+</strong>
+              <p>Full Deployment</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- UNDERSTANDING NEEDS -->
+    <div class="section-wrapper">
+      <h2 class="section-title">2. Understanding Needs</h2>
+
+      <div class="variants-container">
+        <!-- List -->
+        <div class="variant-mockup">
+          <div class="variant-header">
+            <div class="variant-name">List (Default)</div>
+            <span class="variant-badge badge-todo">Default</span>
+          </div>
+          <div class="mockup-content needs-list">
+            <ul>
+              <li>Reduce proposal creation time from hours to minutes</li>
+              <li>Maintain consistent branding across all proposals</li>
+              <li>Scale proposal output without hiring more staff</li>
+              <li>Improve proposal quality and professionalism</li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- Grid -->
+        <div class="variant-mockup">
+          <div class="variant-header">
+            <div class="variant-name">Grid</div>
+            <span class="variant-badge badge-todo">TODO</span>
+          </div>
+          <div class="mockup-content needs-grid">
+            <div class="needs-grid-item">
+              <div class="needs-grid-icon">⚡</div>
+              <strong>Speed</strong>
+              <p>Minutes not hours</p>
+            </div>
+            <div class="needs-grid-item">
+              <div class="needs-grid-icon">🎨</div>
+              <strong>Branding</strong>
+              <p>Consistent design</p>
+            </div>
+            <div class="needs-grid-item">
+              <div class="needs-grid-icon">📈</div>
+              <strong>Scale</strong>
+              <p>Handle growth</p>
+            </div>
+            <div class="needs-grid-item">
+              <div class="needs-grid-icon">✨</div>
+              <strong>Quality</strong>
+              <p>Professional output</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Cards -->
+        <div class="variant-mockup">
+          <div class="variant-header">
+            <div class="variant-name">Cards</div>
+            <span class="variant-badge badge-todo">TODO</span>
+          </div>
+          <div class="mockup-content needs-cards">
+            <div class="needs-card">
+              <h4>⚡ Dramatically Reduce Time Investment</h4>
+              <p>Your team currently spends 4-6 hours on each proposal, limiting capacity to 2-3 proposals per week. You need to increase output without sacrificing quality.</p>
+            </div>
+            <div class="needs-card">
+              <h4>🎨 Ensure Brand Consistency</h4>
+              <p>Each proposal looks different depending on who creates it. You need standardized, on-brand design that reflects your company's professionalism.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Timeline -->
+        <div class="variant-mockup">
+          <div class="variant-header">
+            <div class="variant-name">Timeline</div>
+            <span class="variant-badge badge-todo">TODO</span>
+          </div>
+          <div class="mockup-content exec-timeline">
+            <div class="timeline-item">
+              <strong>Phase 1</strong>
+              <p>Manual process causing delays</p>
+            </div>
+            <div class="timeline-item">
+              <strong>Phase 2</strong>
+              <p>Growth creating bottleneck</p>
+            </div>
+            <div class="timeline-item">
+              <strong>Phase 3</strong>
+              <p>Need for automation emerged</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SOLUTION -->
+    <div class="section-wrapper">
+      <h2 class="section-title">3. Solution</h2>
+
+      <div class="variants-container">
+        <!-- Narrative -->
+        <div class="variant-mockup">
+          <div class="variant-header">
+            <div class="variant-name">Narrative (Default)</div>
+            <span class="variant-badge badge-todo">Default</span>
+          </div>
+          <div class="mockup-content solution-narrative">
+            <p>Our AI-powered proposal engine transforms your workflow from the ground up. Instead of spending hours formatting documents and crafting content, your team simply uploads the client's materials. Our system extracts their design language, analyzes their needs, and generates a fully-branded proposal in minutes.</p>
+            <p>The platform combines advanced language models with intelligent design extraction, ensuring every proposal matches the client's brand while maintaining your messaging. The result? Professional proposals that look like they took hours to create, delivered in a fraction of the time.</p>
+          </div>
+        </div>
+
+        <!-- Structured -->
+        <div class="variant-mockup">
+          <div class="variant-header">
+            <div class="variant-name">Structured</div>
+            <span class="variant-badge badge-todo">TODO</span>
+          </div>
+          <div class="mockup-content solution-structured">
+            <div class="solution-section">
+              <h4>🎯 Core Platform</h4>
+              <p>AI-powered proposal generation engine with LangChain and Groq LLM integration</p>
+            </div>
+            <div class="solution-section">
+              <h4>🎨 Design Extraction</h4>
+              <p>Automated brand analysis using Dembrandt CLI and Puppeteer web scraping</p>
+            </div>
+            <div class="solution-section">
+              <h4>📄 Document Processing</h4>
+              <p>Multi-format support for PDF, DOCX, Markdown, and plain text</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Visual -->
+        <div class="variant-mockup">
+          <div class="variant-header">
+            <div class="variant-name">Visual</div>
+            <span class="variant-badge badge-todo">TODO</span>
+          </div>
+          <div class="mockup-content solution-visual">
+            <div class="solution-diagram">
+              <div style="font-size: 3rem; margin-bottom: 16px;">📥</div>
+              <strong>Upload Documents</strong>
+            </div>
+            <div class="solution-diagram">
+              <div style="font-size: 3rem; margin-bottom: 16px;">🤖</div>
+              <strong>AI Processing</strong>
+            </div>
+            <div class="solution-diagram">
+              <div style="font-size: 3rem; margin-bottom: 16px;">🎨</div>
+              <strong>Design Extraction</strong>
+            </div>
+            <div class="solution-diagram">
+              <div style="font-size: 3rem; margin-bottom: 16px;">✨</div>
+              <strong>Generated Proposal</strong>
+            </div>
+          </div>
+        </div>
+
+        <!-- Comparison -->
+        <div class="variant-mockup">
+          <div class="variant-header">
+            <div class="variant-name">Comparison</div>
+            <span class="variant-badge badge-todo">TODO</span>
+          </div>
+          <div class="mockup-content solution-comparison">
+            <div class="comparison-column before">
+              <h4>❌ Before</h4>
+              <ul style="list-style: none; padding: 0; margin-top: 12px;">
+                <li>• 4-6 hours per proposal</li>
+                <li>• Inconsistent branding</li>
+                <li>• Manual formatting</li>
+                <li>• Limited capacity</li>
+              </ul>
+            </div>
+            <div class="comparison-column after">
+              <h4>✅ After</h4>
+              <ul style="list-style: none; padding: 0; margin-top: 12px;">
+                <li>• 5-10 minutes per proposal</li>
+                <li>• Automatic branding</li>
+                <li>• AI-powered content</li>
+                <li>• Unlimited scale</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- FEATURES -->
+    <div class="section-wrapper">
+      <h2 class="section-title">4. Features</h2>
+
+      <div class="variants-container">
+        <!-- Grid -->
+        <div class="variant-mockup">
+          <div class="variant-header">
+            <div class="variant-name">Grid (Default)</div>
+            <span class="variant-badge badge-todo">Default</span>
+          </div>
+          <div class="mockup-content features-grid">
+            <div class="feature-card">
+              <div class="feature-icon">🤖</div>
+              <strong>AI Generation</strong>
+              <p>Powered by Groq LLM</p>
+            </div>
+            <div class="feature-card">
+              <div class="feature-icon">🎨</div>
+              <strong>Brand Extraction</strong>
+              <p>Automatic design analysis</p>
+            </div>
+            <div class="feature-card">
+              <div class="feature-icon">📄</div>
+              <strong>Multi-Format</strong>
+              <p>PDF, DOCX, MD support</p>
+            </div>
+            <div class="feature-card">
+              <div class="feature-icon">⚡</div>
+              <strong>Fast Generation</strong>
+              <p>5-10 minute turnaround</p>
+            </div>
+            <div class="feature-card">
+              <div class="feature-icon">🔒</div>
+              <strong>Secure Access</strong>
+              <p>Token-based protection</p>
+            </div>
+            <div class="feature-card">
+              <div class="feature-icon">📱</div>
+              <strong>Responsive</strong>
+              <p>Mobile-friendly design</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- List -->
+        <div class="variant-mockup">
+          <div class="variant-header">
+            <div class="variant-name">List</div>
+            <span class="variant-badge badge-todo">TODO</span>
+          </div>
+          <div class="mockup-content features-list">
+            <div class="feature-list-item">
+              <div style="font-size: 2rem;">🤖</div>
+              <div>
+                <strong>AI-Powered Content Generation</strong>
+                <p style="margin-top: 4px; color: #718096;">Advanced language models create professional, contextual proposal content tailored to each client.</p>
+              </div>
+            </div>
+            <div class="feature-list-item">
+              <div style="font-size: 2rem;">🎨</div>
+              <div>
+                <strong>Automatic Brand Extraction</strong>
+                <p style="margin-top: 4px; color: #718096;">Analyzes client websites to extract colors, logos, and design elements for perfect brand matching.</p>
+              </div>
+            </div>
+            <div class="feature-list-item">
+              <div style="font-size: 2rem;">📄</div>
+              <div>
+                <strong>Multi-Format Document Support</strong>
+                <p style="margin-top: 4px; color: #718096;">Upload requirements in PDF, Word, Markdown, or plain text - we handle them all.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Showcase -->
+        <div class="variant-mockup">
+          <div class="variant-header">
+            <div class="variant-name">Showcase</div>
+            <span class="variant-badge badge-todo">TODO</span>
+          </div>
+          <div class="mockup-content features-showcase">
+            <div class="showcase-hero">
+              <div style="font-size: 3rem; margin-bottom: 16px;">🤖</div>
+              <h3 style="margin-bottom: 12px;">AI-Powered Proposal Generation</h3>
+              <p>Our flagship feature uses advanced language models to create professional, contextual content that wins deals. Generate complete proposals in 5-10 minutes instead of hours.</p>
+            </div>
+            <div class="showcase-supporting">
+              <div style="background: white; padding: 16px; border-radius: 6px; text-align: center;">
+                <div style="font-size: 1.5rem;">🎨</div>
+                <strong style="font-size: 0.9rem;">Brand Extraction</strong>
+              </div>
+              <div style="background: white; padding: 16px; border-radius: 6px; text-align: center;">
+                <div style="font-size: 1.5rem;">📄</div>
+                <strong style="font-size: 0.9rem;">Multi-Format</strong>
+              </div>
+              <div style="background: white; padding: 16px; border-radius: 6px; text-align: center;">
+                <div style="font-size: 1.5rem;">⚡</div>
+                <strong style="font-size: 0.9rem;">Fast & Secure</strong>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Tabbed -->
+        <div class="variant-mockup">
+          <div class="variant-header">
+            <div class="variant-name">Tabbed</div>
+            <span class="variant-badge badge-todo">TODO</span>
+          </div>
+          <div class="mockup-content features-tabbed">
+            <div class="tabs">
+              <button class="tab active">AI & Generation</button>
+              <button class="tab">Design & Branding</button>
+              <button class="tab">Security & Access</button>
+            </div>
+            <div style="background: white; padding: 20px; border-radius: 8px; margin-top: 16px;">
+              <div style="display: grid; gap: 12px;">
+                <div><strong>🤖 AI Content Generation</strong> - Advanced LLM-powered proposal creation</div>
+                <div><strong>⚡ Fast Processing</strong> - 5-10 minute turnaround time</div>
+                <div><strong>📄 Multi-Format Support</strong> - PDF, DOCX, MD, TXT compatible</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ROADMAP -->
+    <div class="section-wrapper">
+      <h2 class="section-title">5. Roadmap</h2>
+
+      <div class="variants-container">
+        <!-- Timeline -->
+        <div class="variant-mockup">
+          <div class="variant-header">
+            <div class="variant-name">Timeline (Default)</div>
+            <span class="variant-badge badge-todo">Default</span>
+          </div>
+          <div class="mockup-content roadmap-timeline">
+            <div class="roadmap-item">
+              <div class="roadmap-dot"></div>
+              <strong>Week 1-2</strong>
+              <p style="margin-top: 8px; color: #718096;">Setup & Onboarding</p>
+            </div>
+            <div class="roadmap-item">
+              <div class="roadmap-dot"></div>
+              <strong>Week 3-4</strong>
+              <p style="margin-top: 8px; color: #718096;">Training & Testing</p>
+            </div>
+            <div class="roadmap-item">
+              <div class="roadmap-dot"></div>
+              <strong>Week 5-6</strong>
+              <p style="margin-top: 8px; color: #718096;">Pilot Deployment</p>
+            </div>
+            <div class="roadmap-item">
+              <div class="roadmap-dot"></div>
+              <strong>Week 7+</strong>
+              <p style="margin-top: 8px; color: #718096;">Full Rollout</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Phases -->
+        <div class="variant-mockup">
+          <div class="variant-header">
+            <div class="variant-name">Phases</div>
+            <span class="variant-badge badge-todo">TODO</span>
+          </div>
+          <div class="mockup-content roadmap-phases">
+            <div class="phase">
+              <h4>Phase 1: Foundation (Weeks 1-2)</h4>
+              <p style="color: #718096; margin-top: 8px;">Account setup, API integration, initial training sessions with your team</p>
+            </div>
+            <div class="phase" style="border-left-color: #48bb78;">
+              <h4>Phase 2: Testing (Weeks 3-4)</h4>
+              <p style="color: #718096; margin-top: 8px;">Create test proposals, refine templates, gather feedback, optimize workflows</p>
+            </div>
+            <div class="phase" style="border-left-color: #ed8936;">
+              <h4>Phase 3: Deployment (Weeks 5+)</h4>
+              <p style="color: #718096; margin-top: 8px;">Full team rollout, ongoing support, performance monitoring, continuous improvement</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Gantt -->
+        <div class="variant-mockup">
+          <div class="variant-header">
+            <div class="variant-name">Gantt</div>
+            <span class="variant-badge badge-todo">TODO</span>
+          </div>
+          <div class="mockup-content roadmap-gantt">
+            <div class="gantt-row">
+              <div><strong>Setup & Integration</strong></div>
+              <div class="gantt-bar" style="width: 40%;"></div>
+            </div>
+            <div class="gantt-row">
+              <div><strong>Team Training</strong></div>
+              <div class="gantt-bar" style="width: 60%; margin-left: 30%;"></div>
+            </div>
+            <div class="gantt-row">
+              <div><strong>Pilot Testing</strong></div>
+              <div class="gantt-bar" style="width: 50%; margin-left: 40%;"></div>
+            </div>
+            <div class="gantt-row">
+              <div><strong>Full Deployment</strong></div>
+              <div class="gantt-bar" style="width: 30%; margin-left: 70%;"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Milestones -->
+        <div class="variant-mockup">
+          <div class="variant-header">
+            <div class="variant-name">Milestones</div>
+            <span class="variant-badge badge-todo">TODO</span>
+          </div>
+          <div class="mockup-content roadmap-milestones">
+            <div class="milestone">
+              <div style="font-size: 2rem; margin-bottom: 12px;">🚀</div>
+              <strong>Launch</strong>
+              <p style="color: #718096; margin-top: 8px;">Week 1</p>
+            </div>
+            <div class="milestone" style="border-top-color: #667eea;">
+              <div style="font-size: 2rem; margin-bottom: 12px;">📚</div>
+              <strong>Training Complete</strong>
+              <p style="color: #718096; margin-top: 8px;">Week 3</p>
+            </div>
+            <div class="milestone" style="border-top-color: #ed8936;">
+              <div style="font-size: 2rem; margin-bottom: 12px;">✅</div>
+              <strong>First Proposals</strong>
+              <p style="color: #718096; margin-top: 8px;">Week 4</p>
+            </div>
+            <div class="milestone" style="border-top-color: #9f7aea;">
+              <div style="font-size: 2rem; margin-bottom: 12px;">🎉</div>
+              <strong>Full Rollout</strong>
+              <p style="color: #718096; margin-top: 8px;">Week 6</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- WHY US -->
+    <div class="section-wrapper">
+      <h2 class="section-title">6. Why Us</h2>
+
+      <div class="variants-container">
+        <!-- List -->
+        <div class="variant-mockup">
+          <div class="variant-header">
+            <div class="variant-name">List (Default)</div>
+            <span class="variant-badge badge-todo">Default</span>
+          </div>
+          <div class="mockup-content whyus-list">
+            <ul>
+              <li><strong>AI Expertise:</strong> Built by AI specialists with 10+ years experience</li>
+              <li><strong>Proven Results:</strong> 80% time reduction across 50+ companies</li>
+              <li><strong>Enterprise Security:</strong> SOC 2 compliant, GDPR ready</li>
+              <li><strong>24/7 Support:</strong> Dedicated success team for your needs</li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- Grid -->
+        <div class="variant-mockup">
+          <div class="variant-header">
+            <div class="variant-name">Grid</div>
+            <span class="variant-badge badge-todo">TODO</span>
+          </div>
+          <div class="mockup-content whyus-grid">
+            <div class="whyus-grid-item">
+              <div style="font-size: 2.5rem; margin-bottom: 12px;">🧠</div>
+              <strong>AI Expertise</strong>
+              <p style="color: #718096; margin-top: 8px;">10+ years building AI solutions</p>
+            </div>
+            <div class="whyus-grid-item">
+              <div style="font-size: 2.5rem; margin-bottom: 12px;">📈</div>
+              <strong>Proven Results</strong>
+              <p style="color: #718096; margin-top: 8px;">80% time savings guaranteed</p>
+            </div>
+            <div class="whyus-grid-item">
+              <div style="font-size: 2.5rem; margin-bottom: 12px;">🔒</div>
+              <strong>Enterprise Security</strong>
+              <p style="color: #718096; margin-top: 8px;">SOC 2 & GDPR compliant</p>
+            </div>
+            <div class="whyus-grid-item">
+              <div style="font-size: 2.5rem; margin-bottom: 12px;">💬</div>
+              <strong>24/7 Support</strong>
+              <p style="color: #718096; margin-top: 8px;">Dedicated success team</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Testimonial -->
+        <div class="variant-mockup">
+          <div class="variant-header">
+            <div class="variant-name">Testimonial</div>
+            <span class="variant-badge badge-todo">TODO</span>
+          </div>
+          <div class="mockup-content whyus-testimonial">
+            <div class="testimonial">
+              <p style="color: #4a5568; line-height: 1.8; margin-bottom: 16px;">This platform transformed our proposal process. We went from creating 3 proposals per week to 15, without adding headcount. The AI-generated content is consistently professional and the automated branding is spot-on.</p>
+              <div style="display: flex; align-items: center; gap: 12px;">
+                <div style="width: 50px; height: 50px; background: #667eea; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-weight: bold;">JD</div>
+                <div>
+                  <strong>Jane Doe</strong>
+                  <p style="color: #718096; font-size: 0.9rem;">VP of Sales, TechCorp</p>
+                </div>
+              </div>
+            </div>
+            <div class="testimonial">
+              <p style="color: #4a5568; line-height: 1.8; margin-bottom: 16px;">The ROI was immediate. We're closing deals faster because we can respond to RFPs within hours instead of days. Game changer.</p>
+              <div style="display: flex; align-items: center; gap: 12px;">
+                <div style="width: 50px; height: 50px; background: #48bb78; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-weight: bold;">BS</div>
+                <div>
+                  <strong>Bob Smith</strong>
+                  <p style="color: #718096; font-size: 0.9rem;">CEO, DesignCo</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Stats -->
+        <div class="variant-mockup">
+          <div class="variant-header">
+            <div class="variant-name">Stats</div>
+            <span class="variant-badge badge-todo">TODO</span>
+          </div>
+          <div class="mockup-content whyus-stats">
+            <div class="stat">
+              <div class="stat-number">80%</div>
+              <p style="color: #718096; margin-top: 8px;">Time Saved</p>
+            </div>
+            <div class="stat">
+              <div class="stat-number">50+</div>
+              <p style="color: #718096; margin-top: 8px;">Companies</p>
+            </div>
+            <div class="stat">
+              <div class="stat-number">10K+</div>
+              <p style="color: #718096; margin-top: 8px;">Proposals Created</p>
+            </div>
+            <div class="stat">
+              <div class="stat-number">4.9/5</div>
+              <p style="color: #718096; margin-top: 8px;">Customer Rating</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- PRICING -->
+    <div class="section-wrapper">
+      <h2 class="section-title">7. Pricing</h2>
+
+      <div class="variants-container">
+        <!-- Setup + Fixed MRR -->
+        <div class="variant-mockup">
+          <div class="variant-header">
+            <div class="variant-name">Setup + Fixed MRR (Default)</div>
+            <span class="variant-badge badge-todo">Default</span>
+          </div>
+          <div class="mockup-content">
+            <div style="background: white; padding: 32px; border-radius: 8px; max-width: 600px; margin: 0 auto;">
+              <h3 style="text-align: center; margin-bottom: 24px; color: #2d3748;">Investment Structure</h3>
+
+              <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 24px;">
+                <div style="background: #f7fafc; padding: 24px; border-radius: 8px; border-top: 4px solid #667eea;">
+                  <div style="text-align: center;">
+                    <div style="color: #718096; font-size: 0.9rem; margin-bottom: 8px;">ONE-TIME</div>
+                    <div style="font-size: 2.5rem; font-weight: bold; color: #667eea;">$2,500</div>
+                    <div style="color: #4a5568; margin-top: 8px; font-weight: 600;">Setup Fee</div>
+                  </div>
+                </div>
+                <div style="background: #f7fafc; padding: 24px; border-radius: 8px; border-top: 4px solid #48bb78;">
+                  <div style="text-align: center;">
+                    <div style="color: #718096; font-size: 0.9rem; margin-bottom: 8px;">MONTHLY</div>
+                    <div style="font-size: 2.5rem; font-weight: bold; color: #48bb78;">$499</div>
+                    <div style="color: #4a5568; margin-top: 8px; font-weight: 600;">Per Month</div>
+                  </div>
+                </div>
+              </div>
+
+              <div style="background: #f7fafc; padding: 20px; border-radius: 8px; border-left: 4px solid #667eea;">
+                <strong style="display: block; margin-bottom: 12px; color: #2d3748;">Setup Fee Includes:</strong>
+                <ul style="list-style: none; padding: 0; margin: 0; color: #4a5568;">
+                  <li style="padding: 6px 0;">✓ Platform configuration & integration</li>
+                  <li style="padding: 6px 0;">✓ Team training sessions</li>
+                  <li style="padding: 6px 0;">✓ Custom template creation</li>
+                  <li style="padding: 6px 0;">✓ 30 days implementation support</li>
+                </ul>
+              </div>
+
+              <div style="background: #f7fafc; padding: 20px; border-radius: 8px; border-left: 4px solid #48bb78; margin-top: 16px;">
+                <strong style="display: block; margin-bottom: 12px; color: #2d3748;">Monthly Subscription Includes:</strong>
+                <ul style="list-style: none; padding: 0; margin: 0; color: #4a5568;">
+                  <li style="padding: 6px 0;">✓ Unlimited proposal generations</li>
+                  <li style="padding: 6px 0;">✓ Automatic brand extraction</li>
+                  <li style="padding: 6px 0;">✓ Priority email support</li>
+                  <li style="padding: 6px 0;">✓ Monthly platform updates</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Setup + Usage-Based -->
+        <div class="variant-mockup">
+          <div class="variant-header">
+            <div class="variant-name">Setup + Usage-Based</div>
+            <span class="variant-badge badge-todo">TODO</span>
+          </div>
+          <div class="mockup-content">
+            <div style="background: white; padding: 32px; border-radius: 8px; max-width: 600px; margin: 0 auto;">
+              <h3 style="text-align: center; margin-bottom: 24px; color: #2d3748;">Pay As You Grow</h3>
+
+              <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 24px; border-radius: 8px; text-align: center; margin-bottom: 24px;">
+                <div style="font-size: 0.9rem; opacity: 0.9; margin-bottom: 8px;">ONE-TIME SETUP FEE</div>
+                <div style="font-size: 3rem; font-weight: bold;">$1,500</div>
+                <div style="margin-top: 12px; opacity: 0.9;">Includes onboarding, training, and configuration</div>
+              </div>
+
+              <div style="background: #f7fafc; padding: 24px; border-radius: 8px; text-align: center; margin-bottom: 20px;">
+                <div style="color: #718096; font-size: 0.9rem; margin-bottom: 8px;">USAGE-BASED PRICING</div>
+                <div style="font-size: 2.5rem; font-weight: bold; color: #667eea; margin-bottom: 8px;">$29</div>
+                <div style="color: #4a5568; font-weight: 600;">Per Proposal Generated</div>
+                <div style="color: #718096; font-size: 0.85rem; margin-top: 12px;">Only pay for what you use • No monthly minimum</div>
+              </div>
+
+              <div style="border-top: 2px solid #e2e8f0; padding-top: 20px;">
+                <strong style="display: block; margin-bottom: 12px; color: #2d3748; text-align: center;">Volume Discounts:</strong>
+                <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; text-align: center;">
+                  <div style="background: #f7fafc; padding: 16px; border-radius: 6px;">
+                    <div style="font-weight: bold; color: #667eea;">$29</div>
+                    <div style="color: #718096; font-size: 0.85rem; margin-top: 4px;">1-10/mo</div>
+                  </div>
+                  <div style="background: #f7fafc; padding: 16px; border-radius: 6px;">
+                    <div style="font-weight: bold; color: #667eea;">$24</div>
+                    <div style="color: #718096; font-size: 0.85rem; margin-top: 4px;">11-50/mo</div>
+                  </div>
+                  <div style="background: #f7fafc; padding: 16px; border-radius: 6px;">
+                    <div style="font-weight: bold; color: #667eea;">$19</div>
+                    <div style="color: #718096; font-size: 0.85rem; margin-top: 4px;">51+/mo</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Tiered Setup + MRR -->
+        <div class="variant-mockup">
+          <div class="variant-header">
+            <div class="variant-name">Tiered Setup + MRR</div>
+            <span class="variant-badge badge-todo">TODO</span>
+          </div>
+          <div class="mockup-content pricing-tiers">
+            <div class="pricing-tier">
+              <h3>Starter</h3>
+              <div style="margin: 20px 0;">
+                <div style="color: #718096; font-size: 0.85rem;">Setup Fee</div>
+                <div style="font-size: 1.8rem; font-weight: bold; color: #667eea;">$1,000</div>
+                <div style="color: #cbd5e0; margin: 12px 0;">+</div>
+                <div style="color: #718096; font-size: 0.85rem;">Monthly</div>
+                <div class="price">$299<span style="font-size: 1rem; color: #718096;">/mo</span></div>
+              </div>
+              <ul style="list-style: none; text-align: left; padding: 0; color: #4a5568;">
+                <li style="padding: 8px 0;">• 20 proposals/month</li>
+                <li style="padding: 8px 0;">• Email support</li>
+                <li style="padding: 8px 0;">• Basic branding</li>
+              </ul>
+            </div>
+            <div class="pricing-tier featured">
+              <div style="background: #667eea; color: white; padding: 4px 12px; border-radius: 12px; display: inline-block; margin-bottom: 8px; font-size: 0.75rem; font-weight: 600;">POPULAR</div>
+              <h3>Professional</h3>
+              <div style="margin: 20px 0;">
+                <div style="color: #718096; font-size: 0.85rem;">Setup Fee</div>
+                <div style="font-size: 1.8rem; font-weight: bold; color: #667eea;">$2,500</div>
+                <div style="color: #cbd5e0; margin: 12px 0;">+</div>
+                <div style="color: #718096; font-size: 0.85rem;">Monthly</div>
+                <div class="price">$699<span style="font-size: 1rem; color: #718096;">/mo</span></div>
+              </div>
+              <ul style="list-style: none; text-align: left; padding: 0; color: #4a5568;">
+                <li style="padding: 8px 0;">• 100 proposals/month</li>
+                <li style="padding: 8px 0;">• Priority support</li>
+                <li style="padding: 8px 0;">• Advanced branding</li>
+                <li style="padding: 8px 0;">• Custom templates</li>
+              </ul>
+            </div>
+            <div class="pricing-tier">
+              <h3>Enterprise</h3>
+              <div style="margin: 20px 0;">
+                <div style="color: #718096; font-size: 0.85rem;">Setup Fee</div>
+                <div style="font-size: 1.8rem; font-weight: bold; color: #667eea;">$5,000</div>
+                <div style="color: #cbd5e0; margin: 12px 0;">+</div>
+                <div style="color: #718096; font-size: 0.85rem;">Monthly</div>
+                <div class="price">Custom</div>
+              </div>
+              <ul style="list-style: none; text-align: left; padding: 0; color: #4a5568;">
+                <li style="padding: 8px 0;">• Unlimited proposals</li>
+                <li style="padding: 8px 0;">• 24/7 phone support</li>
+                <li style="padding: 8px 0;">• White-label option</li>
+                <li style="padding: 8px 0;">• Dedicated manager</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <!-- Custom/Enterprise -->
+        <div class="variant-mockup">
+          <div class="variant-header">
+            <div class="variant-name">Custom/Enterprise</div>
+            <span class="variant-badge badge-todo">TODO</span>
+          </div>
+          <div class="mockup-content pricing-custom">
+            <div style="font-size: 3rem; margin-bottom: 20px;">💼</div>
+            <h3 style="margin-bottom: 16px; color: #2d3748;">Enterprise Custom Pricing</h3>
+            <p style="color: #718096; line-height: 1.8; max-width: 600px; margin: 0 auto 24px;">Every organization has unique needs. Let's design a pricing structure that works for your proposal volume, team size, and integration requirements.</p>
+
+            <div style="background: #f7fafc; padding: 24px; border-radius: 8px; max-width: 500px; margin: 0 auto 24px; text-align: left;">
+              <strong style="display: block; margin-bottom: 12px; color: #2d3748;">We'll discuss:</strong>
+              <ul style="list-style: none; padding: 0; margin: 0; color: #4a5568;">
+                <li style="padding: 6px 0;">✓ Custom setup fee based on complexity</li>
+                <li style="padding: 6px 0;">✓ Flexible MRR or usage-based pricing</li>
+                <li style="padding: 6px 0;">✓ Volume discounts for high usage</li>
+                <li style="padding: 6px 0;">✓ Annual contract discounts</li>
+                <li style="padding: 6px 0;">✓ White-label and API access options</li>
+              </ul>
+            </div>
+
+            <button style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; border: none; padding: 16px 40px; border-radius: 8px; font-size: 1.1rem; font-weight: 600; cursor: pointer;">Schedule a Call</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- CONTACT -->
+    <div class="section-wrapper">
+      <h2 class="section-title">8. Contact</h2>
+
+      <div class="variants-container">
+        <!-- Standard -->
+        <div class="variant-mockup">
+          <div class="variant-header">
+            <div class="variant-name">Standard (Default)</div>
+            <span class="variant-badge badge-todo">Default</span>
+          </div>
+          <div class="mockup-content contact-standard">
+            <h3 style="margin-bottom: 20px; color: #2d3748;">Let's Get Started</h3>
+            <div class="contact-info">
+              <div class="contact-item">
+                <div style="font-size: 1.5rem;">📧</div>
+                <div>
+                  <strong>Email</strong>
+                  <p style="color: #718096;">contact@tractis.ai</p>
+                </div>
+              </div>
+              <div class="contact-item">
+                <div style="font-size: 1.5rem;">📞</div>
+                <div>
+                  <strong>Phone</strong>
+                  <p style="color: #718096;">+1 (555) 123-4567</p>
+                </div>
+              </div>
+              <div class="contact-item">
+                <div style="font-size: 1.5rem;">🌐</div>
+                <div>
+                  <strong>Website</strong>
+                  <p style="color: #718096;">www.tractis.ai</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Card -->
+        <div class="variant-mockup">
+          <div class="variant-header">
+            <div class="variant-name">Card</div>
+            <span class="variant-badge badge-todo">TODO</span>
+          </div>
+          <div class="mockup-content contact-card">
+            <div class="contact-avatar">👤</div>
+            <h3 style="margin-bottom: 8px; color: #2d3748;">Gerhard Neumann</h3>
+            <p style="color: #718096; margin-bottom: 20px;">Project Lead</p>
+            <div style="display: grid; gap: 12px; text-align: left;">
+              <div style="display: flex; align-items: center; gap: 12px;">
+                <span>📧</span>
+                <span style="color: #4a5568;">gerhard@tractis.ai</span>
+              </div>
+              <div style="display: flex; align-items: center; gap: 12px;">
+                <span>📞</span>
+                <span style="color: #4a5568;">+1 (555) 123-4567</span>
+              </div>
+              <div style="display: flex; align-items: center; gap: 12px;">
+                <span>🌐</span>
+                <span style="color: #4a5568;">tractis.ai</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Inline -->
+        <div class="variant-mockup">
+          <div class="variant-header">
+            <div class="variant-name">Inline</div>
+            <span class="variant-badge badge-todo">TODO</span>
+          </div>
+          <div class="mockup-content contact-inline">
+            <div>
+              <h3 style="margin-bottom: 8px;">Ready to Transform Your Proposals?</h3>
+              <p style="opacity: 0.9;">Schedule a demo and see the platform in action</p>
+            </div>
+            <button>Schedule Demo</button>
+          </div>
+        </div>
+
+        <!-- Footer -->
+        <div class="variant-mockup">
+          <div class="variant-header">
+            <div class="variant-name">Footer</div>
+            <span class="variant-badge badge-todo">TODO</span>
+          </div>
+          <div class="mockup-content contact-footer">
+            <div>
+              <strong style="font-size: 1.2rem;">Tractis AI</strong>
+              <p style="opacity: 0.8; margin-top: 4px; font-size: 0.9rem;">contact@tractis.ai • www.tractis.ai</p>
+            </div>
+            <div style="text-align: right;">
+              <p style="opacity: 0.8; font-size: 0.9rem;">© 2026 Tractis. All rights reserved.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</body>
+</html>

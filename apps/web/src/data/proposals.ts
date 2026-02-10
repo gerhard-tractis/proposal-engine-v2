@@ -10,7 +10,7 @@ import { TRACTIS_WHY_US, TRACTIS_CONTACT, FIXED_SECTION_VARIANTS } from './fixed
  * - Logo files: Zod validates path format but does NOT check file existence at runtime
  *   → MANUALLY verify all logo files exist in public/logos/ before deployment
  *   → Current logo: /logos/tractis.svg (verified present)
- * - Icon names: Validated against VALID_ICON_NAMES whitelist in src/types/proposal.ts
+ * - Icon names: Validated against VALID_ICON_NAMES whitelist in packages/shared/src/types/proposal.ts
  *   → Add new icon names to whitelist before using in proposals
  * - Performance: For 1000+ proposals, migrate to database (PostgreSQL, MongoDB)
  *   → Current in-memory approach is suitable for <100 proposals
@@ -19,94 +19,69 @@ import { TRACTIS_WHY_US, TRACTIS_CONTACT, FIXED_SECTION_VARIANTS } from './fixed
  *   → These are consistent across all proposals and don't need AI processing
  */
 export const proposals: Proposal[] = [
+  // CUSTOM PROPOSAL: Imperial - Uses custom component, minimal data
   {
     slug: 'imperial',
-    token: 'Zh3zaPJV4U', // Generated via nanoid(10)
+    token: 'Zh3zaPJV4U',
+    type: 'customized',
+    customComponent: 'imperial-custom',
     client: {
       name: 'Imperial',
       logo: '/logos/imperial-logo.png',
       favicon: '/logos/imperial-favicon.jpg',
       colors: {
-        primary: '#f72e3c', // Imperial Red (Dembrandt extracted)
-        accent: '#85909e', // Blue-Gray (Dembrandt extracted)
+        primary: '#f72e3c',
+        accent: '#85909e',
       },
     },
     proposal: {
-      executiveSummary:
-        'Elimine la dependencia de un solo proveedor TMS y agregue cualquier transportista a su red en 48 horas. Middleware agnóstico que traduce automáticamente entre cualquier sistema (Beetrack, Driv.in, Simpliroute, Excel) y su TMS actual.',
-      needs: [
-        'Dependes de un solo proveedor TMS - si suben precios o cambian condiciones, tu operación está en riesgo',
-        'No puedes agregar transportistas que usan Beetrack, Driv.in o Excel - pierdes capacidad disponible',
-        'Integrar un nuevo transporte toma 3-4 semanas - muy lento para escalar rápidamente',
-        'Cambiar de TMS significa perder toda tu red de transportes configurada',
-        'Cada transporte usa su propio sistema - visibilidad fragmentada y operación compleja',
-        'La tecnología limita tu crecimiento - no puedes elegir transportes por calidad de servicio',
-      ],
-      solution:
-        'Agrega cualquier transportista a tu red en 48 horas, sin importar qué sistema usen. Ellos trabajan con sus herramientas actuales, tú ves todo unificado en tu TMS. Sin capacitación, sin fricción.',
-      features: [], // Not used in custom template
-      roadmap: [], // Not used in custom template
-      whyUs: ['Not used in custom template'], // Custom component has its own content
+      executiveSummary: 'Elimine la dependencia de un solo proveedor TMS.',
+      executiveSummaryVariant: 'brief',
+      needs: ['Dummy data - custom component renders its own content'],
+      needsVariant: 'list',
+      solution: 'Agrega cualquier transportista a tu red en 48 horas.',
+      solutionVariant: 'narrative',
+      features: [],
+      featuresVariant: 'grid',
+      roadmap: [],
+      roadmapVariant: 'timeline',
+      whyUs: 'Custom component has its own content',
+      whyUsVariant: 'list',
       pricing: {
-        tiers: [
-          {
-            name: 'Modelo Recurrente',
-            price: 'Setup + Licencia Mensual',
-            period: 'Pay-per-use: Cobro mensual por orden procesada',
-            features: [
-              'Setup inicial de implementación (pago único)',
-              'Licencia mensual por cada orden que pasa por el integrador',
-              'Modelo pay-per-use: solo pagas por órdenes procesadas',
-              'Escala según tu volumen real de operación',
-              'Soporte continuo y actualizaciones incluidas',
-              'Infraestructura y monitoreo 24/7',
-            ],
-            recommended: true,
-          },
-          {
-            name: 'Modelo de Compra',
-            price: 'Licencia Perpetua',
-            period: 'Inversión única - todo incluido',
-            features: [
-              'Código fuente completo (llave en mano)',
-              'Es tuyo para siempre - sin mensualidades',
-              'Control total de tu infraestructura',
-              'Documentación técnica completa',
-              'Sin dependencia de terceros',
-              'Ideal para equipos técnicos in-house',
-            ],
-          },
-        ],
-        customNote:
-          '💬 Inversión personalizada según tu operación. Agenda 30 minutos y construimos la propuesta perfecta para ti.',
+        tiers: [],
       },
+      pricingVariant: 'custom',
       contact: {
         name: 'Gerhard Neumann',
+        role: 'Solutions Architect',
         email: 'gerhard@tractis.ai',
         phone: '+56990210364',
-        calendlyUrl: 'https://calendly.com/gerhard-tractis/30min',
-        nextSteps: [
-          'Agenda una demo de 30 minutos',
-          'Discutimos tu operación y necesidades específicas',
-          'Construimos una propuesta personalizada',
-        ],
+        website: 'https://tractis.ai',
+        linkedin: 'https://linkedin.com/company/tractis',
+        calendly: 'https://calendly.com/gerhard-tractis/30min',
+        cta: 'Agendar Demo',
       },
+      contactVariant: 'standard',
     },
   },
+
+  // STANDARD 8-SECTION PROPOSAL: Tractis Demo - FULL FEATURES
   {
     slug: 'tractis-demo',
-    token: 'xK8pQ2mN7v', // Generated via nanoid(10)
+    token: 'xK8pQ2mN7v',
+    type: 'standard',
     client: {
       name: 'Tractis AI',
       logo: '/logos/tractis-color.svg',
       colors: {
-        primary: '#dfad30', // Tractis Gold (Dembrandt extracted)
-        accent: '#7b8b9d', // Tractis Border/Accent (Dembrandt extracted)
+        primary: '#dfad30',
+        accent: '#7b8b9d',
       },
     },
     proposal: {
       executiveSummary:
         "We're proposing a custom AI solution tailored to your business needs. This platform will automate key workflows, enhance decision-making with intelligent insights, and scale seamlessly as your organization grows.\n\nOur approach combines cutting-edge AI technology with practical implementation strategies to deliver measurable ROI within the first quarter.\n\nWith our proven track record and deep technical expertise, we'll transform your operations while ensuring seamless integration with your existing systems.",
+      executiveSummaryVariant: 'detailed',
       needs: [
         'Automate repetitive manual processes that consume 20+ hours per week',
         'Improve decision-making with data-driven insights and predictive analytics',
@@ -114,8 +89,84 @@ export const proposals: Proposal[] = [
         'Integrate AI capabilities with existing tools and workflows',
         'Maintain data security and compliance throughout the AI implementation',
       ],
+      needsVariant: 'list',
       solution:
         "We'll build a custom AI platform that integrates directly with your existing systems. The solution includes natural language processing for document automation, predictive analytics for forecasting, and intelligent workflows that adapt to your team's patterns. Everything is deployed on secure infrastructure with full audit trails and compliance controls.",
+      solutionVariant: 'narrative',
+      businessCase: {
+        costSaving: {
+          value: "$250K annually",
+          breakdown: [
+            "Current: 500 hours/month × $150/hour × 12 months = $900K/year",
+            "After: 100 hours/month × $150/hour × 12 months = $180K/year",
+            "Annual savings: $900K - $180K = $720K/year",
+            "Conservative estimate (35%): $250K/year",
+          ],
+        },
+        additionalIncome: {
+          value: "$500K new revenue",
+          breakdown: [
+            "Current capacity: 10 proposals/month",
+            "New capacity: 30 proposals/month",
+            "Additional deals: 20 proposals/month × 30% win rate = 6 deals",
+            "Average deal: $7K × 12 months = $84K/year per deal",
+            "New revenue: 6 deals × $84K = $504K/year",
+          ],
+        },
+        roi: {
+          value: "6 months",
+          breakdown: [
+            "Total investment: $45K implementation + $30K (6mo support) = $75K",
+            "Monthly benefit: $250K savings + $500K revenue = $750K/year",
+            "Monthly benefit: $750K ÷ 12 = $62.5K/month",
+            "Payback period: $75K ÷ $62.5K = 1.2 months (rounded to 6 months conservative)",
+          ],
+        },
+        metrics: [
+          {
+            label: "Productivity Gain",
+            value: "3x increase",
+            breakdown: [
+              "Current: 10 proposals/month per team",
+              "After: 30 proposals/month per team",
+              "Increase: 3x capacity",
+            ],
+          },
+          {
+            label: "Time Saved",
+            value: "80% reduction",
+            breakdown: [
+              "Current time per proposal: 6 hours",
+              "After automation: 1.2 hours",
+              "Time saved: 4.8 hours (80% reduction)",
+            ],
+          },
+        ],
+      },
+      techStack: {
+        categories: [
+          {
+            name: "Frontend",
+            technologies: ["Next.js 16", "React 19", "TypeScript", "Tailwind CSS"],
+          },
+          {
+            name: "Backend",
+            technologies: ["Node.js", "Express", "TypeScript"],
+          },
+          {
+            name: "AI/ML",
+            technologies: ["LangChain", "Groq", "Anthropic Claude"],
+          },
+          {
+            name: "Infrastructure",
+            technologies: ["Vercel", "Railway", "Docker"],
+          },
+          {
+            name: "Data & Security",
+            technologies: ["PostgreSQL", "Zod", "SOC 2 Compliant"],
+          },
+        ],
+      },
       features: [
         {
           title: 'Intelligent Automation',
@@ -154,6 +205,7 @@ export const proposals: Proposal[] = [
           icon: 'Brain',
         },
       ],
+      featuresVariant: 'grid',
       roadmap: [
         {
           phase: 'Discovery & Planning',
@@ -211,7 +263,9 @@ export const proposals: Proposal[] = [
           ],
         },
       ],
-      whyUs: [TRACTIS_WHY_US], // Fixed content - consistent across all proposals (wrapped in array for local schema)
+      roadmapVariant: 'timeline',
+      whyUs: TRACTIS_WHY_US,
+      whyUsVariant: FIXED_SECTION_VARIANTS.whyUs,
       pricing: {
         tiers: [
           {
@@ -243,7 +297,9 @@ export const proposals: Proposal[] = [
         customNote:
           'Pricing includes all development, infrastructure setup, and initial training. Monthly support is optional but recommended for continuous improvement.',
       },
-      contact: TRACTIS_CONTACT, // Fixed content - consistent across all proposals
+      pricingVariant: 'tiers',
+      contact: TRACTIS_CONTACT,
+      contactVariant: FIXED_SECTION_VARIANTS.contact,
     },
   },
 ];

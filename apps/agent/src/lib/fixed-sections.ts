@@ -3,11 +3,6 @@
  * These don't need to be processed by AI agents
  */
 
-/**
- * Tractis Contact Information
- * Used in all proposals - never changes
- * Matches shared ContactInfo schema
- */
 export const TRACTIS_CONTACT = {
   name: "Gerhard Neumann",
   role: "Founder & CEO",
@@ -15,14 +10,10 @@ export const TRACTIS_CONTACT = {
   phone: "+56 990210364",
   website: "https://tractis.ai",
   linkedin: "https://linkedin.com/in/gneumannv",
-  calendly: "https://calendly.com/gerhard-tractis/30min",
-  cta: "Schedule a call to discuss how we can transform your proposal process",
-};
+  calendly: null,
+  cta: "Schedule a call to discuss how we can transform your proposal process"
+} as const;
 
-/**
- * Tractis Why Us Content
- * Highlights company expertise, infrastructure, and security
- */
 export const TRACTIS_WHY_US = `## Why Tractis?
 
 **Deep AI + Logistics Expertise**
@@ -48,39 +39,16 @@ Your data is your business. Our AI agents are built with strict data isolation -
 
 **Our Three Pillars**
 
-1. **Problem Solving**: We focus on outcomes, not features. Every solution is designed to deliver measurable business value.
+1. **Problem Solving**: We focus on delivering measurable business value, not just features.
 
-2. **Rock-Solid Infrastructure**: Production-grade systems that scale, perform, and never let you down. Built to handle enterprise workloads from day one.
+2. **Rock-Solid Infrastructure**: Production-grade systems built to scale and perform from day one.
 
-3. **Security & Privacy**: Your data is isolated, encrypted, and protected. Our agents are designed to prevent information leakage and maintain strict data boundaries.
+3. **Security & Privacy**: Your data is isolated, encrypted, and protected at every layer.
 
 **Why This Matters for You**
 The same discipline that ensures delivery trucks stay on route, operations run 24/7, and sensitive logistics data stays secure now powers your proposal generation. We build systems that work, scale, protect your data, and deliver ROI.` as const;
 
-/**
- * Default variants for fixed sections
- */
 export const FIXED_SECTION_VARIANTS = {
-  whyUs: 'list',
-  contact: 'standard',
+  whyUs: 'list' as const,
+  contact: 'standard' as const,
 } as const;
-
-/**
- * Helper to format contact section for proposal
- */
-export function getContactSection() {
-  const { name, role, email, phone, website, linkedin, calendly, cta } = TRACTIS_CONTACT;
-
-  return `## Let's Get Started
-
-**${name}**
-${role}
-
-📧 ${email}
-📞 ${phone}
-🌐 [${website}](${website})
-💼 [LinkedIn](${linkedin})
-${calendly ? `📅 [Schedule a Meeting](${calendly})` : ''}
-
-${cta}`;
-}
