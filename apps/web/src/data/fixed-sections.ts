@@ -70,18 +70,16 @@ export const FIXED_SECTION_VARIANTS = {
  * Helper to format contact section for proposal
  */
 export function getContactSection() {
-  const { name, role, email, phone, website, linkedin, calendly, cta } = TRACTIS_CONTACT;
+  const { name, email, phone, calendlyUrl, nextSteps } = TRACTIS_CONTACT;
 
   return `## Let's Get Started
 
 **${name}**
-${role}
 
 📧 ${email}
-📞 ${phone}
-🌐 [${website}](${website})
-💼 [LinkedIn](${linkedin})
-${calendly ? `📅 [Schedule a Meeting](${calendly})` : ''}
+${phone ? `📞 ${phone}` : ''}
+${calendlyUrl ? `📅 [Schedule a Meeting](${calendlyUrl})` : ''}
 
-${cta}`;
+### Next Steps
+${nextSteps.map((step, i) => `${i + 1}. ${step}`).join('\n')}`;
 }
