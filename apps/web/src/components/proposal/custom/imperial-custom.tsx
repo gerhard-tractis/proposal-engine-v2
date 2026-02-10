@@ -400,27 +400,25 @@ export default function ImperialCustomProposal({ proposal }: ImperialCustomProps
           </div>
 
           {/* Tech Badge with Tractis Branding */}
-          {content.techStack && (
-            <motion.div
-              initial={{ opacity: 0 }}
-              whileInView={{ opacity: 1 }}
-              viewport={{ once: true }}
-              className="mt-8 text-center"
-            >
-              <div className="flex items-center justify-center gap-2 mb-2">
-                <Image
-                  src="/logos/tractis-color.svg"
-                  alt="Tractis"
-                  width={80}
-                  height={24}
-                  className="h-5 w-auto opacity-70"
-                />
-              </div>
-              <p className="text-sm" style={{ color: '#6B7280' }}>
-                Tecnología empresarial probada y escalable
-              </p>
-            </motion.div>
-          )}
+          <motion.div
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            viewport={{ once: true }}
+            className="mt-8 text-center"
+          >
+            <div className="flex items-center justify-center gap-2 mb-2">
+              <Image
+                src="/logos/tractis-color.svg"
+                alt="Tractis"
+                width={80}
+                height={24}
+                className="h-5 w-auto opacity-70"
+              />
+            </div>
+            <p className="text-sm" style={{ color: '#6B7280' }}>
+              Tecnología empresarial probada y escalable
+            </p>
+          </motion.div>
         </motion.section>
 
         {/* Pricing Section */}
