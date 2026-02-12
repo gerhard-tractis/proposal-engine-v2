@@ -11,13 +11,12 @@ vi.mock('next/image', () => ({
   default: ({ src, alt, ...props }: any) => <img src={src} alt={alt} {...props} />,
 }));
 
-// Mock proposals data
-vi.mock('@/data/proposals', () => ({
-  proposals: [
+// Mock server action
+vi.mock('./actions', () => ({
+  getProposals: vi.fn().mockResolvedValue([
     {
       slug: 'test-proposal',
       token: 'test123456',
-      type: 'standard',
       client: {
         name: 'Test Client',
         logo: '/logos/test.svg',
@@ -26,13 +25,12 @@ vi.mock('@/data/proposals', () => ({
           accent: '#00ff00',
         },
       },
-      proposal: {
-        executiveSummary: 'Test summary',
-        features: [],
-        roadmap: [],
-      },
+      metadata: { headerStyle: 'standard', maxWidth: '5xl' },
+      blocks: [
+        { id: 'b1', component: 'executive-summary', data: { content: 'Test summary' } },
+      ],
     },
-  ],
+  ]),
 }));
 
 describe('Admin Page Authentication', () => {

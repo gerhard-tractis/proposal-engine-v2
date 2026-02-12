@@ -2,13 +2,15 @@ import { describe, it, expect } from 'vitest';
 import { generateBrandingCSSVars, getProposalBranding } from './branding';
 import type { Proposal } from '@repo/shared';
 
+// CSS custom properties aren't in CSSProperties index signature
+type CSSVarsResult = Record<string, string>;
+
 describe('Branding Module', () => {
   describe('getProposalBranding', () => {
     it('should return client colors when provided', () => {
       const mockProposal: Proposal = {
         slug: 'test-client',
         token: 'test123456',
-        type: 'standard',
         client: {
           name: 'Test Client',
           logo: '/logos/test.svg',
@@ -17,25 +19,8 @@ describe('Branding Module', () => {
             accent: '#00ff00',
           },
         },
-        proposal: {
-          executiveSummary: 'Test',
-          needs: ['Test'],
-          solution: 'Test',
-          features: [],
-          roadmap: [],
-          whyUs: 'Test',
-          pricing: { tiers: [] },
-          contact: {
-            name: 'Test',
-            role: 'Test',
-            email: 'test@test.com',
-            phone: '123',
-            website: 'https://test.com',
-            linkedin: 'https://linkedin.com/test',
-            calendly: null,
-            cta: 'Test',
-          },
-        },
+        metadata: { headerStyle: 'standard' as const, maxWidth: '5xl' as const },
+        blocks: [{ id: 'b1', component: 'executive-summary', data: { content: 'Test' } }],
       };
 
       const branding = getProposalBranding(mockProposal);
@@ -50,7 +35,6 @@ describe('Branding Module', () => {
       const imperialProposal: Proposal = {
         slug: 'imperial',
         token: 'Zh3zaPJV4U',
-        type: 'customized',
         client: {
           name: 'Imperial',
           logo: '/logos/imperial-logo.png',
@@ -59,28 +43,11 @@ describe('Branding Module', () => {
             accent: '#85909e',  // Imperial gray
           },
         },
-        proposal: {
-          executiveSummary: 'Test',
-          needs: ['Test'],
-          solution: 'Test',
-          features: [],
-          roadmap: [],
-          whyUs: 'Test',
-          pricing: { tiers: [] },
-          contact: {
-            name: 'Test',
-            role: 'Test',
-            email: 'test@test.com',
-            phone: '123',
-            website: 'https://test.com',
-            linkedin: 'https://linkedin.com/test',
-            calendly: null,
-            cta: 'Test',
-          },
-        },
+        metadata: { headerStyle: 'standard' as const, maxWidth: '5xl' as const },
+        blocks: [{ id: 'b1', component: 'executive-summary', data: { content: 'Test' } }],
       };
 
-      const cssVars = generateBrandingCSSVars(imperialProposal);
+      const cssVars = generateBrandingCSSVars(imperialProposal) as CSSVarsResult;
 
       // CRITICAL: These should use client colors, NOT hardcoded Tractis colors
       expect(cssVars['--brand-primary']).toBe('#f72e3c');
@@ -94,7 +61,6 @@ describe('Branding Module', () => {
       const mockProposal: Proposal = {
         slug: 'test',
         token: 'test123456',
-        type: 'standard',
         client: {
           name: 'Test',
           logo: '/logos/test.svg',
@@ -103,28 +69,11 @@ describe('Branding Module', () => {
             accent: '#0000ff',
           },
         },
-        proposal: {
-          executiveSummary: 'Test',
-          needs: ['Test'],
-          solution: 'Test',
-          features: [],
-          roadmap: [],
-          whyUs: 'Test',
-          pricing: { tiers: [] },
-          contact: {
-            name: 'Test',
-            role: 'Test',
-            email: 'test@test.com',
-            phone: '123',
-            website: 'https://test.com',
-            linkedin: 'https://linkedin.com/test',
-            calendly: null,
-            cta: 'Test',
-          },
-        },
+        metadata: { headerStyle: 'standard' as const, maxWidth: '5xl' as const },
+        blocks: [{ id: 'b1', component: 'executive-summary', data: { content: 'Test' } }],
       };
 
-      const cssVars = generateBrandingCSSVars(mockProposal);
+      const cssVars = generateBrandingCSSVars(mockProposal) as CSSVarsResult;
 
       expect(cssVars['--primary']).toBe('#00ff00');
       expect(cssVars['--primary']).not.toBe('#dfad30'); // Old bug
@@ -134,7 +83,6 @@ describe('Branding Module', () => {
       const mockProposal: Proposal = {
         slug: 'test',
         token: 'test123456',
-        type: 'standard',
         client: {
           name: 'Test',
           logo: '/logos/test.svg',
@@ -143,28 +91,11 @@ describe('Branding Module', () => {
             accent: '#0000ff',
           },
         },
-        proposal: {
-          executiveSummary: 'Test',
-          needs: ['Test'],
-          solution: 'Test',
-          features: [],
-          roadmap: [],
-          whyUs: 'Test',
-          pricing: { tiers: [] },
-          contact: {
-            name: 'Test',
-            role: 'Test',
-            email: 'test@test.com',
-            phone: '123',
-            website: 'https://test.com',
-            linkedin: 'https://linkedin.com/test',
-            calendly: null,
-            cta: 'Test',
-          },
-        },
+        metadata: { headerStyle: 'standard' as const, maxWidth: '5xl' as const },
+        blocks: [{ id: 'b1', component: 'executive-summary', data: { content: 'Test' } }],
       };
 
-      const cssVars = generateBrandingCSSVars(mockProposal);
+      const cssVars = generateBrandingCSSVars(mockProposal) as CSSVarsResult;
 
       expect(cssVars['--border']).toBe('#0000ff');
       expect(cssVars['--border']).not.toBe('#7b8b9d'); // Old bug
@@ -174,7 +105,6 @@ describe('Branding Module', () => {
       const mockProposal: Proposal = {
         slug: 'test',
         token: 'test123456',
-        type: 'standard',
         client: {
           name: 'Test',
           logo: '/logos/test.svg',
@@ -183,28 +113,11 @@ describe('Branding Module', () => {
             accent: '#00ffff',
           },
         },
-        proposal: {
-          executiveSummary: 'Test',
-          needs: ['Test'],
-          solution: 'Test',
-          features: [],
-          roadmap: [],
-          whyUs: 'Test',
-          pricing: { tiers: [] },
-          contact: {
-            name: 'Test',
-            role: 'Test',
-            email: 'test@test.com',
-            phone: '123',
-            website: 'https://test.com',
-            linkedin: 'https://linkedin.com/test',
-            calendly: null,
-            cta: 'Test',
-          },
-        },
+        metadata: { headerStyle: 'standard' as const, maxWidth: '5xl' as const },
+        blocks: [{ id: 'b1', component: 'executive-summary', data: { content: 'Test' } }],
       };
 
-      const cssVars = generateBrandingCSSVars(mockProposal);
+      const cssVars = generateBrandingCSSVars(mockProposal) as CSSVarsResult;
 
       expect(cssVars['--ring']).toBe('#ff00ff');
       expect(cssVars['--ring']).not.toBe('#dfad30'); // Old bug
@@ -214,7 +127,6 @@ describe('Branding Module', () => {
       const mockProposal: Proposal = {
         slug: 'test',
         token: 'test123456',
-        type: 'standard',
         client: {
           name: 'Test',
           logo: '/logos/test.svg',
@@ -223,28 +135,11 @@ describe('Branding Module', () => {
             accent: '#000000', // Black
           },
         },
-        proposal: {
-          executiveSummary: 'Test',
-          needs: ['Test'],
-          solution: 'Test',
-          features: [],
-          roadmap: [],
-          whyUs: 'Test',
-          pricing: { tiers: [] },
-          contact: {
-            name: 'Test',
-            role: 'Test',
-            email: 'test@test.com',
-            phone: '123',
-            website: 'https://test.com',
-            linkedin: 'https://linkedin.com/test',
-            calendly: null,
-            cta: 'Test',
-          },
-        },
+        metadata: { headerStyle: 'standard' as const, maxWidth: '5xl' as const },
+        blocks: [{ id: 'b1', component: 'executive-summary', data: { content: 'Test' } }],
       };
 
-      const cssVars = generateBrandingCSSVars(mockProposal);
+      const cssVars = generateBrandingCSSVars(mockProposal) as CSSVarsResult;
 
       // Hover colors should be calculated from client colors, not hardcoded
       expect(cssVars['--brand-primary-hover']).toBeDefined();
@@ -261,7 +156,6 @@ describe('Branding Module', () => {
       const imperialProposal: Proposal = {
         slug: 'imperial',
         token: 'Zh3zaPJV4U',
-        type: 'customized',
         client: {
           name: 'Imperial',
           logo: '/logos/imperial-logo.png',
@@ -270,28 +164,11 @@ describe('Branding Module', () => {
             accent: '#85909e',  // Imperial gray
           },
         },
-        proposal: {
-          executiveSummary: 'Elimine la dependencia de un solo proveedor TMS.',
-          needs: ['Dummy data'],
-          solution: 'Agrega cualquier transportista a tu red en 48 horas.',
-          features: [],
-          roadmap: [],
-          whyUs: 'Custom component has its own content',
-          pricing: { tiers: [] },
-          contact: {
-            name: 'Gerhard Neumann',
-            role: 'Solutions Architect',
-            email: 'gerhard@tractis.ai',
-            phone: '+56990210364',
-            website: 'https://tractis.ai',
-            linkedin: 'https://linkedin.com/company/tractis',
-            calendly: 'https://calendly.com/gerhard-tractis/30min',
-            cta: 'Agendar Demo',
-          },
-        },
+        metadata: { headerStyle: 'standard' as const, maxWidth: '5xl' as const },
+        blocks: [{ id: 'b1', component: 'executive-summary', data: { content: 'Test' } }],
       };
 
-      const cssVars = generateBrandingCSSVars(imperialProposal);
+      const cssVars = generateBrandingCSSVars(imperialProposal) as CSSVarsResult;
 
       // Verify all Imperial colors are applied correctly
       expect(cssVars['--brand-primary']).toBe('#f72e3c');

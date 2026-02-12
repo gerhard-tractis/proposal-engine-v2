@@ -1,35 +1,30 @@
-'use client';
-
-import { motion } from 'framer-motion';
-import type { BusinessCase, TechStack } from '@repo/shared';
+import type { BusinessCase, TechStack, Client } from '@repo/shared';
 import { TrendingUp, DollarSign, Zap, Code2 } from 'lucide-react';
 
-interface SolutionProps {
-  content: string;
-  businessCase?: BusinessCase;
-  techStack?: TechStack;
+interface BlockComponentProps {
+  data: Record<string, unknown>;
+  client: Client;
 }
 
-export function Solution({ content, businessCase, techStack }: SolutionProps) {
+export function Solution({ data }: BlockComponentProps) {
+  const content = (data.content as string) || '';
+  const businessCase = data.businessCase as BusinessCase | undefined;
+  const techStack = data.techStack as TechStack | undefined;
+
+  if (!content) return null;
+
   return (
     <section className="space-y-8">
       <h2 className="text-3xl font-semibold tracking-tight text-foreground">
         Our Solution
       </h2>
 
-      {/* Solution Description */}
       <div className="rounded-lg border border-border bg-card p-8">
         <p className="text-lg leading-relaxed text-card-foreground">{content}</p>
       </div>
 
-      {/* Business Case Metrics */}
       {businessCase && (businessCase.costSaving || businessCase.additionalIncome || businessCase.roi || businessCase.metrics) && (
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.2 }}
-          className="rounded-xl border-2 border-primary/20 bg-gradient-to-br from-primary/5 to-transparent p-8 space-y-6"
-        >
+        <div className="rounded-xl border-2 border-primary/20 bg-gradient-to-br from-primary/5 to-transparent p-8 space-y-6">
           <div className="flex items-center gap-3">
             <div className="p-2 rounded-lg bg-primary/10">
               <TrendingUp className="h-6 w-6 text-primary" />
@@ -122,17 +117,11 @@ export function Solution({ content, businessCase, techStack }: SolutionProps) {
               </div>
             ))}
           </div>
-        </motion.div>
+        </div>
       )}
 
-      {/* Tech Stack */}
       {techStack && techStack.categories && techStack.categories.length > 0 && (
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.4 }}
-          className="rounded-xl border border-border bg-card p-8 space-y-6"
-        >
+        <div className="rounded-xl border border-border bg-card p-8 space-y-6">
           <div className="flex items-center gap-3">
             <div className="p-2 rounded-lg bg-primary/10">
               <Code2 className="h-6 w-6 text-primary" />
@@ -159,7 +148,7 @@ export function Solution({ content, businessCase, techStack }: SolutionProps) {
               </div>
             ))}
           </div>
-        </motion.div>
+        </div>
       )}
     </section>
   );

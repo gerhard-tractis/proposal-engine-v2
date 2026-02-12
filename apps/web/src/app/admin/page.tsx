@@ -9,7 +9,12 @@ import { Badge } from '@/components/ui/badge';
 import { Input } from '@/components/ui/input';
 import { FileUpload } from '@/components/ui/file-upload';
 import { getProposals } from './actions';
-import type { Proposal } from '@repo/shared';
+import type { Proposal, Block } from '@repo/shared';
+
+function getBlockData(blocks: Block[], component: string): Record<string, unknown> | null {
+  const block = blocks.find(b => b.component === component);
+  return block?.data ?? null;
+}
 
 // SECURITY: Change this password before deployment
 const ADMIN_PASSWORD = 'tractis2024'; // TODO: Move to environment variable
@@ -187,19 +192,19 @@ function ProposalDashboard() {
                 <div className="flex-1">
                   <div className="flex items-center gap-3 mb-2">
                     <h3 className="text-xl font-semibold">{proposal.client.name}</h3>
-                    <Badge
-                      variant={proposal.type === 'standard' ? 'default' : 'secondary'}
-                      className="font-semibold text-xs uppercase"
-                    >
-                      {proposal.type === 'standard' ? '📋 Standard' : '✨ Custom'}
-                    </Badge>
                     <Badge variant="outline" className="font-mono text-xs">
                       {proposal.slug}
+                    </Badge>
+                    <Badge variant="secondary" className="font-semibold text-xs">
+                      {proposal.blocks.length} blocks
                     </Badge>
                   </div>
 
                   <p className="text-sm text-muted-foreground mb-4 line-clamp-2">
-                    {proposal.proposal.executiveSummary}
+                    {(() => {
+                      const execData = getBlockData(proposal.blocks, 'executive-summary');
+                      return (execData?.content as string) || 'No summary available';
+                    })()}
                   </p>
 
                   <div className="flex items-center gap-4 text-sm text-muted-foreground">
@@ -245,7 +250,7 @@ function ProposalDashboard() {
                   Token: {proposal.token}
                 </div>
                 <div>
-                  {proposal.proposal.features.length} features · {proposal.proposal.roadmap.length} roadmap items
+                  {proposal.blocks.length} blocks
                 </div>
               </div>
             </Card>
@@ -283,7 +288,7 @@ function CreateProposal() {
 
     alert('Agent integration coming soon! For now, this will trigger:\n\n' +
           '1. Agent 1: Scrape ' + formData.websiteUrl + ' for brand colors\n' +
-          '2. Agent 2: Parse uploaded document and generate 8-section proposal\n' +
+          '2. Agent 2: Parse uploaded document and generate proposal content\n' +
           '3. Auto-generate token and save\n' +
           '4. Deploy and return URL');
 
@@ -344,7 +349,7 @@ function CreateProposal() {
               required
             />
             <p className="text-xs text-muted-foreground mt-1">
-              Accepted formats: PDF, Markdown, DOCX, TXT • Agent 2 will parse this document and generate the 8-section proposal structure
+              Accepted formats: PDF, Markdown, DOCX, TXT • Agent 2 will parse this document and generate the proposal
             </p>
           </div>
         </div>
@@ -354,7 +359,7 @@ function CreateProposal() {
           <p className="font-semibold text-foreground">What happens when you submit:</p>
           <ol className="list-decimal list-inside space-y-1 text-sm text-foreground">
             <li><strong>Agent 1 (Brand Extraction):</strong> Scrapes website, downloads logo, extracts brand colors and fonts</li>
-            <li><strong>Agent 2 (Content Generation):</strong> Parses your document, generates 8-section proposal</li>
+            <li><strong>Agent 2 (Content Generation):</strong> Parses your document, generates proposal content</li>
             <li><strong>Auto-Processing:</strong> Generates secure token, uses Tractis contact info</li>
             <li><strong>Deployment:</strong> Saves proposal and returns shareable URL</li>
           </ol>

@@ -1,17 +1,8 @@
 import { notFound } from 'next/navigation';
 import type { Metadata } from 'next';
 import { getProposalBySlugAndToken } from '@/lib/proposal-helpers';
+import { BlockRenderer } from '@/components/proposal/block-renderer';
 import { ProposalErrorBoundary } from '@/components/proposal/proposal-error-boundary';
-import {
-  getExecutiveSummaryComponent,
-  getUnderstandingNeedsComponent,
-  getSolutionComponent,
-  getFeaturesSectionComponent,
-  getRoadmapComponent,
-  getWhyUsComponent,
-  getPricingSectionComponent,
-  getContactSectionComponent,
-} from '@/lib/variant-mapper';
 
 interface ProposalPageProps {
   params: Promise<{ slug: string; token: string }>;
@@ -29,16 +20,22 @@ export async function generateMetadata({
     };
   }
 
-  // Use client favicon if available, otherwise Tractis default
   const faviconUrl = proposal.client.favicon || '/favicon.png';
 
+  // Use metadata title if available, otherwise fall back to client name
+  const title = proposal.metadata?.title
+    ? `${proposal.metadata.title} | Tractis`
+    : `Proposal for ${proposal.client.name} | Tractis`;
+
+  // Find executive-summary block for description
+  const execBlock = proposal.blocks.find(b => b.component === 'executive-summary');
+  const description = execBlock
+    ? String((execBlock.data as Record<string, unknown>).content || '').slice(0, 160)
+    : `Custom proposal for ${proposal.client.name}`;
+
   return {
-    title: proposal.type === 'customized' && proposal.slug === 'imperial'
-      ? 'Aureon Connect - Integrador Universal de Última Milla | Tractis'
-      : `Proposal for ${proposal.client.name} | Tractis`,
-    description: proposal.type === 'customized' && proposal.slug === 'imperial'
-      ? 'Elimina el vendor lock-in y conecta cualquier sistema de transporte en 48 horas'
-      : `Custom AI proposal for ${proposal.client.name}`,
+    title,
+    description,
     icons: {
       icon: faviconUrl,
       apple: faviconUrl,
@@ -58,82 +55,9 @@ export default async function ProposalPage({ params }: ProposalPageProps) {
     notFound();
   }
 
-  // Check if this is a customized proposal
-  if (proposal.type === 'customized' && proposal.customComponent) {
-    // Dynamically import and render custom component
-    try {
-      const CustomComponent = (await import(`@/components/proposal/custom/${proposal.customComponent}`)).default;
-      return <CustomComponent proposal={proposal} />;
-    } catch (error) {
-      console.error(`Failed to load custom component: ${proposal.customComponent}`, error);
-      return (
-        <div className="mx-auto max-w-5xl px-6 py-12">
-          <h1 className="text-2xl font-bold text-red-600">Custom Proposal Error</h1>
-          <p>Failed to load custom proposal component: {proposal.customComponent}</p>
-        </div>
-      );
-    }
-  }
-
-  // Standard 8-section proposal
-  // Dynamically select components based on variant preferences
-  const ExecutiveSummaryComponent = getExecutiveSummaryComponent(proposal.proposal.executiveSummaryVariant);
-  const UnderstandingNeedsComponent = getUnderstandingNeedsComponent(proposal.proposal.needsVariant);
-  const SolutionComponent = getSolutionComponent(proposal.proposal.solutionVariant);
-  const FeaturesSectionComponent = getFeaturesSectionComponent(proposal.proposal.featuresVariant);
-  const RoadmapComponent = getRoadmapComponent(proposal.proposal.roadmapVariant);
-  const WhyUsComponent = getWhyUsComponent(proposal.proposal.whyUsVariant);
-  const PricingSectionComponent = getPricingSectionComponent(proposal.proposal.pricingVariant);
-  const ContactSectionComponent = getContactSectionComponent(proposal.proposal.contactVariant);
-
   return (
-    <div className="mx-auto max-w-5xl px-6 py-12 space-y-16" style={{ backgroundColor: 'var(--background)' }}>
-      {/* Title Section */}
-      <div className="text-center space-y-4 py-8 border-b-2" style={{ borderColor: 'var(--brand-primary)' }}>
-        <h1 className="text-4xl font-bold tracking-tight" style={{ color: 'var(--brand-primary)' }}>
-          Custom AI Solution
-        </h1>
-        <p className="text-xl text-muted-foreground">
-          Tailored to Your Business Needs
-        </p>
-      </div>
-
-      {/* 8 Sections - Now using dynamic variant components */}
-      <ProposalErrorBoundary>
-        <ExecutiveSummaryComponent content={proposal.proposal.executiveSummary} />
-      </ProposalErrorBoundary>
-
-      <ProposalErrorBoundary>
-        <UnderstandingNeedsComponent needs={proposal.proposal.needs} />
-      </ProposalErrorBoundary>
-
-      <ProposalErrorBoundary>
-        <SolutionComponent
-          content={proposal.proposal.solution}
-          businessCase={proposal.proposal.businessCase}
-          techStack={proposal.proposal.techStack}
-        />
-      </ProposalErrorBoundary>
-
-      <ProposalErrorBoundary>
-        <FeaturesSectionComponent features={proposal.proposal.features} />
-      </ProposalErrorBoundary>
-
-      <ProposalErrorBoundary>
-        <RoadmapComponent items={proposal.proposal.roadmap} />
-      </ProposalErrorBoundary>
-
-      <ProposalErrorBoundary>
-        <WhyUsComponent content={proposal.proposal.whyUs} />
-      </ProposalErrorBoundary>
-
-      <ProposalErrorBoundary>
-        <PricingSectionComponent pricing={proposal.proposal.pricing} />
-      </ProposalErrorBoundary>
-
-      <ProposalErrorBoundary>
-        <ContactSectionComponent contact={proposal.proposal.contact} />
-      </ProposalErrorBoundary>
-    </div>
+    <ProposalErrorBoundary>
+      <BlockRenderer blocks={proposal.blocks} client={proposal.client} />
+    </ProposalErrorBoundary>
   );
 }

@@ -1,10 +1,14 @@
 import { CheckCircle2 } from 'lucide-react';
+import type { Client } from '@repo/shared';
 
-interface UnderstandingNeedsProps {
-  needs: string[];
+interface BlockComponentProps {
+  data: Record<string, unknown>;
+  client: Client;
 }
 
-export function UnderstandingNeeds({ needs }: UnderstandingNeedsProps) {
+export function UnderstandingNeeds({ data }: BlockComponentProps) {
+  const needs = Array.isArray(data.needs) ? (data.needs as string[]) : [];
+  if (needs.length === 0) return null;
   return (
     <section className="space-y-6">
       <h2 className="text-3xl font-semibold tracking-tight text-foreground">

@@ -22,46 +22,28 @@ import {
   validateToken,
 } from '../proposal-helpers';
 
-// Valid proposal row from DB
+// Valid proposal row from DB (block-based schema)
 const validRow = {
   id: '123',
   slug: 'tractis-demo',
   token: 'xK8pQ2mN7v',
   status: 'published',
-  type: 'standard',
-  custom_component: null,
   client: {
     name: 'Tractis AI',
     logo: '/logos/tractis-color.svg',
     colors: { primary: '#dfad30', accent: '#7b8b9d' },
   },
-  proposal: {
-    executiveSummary: 'Test summary',
-    executiveSummaryVariant: 'detailed',
-    needs: ['Need 1'],
-    needsVariant: 'list',
-    solution: 'Test solution',
-    solutionVariant: 'narrative',
-    features: [],
-    featuresVariant: 'grid',
-    roadmap: [],
-    roadmapVariant: 'timeline',
-    whyUs: 'Why us',
-    whyUsVariant: 'list',
-    pricing: { tiers: [] },
-    pricingVariant: 'tiers',
-    contact: {
-      name: 'Test',
-      role: 'CEO',
-      email: 'test@test.com',
-      phone: '123',
-      website: 'https://test.com',
-      linkedin: 'https://linkedin.com/test',
-      calendly: 'https://calendly.com/test',
-      cta: 'Call us',
-    },
-    contactVariant: 'standard',
+  metadata: {
+    headerStyle: 'standard',
+    maxWidth: '5xl',
   },
+  blocks: [
+    {
+      id: 'demo-exec-summary',
+      component: 'executive-summary',
+      data: { content: 'Test summary' },
+    },
+  ],
   created_at: '2025-01-15T00:00:00Z',
   updated_at: '2025-01-15T00:00:00Z',
   published_at: '2025-01-15T00:00:00Z',
@@ -73,10 +55,8 @@ function setupChain(finalResult: { data: unknown; error: unknown }) {
     eq: vi.fn().mockReturnThis(),
     order: vi.fn().mockReturnThis(),
     single: vi.fn().mockResolvedValue(finalResult),
-    // For getAllProposals which doesn't call .single()
     then: undefined as any,
   };
-  // Make the chain itself thenable for queries without .single()
   const promise = Promise.resolve(finalResult);
   chain.order = vi.fn().mockReturnValue({
     ...chain,
@@ -90,7 +70,6 @@ function setupChain(finalResult: { data: unknown; error: unknown }) {
 describe('proposal-helpers', () => {
   beforeEach(() => {
     vi.clearAllMocks();
-    // Ensure env vars are set so the Supabase client doesn't throw
     process.env.SUPABASE_URL = 'http://localhost:54321';
     process.env.NEXT_PUBLIC_SUPABASE_URL = 'http://localhost:54321';
     process.env.SUPABASE_SERVICE_ROLE_KEY = 'test-service-key';
@@ -105,7 +84,8 @@ describe('proposal-helpers', () => {
       expect(result).not.toBeNull();
       expect(result?.slug).toBe('tractis-demo');
       expect(result?.token).toBe('xK8pQ2mN7v');
-      expect(result?.type).toBe('standard');
+      expect(result?.blocks).toHaveLength(1);
+      expect(result?.metadata?.headerStyle).toBe('standard');
     });
 
     it('returns null when not found', async () => {
@@ -117,7 +97,7 @@ describe('proposal-helpers', () => {
     });
 
     it('returns null when Zod validation fails', async () => {
-      const invalidRow = { ...validRow, proposal: { bad: 'data' } };
+      const invalidRow = { ...validRow, blocks: 'not-an-array' };
       setupChain({ data: invalidRow, error: null });
 
       const result = await getProposalBySlugAndToken('tractis-demo', 'xK8pQ2mN7v');
@@ -125,32 +105,12 @@ describe('proposal-helpers', () => {
       expect(result).toBeNull();
     });
 
-    it('falls back to hardcoded data in development', async () => {
-      const originalEnv = process.env.NODE_ENV;
-      process.env.NODE_ENV = 'development';
-
-      setupChain({ data: null, error: { message: 'connection refused' } });
-
-      const result = await getProposalBySlugAndToken('tractis-demo', 'xK8pQ2mN7v');
-
-      // Should fall back to hardcoded data
-      expect(result).not.toBeNull();
-      expect(result?.slug).toBe('tractis-demo');
-
-      process.env.NODE_ENV = originalEnv;
-    });
-
-    it('returns null in production when Supabase fails', async () => {
-      const originalEnv = process.env.NODE_ENV;
-      process.env.NODE_ENV = 'production';
-
+    it('returns null when Supabase fails', async () => {
       setupChain({ data: null, error: { message: 'connection refused' } });
 
       const result = await getProposalBySlugAndToken('tractis-demo', 'xK8pQ2mN7v');
 
       expect(result).toBeNull();
-
-      process.env.NODE_ENV = originalEnv;
     });
   });
 
@@ -170,6 +130,14 @@ describe('proposal-helpers', () => {
 
       expect(result).toBe(false);
     });
+
+    it('returns false when Supabase fails', async () => {
+      setupChain({ data: null, error: { message: 'connection refused' } });
+
+      const result = await validateToken('tractis-demo', 'xK8pQ2mN7v');
+
+      expect(result).toBe(false);
+    });
   });
 
   describe('getAllProposals', () => {
@@ -186,12 +154,10 @@ describe('proposal-helpers', () => {
 
       expect(result).toHaveLength(1);
       expect(result[0].slug).toBe('tractis-demo');
+      expect(result[0].blocks).toHaveLength(1);
     });
 
-    it('returns empty array on error in production', async () => {
-      const originalEnv = process.env.NODE_ENV;
-      process.env.NODE_ENV = 'production';
-
+    it('returns empty array on error', async () => {
       const chain = {
         select: vi.fn().mockReturnThis(),
         eq: vi.fn().mockReturnThis(),
@@ -203,8 +169,6 @@ describe('proposal-helpers', () => {
       const result = await getAllProposals();
 
       expect(result).toEqual([]);
-
-      process.env.NODE_ENV = originalEnv;
     });
   });
 });

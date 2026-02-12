@@ -1,11 +1,15 @@
-import type { PricingSection } from '@repo/shared';
+import type { PricingSection as PricingSectionType, Client } from '@repo/shared';
 import { Check } from 'lucide-react';
 
-interface PricingSectionProps {
-  pricing: PricingSection;
+interface BlockComponentProps {
+  data: Record<string, unknown>;
+  client: Client;
 }
 
-export function PricingSection({ pricing }: PricingSectionProps) {
+export function PricingSection({ data }: BlockComponentProps) {
+  const pricing = data.pricing as PricingSectionType | undefined;
+  if (!pricing) return null;
+
   return (
     <section className="space-y-6">
       <h2 className="text-3xl font-semibold tracking-tight text-foreground">
@@ -28,21 +32,15 @@ export function PricingSection({ pricing }: PricingSectionProps) {
                   Recommended
                 </span>
               )}
-
               <div>
-                <h3 className="text-2xl font-bold text-card-foreground">
-                  {tier.name}
-                </h3>
+                <h3 className="text-2xl font-bold text-card-foreground">{tier.name}</h3>
                 <div className="mt-2 flex items-baseline gap-2">
-                  <span className="text-4xl font-bold text-card-foreground">
-                    {tier.price}
-                  </span>
+                  <span className="text-4xl font-bold text-card-foreground">{tier.price}</span>
                   {tier.period && (
                     <span className="text-muted-foreground">/ {tier.period}</span>
                   )}
                 </div>
               </div>
-
               <ul className="space-y-3">
                 {tier.features.map((feature, i) => (
                   <li key={i} className="flex gap-3">

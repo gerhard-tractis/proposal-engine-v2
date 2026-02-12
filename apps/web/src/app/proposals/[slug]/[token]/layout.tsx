@@ -19,54 +19,20 @@ export default async function ProposalLayout({
     notFound();
   }
 
-  // Apply client-specific branding via CSS variables
   const brandingStyles = generateBrandingCSSVars(proposal);
+  const headerStyle = proposal.metadata?.headerStyle || 'standard';
+  const maxWidth = proposal.metadata?.maxWidth === '7xl' ? 'max-w-7xl' : 'max-w-5xl';
+  const headerTitle = proposal.metadata?.title || 'Custom Proposal';
+  const headerSubtitle = proposal.metadata?.subtitle || proposal.client.name;
 
-  // For custom proposals, render minimal wrapper with just sticky header
-  if (proposal.type === 'customized') {
-    return (
-      <div style={brandingStyles}>
-        {/* Sticky Header */}
-        <header
-          className="border-b sticky top-0 z-50 backdrop-blur-md"
-          style={{
-            backgroundColor: '#0c3a6380',
-            borderColor: '#0c3a63',
-            borderWidth: '2px'
-          }}
-        >
-          <div className="mx-auto max-w-7xl px-4 sm:px-6 py-3 sm:py-4">
-            <div className="flex items-center justify-between gap-4">
-              <LogoWithFallback
-                src={proposal.client.logo}
-                alt={`${proposal.client.name} logo`}
-                fallbackSrc="/logos/tractis-white.svg"
-                fallbackAlt="Tractis logo"
-                width={140}
-                height={46}
-                className="h-8 sm:h-10 w-auto max-w-[45%] sm:max-w-none object-contain"
-                priority
-              />
-              <div className="text-right">
-                {proposal.slug === 'imperial' ? (
-                  <>
-                    <p className="text-xs sm:text-sm font-semibold text-white">Aureon Connect</p>
-                    <p className="text-[10px] sm:text-xs text-white/80">Propuesta Confidencial</p>
-                  </>
-                ) : (
-                  <>
-                    <p className="text-xs sm:text-sm text-white/80">Custom Proposal</p>
-                    <p className="text-sm sm:text-base font-medium text-white">{proposal.client.name}</p>
-                  </>
-                )}
-              </div>
-            </div>
-          </div>
-        </header>
-        {children}
-      </div>
-    );
-  }
+  // Header style configuration
+  const isDark = headerStyle === 'dark';
+  const headerBg = isDark
+    ? { backgroundColor: `${proposal.client.colors.accent}80` }
+    : { backgroundColor: 'var(--card)' };
+  const headerBorder = isDark
+    ? { borderColor: proposal.client.colors.accent, borderWidth: '2px' }
+    : { borderColor: 'var(--brand-primary)', borderWidth: '2px' };
 
   return (
     <div
@@ -77,36 +43,44 @@ export default async function ProposalLayout({
       }}
       className="min-h-screen proposal-branded"
     >
-      {/* Header with logo */}
+      {/* Header */}
       <header
-        className="border-b sticky top-0 z-50 backdrop-blur"
-        style={{
-          backgroundColor: 'var(--card)',
-          borderColor: 'var(--brand-primary)',
-          borderWidth: '2px'
-        }}
+        className="border-b sticky top-0 z-50 backdrop-blur-md"
+        style={{ ...headerBg, ...headerBorder }}
       >
-        <div className="mx-auto max-w-5xl px-6 py-6">
-          <div className="flex items-center justify-between">
+        <div className={`mx-auto ${maxWidth} px-4 sm:px-6 py-3 sm:py-4`}>
+          <div className="flex items-center justify-between gap-4">
             <LogoWithFallback
               src={proposal.client.logo}
               alt={`${proposal.client.name} logo`}
               fallbackSrc="/logos/tractis-white.svg"
               fallbackAlt="Tractis logo"
-              width={180}
-              height={60}
-              className="h-12 w-auto"
+              width={isDark ? 140 : 180}
+              height={isDark ? 46 : 60}
+              className={isDark ? 'h-8 sm:h-10 w-auto max-w-[45%] sm:max-w-none object-contain' : 'h-12 w-auto'}
               priority
             />
             <div className="text-right">
-              <p className="text-sm text-muted-foreground">Custom Proposal</p>
-              <p className="font-medium" style={{ color: 'var(--brand-accent)' }}>{proposal.client.name}</p>
+              {isDark ? (
+                <>
+                  <p className="text-xs sm:text-sm font-semibold text-white">{headerTitle}</p>
+                  <p className="text-[10px] sm:text-xs text-white/80">{headerSubtitle}</p>
+                </>
+              ) : (
+                <>
+                  <p className="text-sm text-muted-foreground">{headerTitle}</p>
+                  <p className="font-medium" style={{ color: 'var(--brand-accent)' }}>{headerSubtitle}</p>
+                </>
+              )}
             </div>
           </div>
         </div>
       </header>
 
-      {children}
+      {/* Content */}
+      <main className={`mx-auto ${maxWidth} px-4 sm:px-6 py-12 sm:py-16 md:py-20 space-y-16`}>
+        {children}
+      </main>
     </div>
   );
 }

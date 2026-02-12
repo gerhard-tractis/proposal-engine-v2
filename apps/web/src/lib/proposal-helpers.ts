@@ -1,5 +1,3 @@
-// Fallback data — used when Supabase is unavailable in development
-import { proposals } from '@/data/proposals';
 import { ProposalSchema, type Proposal } from '@repo/shared';
 import { getSupabaseAdmin } from './supabase';
 
@@ -9,18 +7,16 @@ import { getSupabaseAdmin } from './supabase';
 function mapRowToProposal(row: {
   slug: string;
   token: string;
-  type: string;
-  custom_component: string | null;
   client: unknown;
-  proposal: unknown;
+  metadata: unknown;
+  blocks: unknown;
 }): Proposal {
   return {
     slug: row.slug,
     token: row.token,
-    type: row.type as Proposal['type'],
-    customComponent: row.custom_component ?? undefined,
     client: row.client as Proposal['client'],
-    proposal: row.proposal as Proposal['proposal'],
+    metadata: (row.metadata || {}) as Proposal['metadata'],
+    blocks: row.blocks as Proposal['blocks'],
   };
 }
 
@@ -57,13 +53,6 @@ export async function getProposalBySlugAndToken(
     }
     return result.data;
   } catch (error) {
-    if (process.env.NODE_ENV !== 'production') {
-      console.warn('Supabase unavailable, using fallback:', (error as Error).message);
-      const proposal = proposals.find((p) => p.slug === slug && p.token === token);
-      if (!proposal) return null;
-      const result = ProposalSchema.safeParse(proposal);
-      return result.success ? result.data : null;
-    }
     console.error('Supabase query failed:', (error as Error).message);
     return null;
   }
@@ -87,10 +76,6 @@ export async function validateToken(slug: string, token: string): Promise<boolea
     if (error) throw error;
     return !!data;
   } catch (error) {
-    if (process.env.NODE_ENV !== 'production') {
-      console.warn('Supabase unavailable, using fallback:', (error as Error).message);
-      return proposals.some((p) => p.slug === slug && p.token === token);
-    }
     console.error('Supabase query failed:', (error as Error).message);
     return false;
   }
@@ -112,10 +97,6 @@ export async function getAllProposals(): Promise<Proposal[]> {
       .map(mapRowToProposal)
       .filter((p) => ProposalSchema.safeParse(p).success);
   } catch (error) {
-    if (process.env.NODE_ENV !== 'production') {
-      console.warn('Supabase unavailable, using fallback:', (error as Error).message);
-      return proposals;
-    }
     console.error('Supabase query failed:', (error as Error).message);
     return [];
   }
