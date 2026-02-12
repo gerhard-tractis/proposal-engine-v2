@@ -8,6 +8,9 @@ export const VALID_ICON_NAMES = [
   'Mail', 'Phone', 'MapPin', 'Clock', 'Users', 'Star',
   'Globe', 'Linkedin', 'Code2', 'DollarSign',
   'Check', 'ArrowRight', 'ArrowDown', 'Layers',
+  'Table', 'TrendingDown', 'AlertTriangle', 'FileText', 'Lock',
+  'ShieldCheck', 'Target', 'Activity', 'BarChart', 'Database',
+  'FileCheck', 'Scale', 'UserCheck', 'Award',
 ] as const;
 
 // Feature Schema
@@ -81,6 +84,77 @@ export const ContactInfoSchema = z.object({
   cta: z.string().min(1),
 });
 
+// Data Table Schemas
+export const DataTableColumnSchema = z.object({
+  key: z.string().min(1),
+  label: z.string().min(1),
+  align: z.enum(['left', 'center', 'right']).optional(),
+});
+
+export const DataTableRowSchema = z.record(z.union([z.string(), z.number(), z.boolean()]));
+
+// Metric Schema
+export const MetricSchema = z.object({
+  label: z.string().min(1),
+  value: z.string().min(1),
+  trend: z.enum(['up', 'down', 'neutral']).optional(),
+  icon: z.enum(VALID_ICON_NAMES).optional(),
+  color: z.string().optional(),
+  description: z.string().optional(),
+});
+
+// KPI Schema
+export const KpiSchema = z.object({
+  metric: z.string().min(1),
+  target: z.string().min(1),
+  measurement: z.string().min(1),
+  icon: z.enum(VALID_ICON_NAMES).optional(),
+});
+
+// Risk Schema
+export const RiskSchema = z.object({
+  risk: z.string().min(1),
+  probability: z.enum(['low', 'medium', 'high', 'critical']),
+  impact: z.enum(['low', 'medium', 'high', 'critical']),
+  mitigation: z.string().min(1),
+});
+
+// SLA Schema
+export const SlaSchema = z.object({
+  severity: z.string().min(1),
+  responseTime: z.string().min(1),
+  resolutionTarget: z.string().min(1),
+  channels: z.string().min(1),
+});
+
+// Legal Term Schema
+export const LegalTermSchema = z.object({
+  term: z.string().min(1),
+  description: z.string().min(1),
+});
+
+// Action Item Schema
+export const ActionItemSchema = z.object({
+  step: z.union([z.string(), z.number()]),
+  action: z.string().min(1),
+  responsible: z.string().min(1),
+  timeline: z.string().min(1),
+});
+
+// Capability Schema
+export const CapabilitySchema = z.object({
+  number: z.number(),
+  title: z.string().min(1),
+  description: z.string().min(1),
+});
+
+// Security Layer Schema
+export const SecurityLayerSchema = z.object({
+  layer: z.string().min(1),
+  technology: z.string().min(1),
+  description: z.string().min(1),
+});
+
 // Client Schema
 export const ClientSchema = z.object({
   name: z.string().min(1),
@@ -124,6 +198,16 @@ export type PricingSection = z.infer<typeof PricingSectionSchema>;
 export type BusinessCase = z.infer<typeof BusinessCaseSchema>;
 export type TechStack = z.infer<typeof TechStackSchema>;
 export type ContactInfo = z.infer<typeof ContactInfoSchema>;
+export type DataTableColumn = z.infer<typeof DataTableColumnSchema>;
+export type DataTableRow = z.infer<typeof DataTableRowSchema>;
+export type Metric = z.infer<typeof MetricSchema>;
+export type Kpi = z.infer<typeof KpiSchema>;
+export type Risk = z.infer<typeof RiskSchema>;
+export type Sla = z.infer<typeof SlaSchema>;
+export type LegalTerm = z.infer<typeof LegalTermSchema>;
+export type ActionItem = z.infer<typeof ActionItemSchema>;
+export type Capability = z.infer<typeof CapabilitySchema>;
+export type SecurityLayer = z.infer<typeof SecurityLayerSchema>;
 export type Client = z.infer<typeof ClientSchema>;
 export type Block = z.infer<typeof BlockSchema>;
 export type ProposalMetadata = z.infer<typeof ProposalMetadataSchema>;
