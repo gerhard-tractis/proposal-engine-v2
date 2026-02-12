@@ -2,8 +2,10 @@
 title: 'V2 Database Foundation - Supabase Local Docker + Proposal Storage'
 slug: 'v2-database-foundation'
 created: '2026-02-12'
-status: 'ready-for-dev'
-stepsCompleted: [1, 2, 3, 4]
+status: 'complete'
+stepsCompleted: [1, 2, 3, 4, 5, 6]
+completedDate: '2026-02-12'
+commit: '64637c5'
 tech_stack: ['next@16.1.6', 'react@19', 'express@4.21.2', 'typescript@5.7.3', 'zod@3.23.8 (shared)', 'zod@4.3.6 (agent)', 'tailwindcss@3.4.17', 'vitest@4.0.18', 'pnpm workspaces', 'turborepo', '@supabase/supabase-js (new)', '@supabase/ssr (new)', 'supabase CLI (new)']
 files_to_modify: ['apps/web/src/lib/proposal-helpers.ts', 'apps/web/src/middleware.ts', 'apps/web/src/data/proposals.ts', 'apps/web/src/app/proposals/[slug]/[token]/page.tsx', 'apps/web/src/app/admin/page.tsx', 'apps/web/package.json', 'apps/web/.env.example', 'apps/web/src/lib/supabase.ts (new)', 'apps/web/src/app/admin/actions.ts (new)', 'apps/agent/src/services/proposal-orchestrator.ts', 'apps/agent/package.json', 'apps/agent/.env.example', 'apps/agent/src/lib/supabase.ts (new)', 'supabase/config.toml (new)', 'supabase/migrations/001_initial_schema.sql (new)', 'supabase/seed.sql (new)']
 code_patterns: ['Server components with async params (Next.js 16)', 'Zod runtime validation via safeParse on all proposal reads', 'proposals array imported from @/data/proposals in proposal-helpers.ts', 'Middleware uses hardcoded Map<slug,token> for token validation', 'Edge Runtime middleware (NextResponse, NextRequest)', 'Orchestrator uses in-memory Map with 30min TTL for enrichment sessions', 'ES Modules with .js extensions in agent imports', 'pnpm workspace:* protocol for shared package', 'Admin page is use client - imports proposals directly from @/data/proposals, bypassing proposal-helpers.ts']
