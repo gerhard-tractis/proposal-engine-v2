@@ -23,7 +23,7 @@ INSERT INTO proposals (slug, token, status, client, metadata, blocks, published_
   '[
     {
       "id": "imperial-hero",
-      "component": "hero-gradient",
+      "component": "hero-split",
       "data": {
         "title": "Aureon Connect",
         "subtitle": "Integrador Universal de Última Milla",
@@ -32,18 +32,21 @@ INSERT INTO proposals (slug, token, status, client, metadata, blocks, published_
           { "value": "48h", "label": "Integración" },
           { "value": "100%", "label": "Agnóstico" },
           { "value": "0", "label": "Vendor Lock-in" }
-        ],
-        "backgroundStyle": "gradient"
+        ]
       }
     },
     {
       "id": "imperial-problem",
-      "component": "problem-cards",
+      "component": "executive-summary-metrics",
       "data": {
         "sectionTitle": "El Problema",
-        "sectionSubtitle": "Dependencia crítica de un solo proveedor TMS limita su red de transportes",
-        "iconName": "Zap",
-        "items": [
+        "content": "Dependencia crítica de un solo proveedor TMS limita su red de transportes",
+        "metrics": [
+          { "label": "Tiempo de integración actual", "value": "3-4 semanas" },
+          { "label": "Proveedores TMS soportados", "value": "1 solo" },
+          { "label": "Riesgo de vendor lock-in", "value": "Crítico" }
+        ],
+        "differentiators": [
           "Dependes de un solo proveedor TMS - si suben precios o cambian condiciones, tu operación está en riesgo",
           "No puedes agregar transportistas que usan Beetrack, Driv.in o Excel - pierdes capacidad disponible",
           "Integrar un nuevo transporte toma 3-4 semanas - muy lento para escalar rápidamente",
@@ -55,88 +58,35 @@ INSERT INTO proposals (slug, token, status, client, metadata, blocks, published_
     },
     {
       "id": "imperial-solution",
-      "component": "solution-diagram",
+      "component": "solution-capabilities",
       "data": {
         "sectionTitle": "La Solución",
-        "sectionSubtitle": "Middleware agnóstico que traduce automáticamente entre cualquier TMS",
-        "iconName": "Layers",
-        "description": "Agrega cualquier transportista a tu red en 48 horas, sin importar qué sistema usen. Ellos trabajan con sus herramientas actuales, tú ves todo unificado en tu TMS. Sin capacitación, sin fricción.",
-        "diagram": {
-          "left": [
-            { "name": "Beetrack", "color": "#FF6B35", "emoji": "🚚" },
-            { "name": "Driv.in", "color": "#4A90E2", "emoji": "🛣️" },
-            { "name": "Simpliroute", "color": "#00C48C", "emoji": "📍" },
-            { "name": "Excel", "color": "#217346", "emoji": "📊" }
-          ],
-          "center": {
-            "name": "Aureon Connect",
-            "subtitle": "Traducción Automática"
-          },
-          "right": {
-            "title": "Vista Unificada",
-            "subtitle": "Todos los transportes en un solo lugar"
-          }
-        },
-        "benefits": [
-          {
-            "iconName": "Zap",
-            "title": "Eliminar Fricción para Agregar Transportes",
-            "points": [
-              "¿Encontraste un transportista que usa Beetrack? Lo agregamos en 48 horas",
-              "¿Necesitas capacidad urgente y el transporte usa Excel? Lo configuramos igual",
-              "Sin capacitación, sin integración técnica compleja"
-            ]
-          },
-          {
-            "iconName": "Shield",
-            "title": "Reducir Riesgo Operativo Crítico",
-            "points": [
-              "Tu continuidad operativa ya no depende de un solo proveedor",
-              "Puedes migrar de TMS sin perder tu red de transportes",
-              "Mantén flexibilidad tecnológica sin sacrificar operación"
-            ]
-          },
-          {
-            "iconName": "TrendingUp",
-            "title": "Escalar Sin Límites Tecnológicos",
-            "points": [
-              "Cada nuevo transporte que encuentres puede integrarse",
-              "La calidad del servicio es el único criterio de selección",
-              "Tu red crece según necesidades del negocio, no limitaciones técnicas"
-            ]
-          },
-          {
-            "iconName": "Layers",
-            "title": "Visibilidad Unificada",
-            "points": [
-              "Todos los transportes visibles en tu TMS actual",
-              "Formato estándar independiente del sistema origen",
-              "Trazabilidad completa sin importar heterogeneidad de proveedores"
-            ]
-          }
+        "content": "Agrega cualquier transportista a tu red en 48 horas, sin importar qué sistema usen. Ellos trabajan con sus herramientas actuales, tú ves todo unificado en tu TMS. Sin capacitación, sin fricción.",
+        "capabilities": [
+          { "number": 1, "title": "Eliminar Fricción para Agregar Transportes", "description": "¿Encontraste un transportista que usa Beetrack? Lo agregamos en 48 horas. ¿Necesitas capacidad urgente y el transporte usa Excel? Lo configuramos igual. Sin capacitación, sin integración técnica compleja." },
+          { "number": 2, "title": "Reducir Riesgo Operativo Crítico", "description": "Tu continuidad operativa ya no depende de un solo proveedor. Puedes migrar de TMS sin perder tu red de transportes. Mantén flexibilidad tecnológica sin sacrificar operación." },
+          { "number": 3, "title": "Escalar Sin Límites Tecnológicos", "description": "Cada nuevo transporte que encuentres puede integrarse. La calidad del servicio es el único criterio de selección. Tu red crece según necesidades del negocio, no limitaciones técnicas." },
+          { "number": 4, "title": "Visibilidad Unificada", "description": "Todos los transportes visibles en tu TMS actual. Formato estándar independiente del sistema origen. Trazabilidad completa sin importar heterogeneidad de proveedores." }
         ],
-        "techStack": {
-          "categories": [
-            { "name": "Middleware/API", "technologies": ["Node.js", "Express", "TypeScript", "REST/GraphQL", "WebSockets"] },
-            { "name": "Integraciones", "technologies": ["Simpliroute API", "Beetrack API", "Driv.in API", "Custom Adapters"] },
-            { "name": "Base de Datos", "technologies": ["PostgreSQL", "Redis Cache", "Event Sourcing"] },
-            { "name": "Infraestructura", "technologies": ["Railway", "Docker", "CI/CD", "Monitoring 24/7"] },
-            { "name": "Seguridad", "technologies": ["JWT Auth", "API Rate Limiting", "Encryption at Rest", "Audit Logs"] }
-          ]
-        }
+        "architecture": [
+          { "component": "Middleware/API", "technology": "Node.js, Express, TypeScript", "purpose": "REST/GraphQL + WebSockets" },
+          { "component": "Integraciones", "technology": "Simpliroute, Beetrack, Driv.in API", "purpose": "Custom Adapters" },
+          { "component": "Base de Datos", "technology": "PostgreSQL, Redis Cache", "purpose": "Event Sourcing" },
+          { "component": "Infraestructura", "technology": "Railway, Docker, CI/CD", "purpose": "Monitoring 24/7" },
+          { "component": "Seguridad", "technology": "JWT Auth, API Rate Limiting", "purpose": "Encryption at Rest + Audit Logs" }
+        ]
       }
     },
     {
       "id": "imperial-pricing",
-      "component": "pricing-tiers",
+      "component": "pricing-detailed",
       "data": {
         "sectionTitle": "Inversión",
-        "sectionSubtitle": "Modelos flexibles para tu operación",
         "tiers": [
           {
             "name": "Modelo Recurrente",
             "price": "Setup + Licencia Mensual",
-            "period": "Pay-per-use: Cobro mensual por orden procesada",
+            "period": "Pay-per-use",
             "features": [
               "Setup inicial de implementación (pago único)",
               "Licencia mensual por cada orden que pasa por el integrador",
@@ -150,7 +100,7 @@ INSERT INTO proposals (slug, token, status, client, metadata, blocks, published_
           {
             "name": "Modelo de Compra",
             "price": "Licencia Perpetua",
-            "period": "Inversión única - todo incluido",
+            "period": "Inversión única",
             "features": [
               "Código fuente completo (llave en mano)",
               "Es tuyo para siempre - sin mensualidades",
@@ -160,33 +110,24 @@ INSERT INTO proposals (slug, token, status, client, metadata, blocks, published_
               "Ideal para equipos técnicos in-house"
             ]
           }
-        ],
-        "customNote": "💬 Inversión personalizada según tu operación. Agenda 30 minutos y construimos la propuesta perfecta para ti."
+        ]
       }
     },
     {
       "id": "imperial-cta",
-      "component": "cta-banner",
+      "component": "cta-action-items",
       "data": {
-        "title": "¿Listo para eliminar el vendor lock-in?",
-        "description": "Agenda una reunión de 30 minutos. Te mostraremos cómo Aureon Connect integra tu red de transportes en 48 horas.",
-        "ctaText": "Contáctanos hoy",
+        "sectionTitle": "¿Listo para eliminar el vendor lock-in?",
+        "actionItems": [
+          { "step": 1, "action": "Agenda una reunión de 30 minutos", "responsible": "Gerhard Neumann", "timeline": "Esta semana" },
+          { "step": 2, "action": "Te mostramos cómo Aureon Connect integra tu red", "responsible": "Equipo Tractis", "timeline": "En la reunión" },
+          { "step": 3, "action": "Integración completa de transportes", "responsible": "Equipo Tractis", "timeline": "48 horas" }
+        ],
         "contact": {
+          "name": "Gerhard Neumann",
+          "role": "Founder & CEO",
           "email": "gerhard@tractis.ai",
-          "phone": "+56990210364",
-          "name": "Gerhard Neumann"
-        },
-        "backgroundStyle": "gradient"
-      }
-    },
-    {
-      "id": "imperial-footer",
-      "component": "footer-branded",
-      "data": {
-        "poweredBy": {
-          "name": "Tractis AI",
-          "logo": "/logos/tractis-color.svg",
-          "url": "https://tractis.ai"
+          "phone": "+56990210364"
         }
       }
     }
