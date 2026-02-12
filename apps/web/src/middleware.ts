@@ -1,16 +1,36 @@
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
+import { getSupabaseClient } from '@/lib/supabase';
 
-// Valid proposal tokens (Edge Runtime compatible)
-// TODO: When proposals scale, move to Vercel Edge Config or KV
-const VALID_TOKENS = new Map<string, string>([
-  ['tractis-demo', 'xK8pQ2mN7v'],
-  ['imperial', 'Zh3zaPJV4U'], // Imperial - Aureon Connect proposal
-  // Add more as: ['slug', 'token']
-]);
+// Fallback tokens from env — safety net if Supabase is unavailable
+// Format: "slug1:token1,slug2:token2"
+const FALLBACK_TOKENS = new Map<string, string>(
+  (process.env.FALLBACK_PROPOSAL_TOKENS || '')
+    .split(',')
+    .filter(Boolean)
+    .map((pair) => {
+      const [slug, token] = pair.split(':');
+      return [slug, token] as [string, string];
+    })
+);
 
-function validateToken(slug: string, token: string): boolean {
-  return VALID_TOKENS.get(slug) === token;
+async function validateToken(slug: string, token: string): Promise<boolean> {
+  try {
+    const supabase = getSupabaseClient();
+    const { data, error } = await supabase
+      .from('proposals')
+      .select('slug')
+      .eq('slug', slug)
+      .eq('token', token)
+      .eq('status', 'published')
+      .single();
+
+    if (error) throw error;
+    return !!data;
+  } catch (error) {
+    console.error('Supabase token validation failed, using fallback:', error);
+    return FALLBACK_TOKENS.get(slug) === token;
+  }
 }
 
 // Basic rate limiter (in-memory, per-worker)
@@ -35,7 +55,7 @@ function isRateLimited(ip: string): boolean {
   return false;
 }
 
-export function middleware(request: NextRequest) {
+export async function middleware(request: NextRequest) {
   const path = request.nextUrl.pathname;
 
   // Handle all /proposals/* paths
@@ -61,8 +81,14 @@ export function middleware(request: NextRequest) {
       const slug = pathParts[1];
       const token = pathParts[2];
 
+      // Validate slug/token format before querying
+      const validFormat = /^[a-zA-Z0-9_-]{1,100}$/;
+      if (!validFormat.test(slug) || !validFormat.test(token)) {
+        return NextResponse.rewrite(new URL('/404', request.url));
+      }
+
       // Validate token
-      if (!validateToken(slug, token)) {
+      if (!(await validateToken(slug, token))) {
         // Log failed authentication attempt for security monitoring
         console.warn('Failed proposal access attempt:', {
           slug,

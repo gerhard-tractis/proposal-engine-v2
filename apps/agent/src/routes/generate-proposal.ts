@@ -158,9 +158,9 @@ router.post('/enrich-proposal', async (req: Request, res: Response) => {
  *   "sessionTTL": 30
  * }
  */
-router.get('/session-stats', (req: Request, res: Response) => {
+router.get('/session-stats', async (req: Request, res: Response) => {
   try {
-    const stats = getSessionStats();
+    const stats = await getSessionStats();
     return res.json(stats);
   } catch (error) {
     console.error('[API] Error getting session stats:', error);

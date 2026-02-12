@@ -21,7 +21,7 @@ export async function generateMetadata({
   params,
 }: ProposalPageProps): Promise<Metadata> {
   const { slug, token } = await params;
-  const proposal = getProposalBySlugAndToken(slug, token);
+  const proposal = await getProposalBySlugAndToken(slug, token);
 
   if (!proposal) {
     return {
@@ -52,7 +52,7 @@ export async function generateMetadata({
 
 export default async function ProposalPage({ params }: ProposalPageProps) {
   const { slug, token } = await params;
-  const proposal = getProposalBySlugAndToken(slug, token);
+  const proposal = await getProposalBySlugAndToken(slug, token);
 
   if (!proposal) {
     notFound();

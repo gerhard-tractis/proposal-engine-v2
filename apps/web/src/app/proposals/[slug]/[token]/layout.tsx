@@ -13,7 +13,7 @@ export default async function ProposalLayout({
   params,
 }: ProposalLayoutProps) {
   const { slug, token } = await params;
-  const proposal = getProposalBySlugAndToken(slug, token);
+  const proposal = await getProposalBySlugAndToken(slug, token);
 
   if (!proposal) {
     notFound();

@@ -50,6 +50,10 @@ nul
 # Turborepo
 .turbo
 
+# Supabase local
+supabase/.temp/
+supabase/.env
+
 # Claude Code
 # Note: .claude/settings.local.json.backup is intentionally tracked
 # for easy recovery from corruption issues

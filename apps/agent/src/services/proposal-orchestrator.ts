@@ -11,6 +11,7 @@ import { agent2A_parser } from './agent-2a-parser.js';
 import { startEnrichment, continueEnrichment } from './agent-2b-enrichment.js';
 import { agent3_designer } from './agent-3-designer.js';
 import type { Agent2AOutput } from '../lib/agent-schemas.js';
+import { getSupabaseClient } from '../lib/supabase.js';
 
 export interface ProposalGenerationInput {
   documentText: string;
@@ -28,7 +29,7 @@ export interface ProposalGenerationOutput {
   variantReasoning?: Record<string, string>;
 }
 
-// Session storage with TTL (use Redis in production for multi-instance deployments)
+// Session type for mapping DB rows
 interface EnrichmentSession {
   partialProposal: any;
   missingOrWeak: any[];
@@ -37,92 +38,72 @@ interface EnrichmentSession {
   lastAccessedAt: number;
 }
 
-const enrichmentSessions = new Map<string, EnrichmentSession>();
-
-// Session configuration
-const SESSION_TTL_MS = 30 * 60 * 1000; // 30 minutes
-const CLEANUP_INTERVAL_MS = 5 * 60 * 1000; // Run cleanup every 5 minutes
-
 /**
  * Generate a unique session ID
  */
 function generateSessionId(): string {
-  return `enrich_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+  return `enrich_${Date.now()}_${crypto.randomUUID().replace(/-/g, '').slice(0, 9)}`;
 }
 
 /**
- * Get session with automatic expiry check
+ * Get session with automatic expiry check via expires_at column
  */
-function getSession(sessionId: string): EnrichmentSession | null {
-  const session = enrichmentSessions.get(sessionId);
-  if (!session) {
+async function getSession(sessionId: string): Promise<EnrichmentSession | null> {
+  const supabase = getSupabaseClient();
+  const { data, error } = await supabase
+    .from('enrichment_sessions')
+    .select('*')
+    .eq('id', sessionId)
+    .eq('status', 'active')
+    .gt('expires_at', new Date().toISOString())
+    .single();
+
+  if (error || !data) {
     return null;
   }
 
-  const now = Date.now();
-  const age = now - session.lastAccessedAt;
+  // Update last_accessed_at and extend expires_at (sliding window)
+  await supabase
+    .from('enrichment_sessions')
+    .update({
+      last_accessed_at: new Date().toISOString(),
+      expires_at: new Date(Date.now() + 30 * 60 * 1000).toISOString(),
+    })
+    .eq('id', sessionId);
 
-  // Check if session has expired
-  if (age > SESSION_TTL_MS) {
-    console.log(`[Session] Expired session: ${sessionId} (age: ${Math.round(age / 1000)}s)`);
-    enrichmentSessions.delete(sessionId);
-    return null;
-  }
-
-  // Update last accessed time
-  session.lastAccessedAt = now;
-  return session;
+  return {
+    partialProposal: data.partial_proposal,
+    missingOrWeak: data.missing_or_weak,
+    conversationHistory: data.conversation_history,
+    createdAt: new Date(data.created_at).getTime(),
+    lastAccessedAt: new Date(data.last_accessed_at).getTime(),
+  };
 }
 
 /**
- * Create new session
+ * Create new session in Supabase
  */
-function createSession(
+async function createSession(
   sessionId: string,
   partialProposal: any,
   missingOrWeak: any[],
   initialMessage: string
-): void {
-  const now = Date.now();
-  enrichmentSessions.set(sessionId, {
-    partialProposal,
-    missingOrWeak,
-    conversationHistory: [
-      { role: 'assistant', content: initialMessage },
-    ],
-    createdAt: now,
-    lastAccessedAt: now,
+): Promise<void> {
+  const supabase = getSupabaseClient();
+  const { error } = await supabase.from('enrichment_sessions').insert({
+    id: sessionId,
+    partial_proposal: partialProposal,
+    missing_or_weak: missingOrWeak,
+    conversation_history: [{ role: 'assistant', content: initialMessage }],
+    status: 'active',
+    expires_at: new Date(Date.now() + 30 * 60 * 1000).toISOString(),
   });
+
+  if (error) {
+    console.error('[Session] Failed to create session:', error.message);
+    throw error;
+  }
   console.log(`[Session] Created: ${sessionId}`);
-}
-
-/**
- * Periodic cleanup of expired sessions
- */
-function cleanupExpiredSessions(): void {
-  const now = Date.now();
-  let cleanedCount = 0;
-
-  for (const [sessionId, session] of enrichmentSessions.entries()) {
-    const age = now - session.lastAccessedAt;
-    if (age > SESSION_TTL_MS) {
-      enrichmentSessions.delete(sessionId);
-      cleanedCount++;
-    }
-  }
-
-  if (cleanedCount > 0) {
-    console.log(`[Cleanup] Removed ${cleanedCount} expired session(s). Active sessions: ${enrichmentSessions.size}`);
-  }
-}
-
-// Start periodic cleanup
-const cleanupTimer = setInterval(cleanupExpiredSessions, CLEANUP_INTERVAL_MS);
-
-// Allow cleanup timer to be stopped (for graceful shutdown)
-export function stopSessionCleanup(): void {
-  clearInterval(cleanupTimer);
-  console.log('[Session] Cleanup timer stopped');
 }
 
 /**
@@ -162,9 +143,9 @@ export async function generateProposal(input: ProposalGenerationInput): Promise<
       parseResult.missingOrWeak || []
     );
 
-    // Create session with TTL tracking
+    // Create session in Supabase
     const sessionId = generateSessionId();
-    createSession(
+    await createSession(
       sessionId,
       parseResult.content,
       parseResult.missingOrWeak || [],
@@ -190,10 +171,10 @@ export async function continueEnrichmentSession(
 ): Promise<ProposalGenerationOutput> {
   console.log(`=== Continuing Enrichment Session: ${sessionId} ===`);
 
-  const session = getSession(sessionId);
+  const session = await getSession(sessionId);
   if (!session) {
     throw new Error(
-      `Enrichment session not found or expired. Sessions expire after ${SESSION_TTL_MS / 60000} minutes of inactivity. Please start a new proposal generation.`
+      `Enrichment session not found or expired. Sessions expire after 30 minutes of inactivity. Please start a new proposal generation.`
     );
   }
 
@@ -205,18 +186,24 @@ export async function continueEnrichmentSession(
     userMessage
   );
 
-  // Update conversation history
-  session.conversationHistory.push(
-    { role: 'user', content: userMessage },
-    { role: 'assistant', content: enrichmentResult.message }
-  );
+  // Build new messages to append
+  const newMessages = [
+    { role: 'user' as const, content: userMessage },
+    { role: 'assistant' as const, content: enrichmentResult.message },
+  ];
+
+  const supabase = getSupabaseClient();
 
   // Check if enrichment is complete
   if (enrichmentResult.isComplete && enrichmentResult.enrichedContent) {
     console.log('Enrichment complete - proceeding to Agent 3');
 
-    // Clean up session
-    enrichmentSessions.delete(sessionId);
+    // Mark session as completed, append history atomically via RPC
+    const updatedHistory = [...session.conversationHistory, ...newMessages];
+    await supabase
+      .from('enrichment_sessions')
+      .update({ status: 'completed', conversation_history: updatedHistory })
+      .eq('id', sessionId);
 
     // Proceed to Agent 3
     const designResult = await agent3_designer({
@@ -233,6 +220,13 @@ export async function continueEnrichmentSession(
   } else {
     console.log('Enrichment continuing...');
 
+    // Append to conversation history atomically
+    const updatedHistory = [...session.conversationHistory, ...newMessages];
+    await supabase
+      .from('enrichment_sessions')
+      .update({ conversation_history: updatedHistory })
+      .eq('id', sessionId);
+
     return {
       status: 'needs_enrichment',
       enrichmentMessage: enrichmentResult.message,
@@ -244,23 +238,34 @@ export async function continueEnrichmentSession(
 /**
  * Get enrichment session info (for debugging/monitoring)
  */
-export function getEnrichmentSessionInfo(sessionId: string) {
+export async function getEnrichmentSessionInfo(sessionId: string) {
   return getSession(sessionId);
 }
 
 /**
  * Get session statistics
  */
-export function getSessionStats() {
+export async function getSessionStats() {
+  const supabase = getSupabaseClient();
+  const { count, error } = await supabase
+    .from('enrichment_sessions')
+    .select('id', { count: 'exact', head: true })
+    .eq('status', 'active')
+    .gt('expires_at', new Date().toISOString());
+
   return {
-    activeSessions: enrichmentSessions.size,
-    sessionTTL: SESSION_TTL_MS / 1000 / 60, // in minutes
+    activeSessions: error ? 0 : (count ?? 0),
+    sessionTTL: 30, // in minutes
   };
 }
 
 /**
- * Clear all sessions (for testing/cleanup)
+ * Clear all sessions
  */
-export function clearAllSessions() {
-  enrichmentSessions.clear();
+export async function clearAllSessions() {
+  const supabase = getSupabaseClient();
+  await supabase
+    .from('enrichment_sessions')
+    .update({ status: 'completed' })
+    .eq('status', 'active');
 }

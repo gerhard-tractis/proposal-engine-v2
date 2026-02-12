@@ -8,7 +8,8 @@ import { Card } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Input } from '@/components/ui/input';
 import { FileUpload } from '@/components/ui/file-upload';
-import { proposals } from '@/data/proposals';
+import { getProposals } from './actions';
+import type { Proposal } from '@repo/shared';
 
 // SECURITY: Change this password before deployment
 const ADMIN_PASSWORD = 'tractis2024'; // TODO: Move to environment variable
@@ -135,6 +136,39 @@ export default function AdminPage() {
 }
 
 function ProposalDashboard() {
+  const [proposals, setProposals] = useState<Proposal[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    getProposals()
+      .then(data => {
+        setProposals(data);
+        setLoading(false);
+      })
+      .catch(err => {
+        console.error('Failed to load proposals:', err);
+        setError('Failed to load proposals. Please try again.');
+        setLoading(false);
+      });
+  }, []);
+
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center py-12">
+        <p className="text-muted-foreground">Loading proposals...</p>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="flex items-center justify-center py-12">
+        <p className="text-red-500">{error}</p>
+      </div>
+    );
+  }
+
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
