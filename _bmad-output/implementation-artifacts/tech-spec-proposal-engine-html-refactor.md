@@ -2,8 +2,9 @@
 title: 'Proposal Engine Refactor — HTML-first Architecture'
 slug: 'proposal-engine-html-refactor'
 created: '2026-02-15'
-status: 'ready-for-dev'
+status: 'completed'
 stepsCompleted: [1, 2, 3, 4]
+completedDate: '2026-02-15'
 tech_stack: ['Next.js 16.1.6', 'React 19', 'Supabase (Postgres + Storage)', 'Tailwind CSS 3.4', 'LangChain + Sonnet 4.5', 'Dembrandt CLI', 'TypeScript ESM', 'Turborepo + pnpm', 'Zod 3.23']
 files_to_modify: ['supabase/migrations/003_html_proposal_schema.sql', 'apps/web/src/app/proposals/[slug]/[token]/route.ts', 'apps/web/src/app/proposals/[slug]/[token]/page.tsx', 'apps/web/src/lib/proposal-helpers.ts', 'apps/web/src/middleware.ts', 'scripts/generate-proposal.ts', 'scripts/lib/brand.ts', 'scripts/lib/assets.ts', 'scripts/lib/tailwind.ts', 'scripts/package.json', 'apps/agent/prompts/agent-1-brand-designer.md', 'apps/agent/prompts/agent-2-architect.md', 'apps/agent/prompts/agent-3-html-builder.md', 'apps/agent/prompts/agent-4-polish.md', 'packages/shared/src/types/proposal.ts']
 code_patterns: ['Supabase admin client via getSupabaseAdmin() singleton', 'Zod schema validation on read/write', 'Next.js App Router async params', 'pnpm monorepo with @repo/ imports', 'Middleware token validation at /proposals/* path using anon client + RLS', 'Dembrandt CLI as apps/agent dependency', 'CSS vars generated from client colors (branding.ts)', 'save-proposal.ts: read JSON → Zod validate → Supabase insert']
