@@ -1,5 +1,12 @@
+'use client';
+
 import { Client } from "@repo/shared";
 import { MessageSquare } from "lucide-react";
+import { motion } from "framer-motion";
+import { fadeInUp, staggerContainer, staggerItem, scaleIn, hoverLift, defaultViewport } from "@/lib/animations";
+import { Card, CardContent } from "@/components/ui/card";
+import { Avatar, AvatarFallback } from "@/components/ui/avatar";
+import { Badge } from "@/components/ui/badge";
 
 interface BlockComponentProps {
   data: Record<string, unknown>;
@@ -33,75 +40,131 @@ export function TrustSocialProof({ data, client }: BlockComponentProps) {
   }
 
   return (
-    <section className="py-12">
+    <motion.section
+      initial="initial"
+      whileInView="animate"
+      viewport={defaultViewport}
+      variants={staggerContainer}
+      className="py-12"
+    >
       {sectionTitle && (
-        <h2
+        <motion.h2
+          variants={fadeInUp(0)}
           className="text-3xl font-bold mb-8 text-center"
           style={{ color: client.colors.primary }}
         >
           {sectionTitle}
-        </h2>
+        </motion.h2>
       )}
 
       {testimonials.length > 0 && (
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-12">
+        <motion.div
+          variants={staggerContainer}
+          initial="initial"
+          whileInView="animate"
+          viewport={defaultViewport}
+          className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-12"
+        >
           {testimonials.map((testimonial, index) => (
-            <div
+            <motion.div
               key={index}
-              className="bg-white rounded-lg border border-gray-200 p-6 shadow-sm relative"
+              variants={staggerItem}
+              {...hoverLift}
             >
-              <MessageSquare
-                className="w-8 h-8 mb-4 opacity-20"
-                style={{ color: client.colors.primary }}
-              />
-              <p className="text-gray-700 mb-4 italic">"{testimonial.quote}"</p>
-              <div className="flex flex-col">
-                <span className="font-semibold text-gray-900">
-                  {testimonial.author}
-                </span>
-                <span className="text-sm text-gray-600">
-                  {testimonial.role ? `${testimonial.role}, ` : ""}
-                  {testimonial.company}
-                </span>
-              </div>
-            </div>
+              <Card className="h-full relative overflow-hidden">
+                <CardContent className="pt-6">
+                  {/* Large decorative quote mark */}
+                  <div
+                    className="absolute top-4 right-4 text-6xl font-serif leading-none opacity-10 select-none"
+                    style={{ color: client.colors.primary }}
+                  >
+                    &ldquo;
+                  </div>
+                  <motion.div variants={scaleIn(0)}>
+                    <MessageSquare
+                      className="w-8 h-8 mb-4 opacity-20"
+                      style={{ color: client.colors.primary }}
+                    />
+                  </motion.div>
+                  <p className="text-foreground mb-4 italic leading-relaxed">&ldquo;{testimonial.quote}&rdquo;</p>
+                  <div className="flex items-center gap-3">
+                    <Avatar>
+                      <AvatarFallback
+                        className="text-white text-sm font-bold"
+                        style={{ backgroundColor: client.colors.accent }}
+                      >
+                        {testimonial.author.split(' ').map(n => n[0]).join('').toUpperCase().slice(0, 2)}
+                      </AvatarFallback>
+                    </Avatar>
+                    <div className="flex flex-col">
+                      <span className="font-semibold text-foreground">
+                        {testimonial.author}
+                      </span>
+                      <span className="text-sm text-muted-foreground">
+                        {testimonial.role ? `${testimonial.role}, ` : ""}
+                        {testimonial.company}
+                      </span>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+            </motion.div>
           ))}
-        </div>
+        </motion.div>
       )}
 
       {clients.length > 0 && (
-        <div className="mb-12">
-          <h3 className="text-lg font-semibold text-gray-700 text-center mb-6">
+        <motion.div
+          variants={fadeInUp(0.2)}
+          className="mb-12"
+        >
+          <h3 className="text-lg font-semibold text-foreground text-center mb-6">
             Trusted by Leading Organizations
           </h3>
-          <div className="flex flex-wrap gap-4 justify-center items-center">
+          <motion.div
+            variants={staggerContainer}
+            initial="initial"
+            whileInView="animate"
+            viewport={defaultViewport}
+            className="flex flex-wrap gap-4 justify-center items-center"
+          >
             {clients.map((clientName, index) => (
-              <span
-                key={index}
-                className="px-4 py-2 bg-gray-100 rounded-md text-gray-700 font-medium text-sm"
-              >
-                {clientName}
-              </span>
+              <motion.div key={index} variants={staggerItem}>
+                <Badge variant="secondary" className="px-4 py-2 text-sm font-medium">
+                  {clientName}
+                </Badge>
+              </motion.div>
             ))}
-          </div>
-        </div>
+          </motion.div>
+        </motion.div>
       )}
 
       {stats.length > 0 && (
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
+        <motion.div
+          variants={staggerContainer}
+          initial="initial"
+          whileInView="animate"
+          viewport={defaultViewport}
+          className="grid grid-cols-2 md:grid-cols-4 gap-6"
+        >
           {stats.map((stat, index) => (
-            <div key={index} className="text-center">
-              <div
-                className="text-3xl font-bold mb-2"
-                style={{ color: client.colors.primary }}
-              >
-                {stat.value}
-              </div>
-              <div className="text-sm text-gray-600">{stat.label}</div>
-            </div>
+            <motion.div key={index} variants={staggerItem}>
+              <Card>
+                <CardContent className="pt-6 text-center">
+                  <motion.div
+                    variants={scaleIn(0)}
+                    className="text-3xl font-bold mb-2"
+                    style={{ color: client.colors.primary }}
+                  >
+                    {stat.value}
+                  </motion.div>
+                  <div className="text-sm text-muted-foreground">{stat.label}</div>
+                </CardContent>
+              </Card>
+            </motion.div>
           ))}
-        </div>
+        </motion.div>
       )}
-    </section>
+    </motion.section>
   );
 }

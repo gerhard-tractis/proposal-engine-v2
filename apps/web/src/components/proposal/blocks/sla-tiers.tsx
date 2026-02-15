@@ -1,5 +1,12 @@
+'use client';
+
 import { Client } from '@repo/shared';
 import { AlertCircle, Clock, MessageSquare, ShieldCheck } from 'lucide-react';
+import { motion } from "framer-motion";
+import { fadeInUp, staggerContainer, staggerItem, scaleIn, defaultViewport } from "@/lib/animations";
+import { Card, CardContent } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
+import { Separator } from "@/components/ui/separator";
 
 interface BlockComponentProps {
   data: Record<string, unknown>;
@@ -24,122 +31,123 @@ export function SlaTiers({ data, client }: BlockComponentProps) {
   const tiers = Array.isArray(data.tiers) ? (data.tiers as Tier[]) : [];
   const escalation = Array.isArray(data.escalation) ? (data.escalation as string[]) : [];
 
-  if (!platformSla.uptime && tiers.length === 0) {
-    return null;
-  }
+  if (!platformSla.uptime && tiers.length === 0) return null;
 
-  const getSeverityColor = (severity: string): string => {
+  const getSeverityVariant = (severity: string): "default" | "destructive" | "outline" | "secondary" => {
     const sev = severity.toLowerCase();
-    if (sev.includes('p1') || sev.includes('critical')) return 'bg-red-50 text-red-700 border-red-200';
-    if (sev.includes('p2') || sev.includes('high')) return 'bg-orange-50 text-orange-700 border-orange-200';
-    if (sev.includes('p3') || sev.includes('medium')) return 'bg-yellow-50 text-yellow-700 border-yellow-200';
-    if (sev.includes('p4') || sev.includes('low')) return 'bg-green-50 text-green-700 border-green-200';
-    return 'bg-gray-50 text-gray-700 border-gray-200';
+    if (sev.includes('p1') || sev.includes('critical')) return 'destructive';
+    if (sev.includes('p2') || sev.includes('high')) return 'default';
+    if (sev.includes('p3') || sev.includes('medium')) return 'outline';
+    return 'secondary';
   };
 
   return (
-    <div className="space-y-6">
+    <motion.div
+      className="space-y-6"
+      initial="initial"
+      whileInView="animate"
+      viewport={defaultViewport}
+      variants={fadeInUp(0)}
+    >
       {sectionTitle && (
-        <h2 className="text-2xl font-bold text-gray-900">{sectionTitle}</h2>
+        <h2 className="text-2xl font-bold text-foreground">{sectionTitle}</h2>
       )}
 
-      {/* Platform SLA Card */}
       {platformSla.uptime && (
-        <div
-          className="p-6 rounded-lg border-2 bg-white"
-          style={{ borderColor: client.colors.primary }}
-        >
-          <div className="flex items-start gap-4">
-            <div
-              className="p-3 rounded-lg"
-              style={{ backgroundColor: `${client.colors.primary}15` }}
-            >
-              <ShieldCheck
-                className="w-6 h-6"
-                style={{ color: client.colors.primary }}
-              />
-            </div>
-            <div className="flex-1">
-              <h3 className="text-lg font-semibold text-gray-900 mb-2">
-                Platform Uptime Guarantee
-              </h3>
-              <div className="text-3xl font-bold mb-2" style={{ color: client.colors.primary }}>
-                {platformSla.uptime}
-              </div>
-              <p className="text-gray-600">{platformSla.description}</p>
-            </div>
-          </div>
-        </div>
-      )}
-
-      {/* Support Tiers Table */}
-      {tiers.length > 0 && (
-        <div className="overflow-x-auto">
-          <table className="w-full border-collapse bg-white rounded-lg overflow-hidden shadow-sm">
-            <thead>
-              <tr style={{ backgroundColor: `${client.colors.primary}10` }}>
-                <th className="px-4 py-3 text-left text-sm font-semibold text-gray-900 border-b-2" style={{ borderColor: client.colors.primary }}>
-                  Severity Level
-                </th>
-                <th className="px-4 py-3 text-left text-sm font-semibold text-gray-900 border-b-2" style={{ borderColor: client.colors.primary }}>
-                  Response Time
-                </th>
-                <th className="px-4 py-3 text-left text-sm font-semibold text-gray-900 border-b-2" style={{ borderColor: client.colors.primary }}>
-                  Resolution Target
-                </th>
-                <th className="px-4 py-3 text-left text-sm font-semibold text-gray-900 border-b-2" style={{ borderColor: client.colors.primary }}>
-                  Support Channels
-                </th>
-              </tr>
-            </thead>
-            <tbody>
-              {tiers.map((tier, index) => (
-                <tr key={index} className="border-b border-gray-200 last:border-b-0">
-                  <td className="px-4 py-3">
-                    <span className={`inline-flex items-center gap-2 px-3 py-1 rounded-full text-sm font-medium border ${getSeverityColor(tier.severity)}`}>
-                      <AlertCircle className="w-4 h-4" />
-                      {tier.severity}
-                    </span>
-                  </td>
-                  <td className="px-4 py-3 text-gray-700">
-                    <div className="flex items-center gap-2">
-                      <Clock className="w-4 h-4 text-gray-400" />
-                      {tier.responseTime}
-                    </div>
-                  </td>
-                  <td className="px-4 py-3 text-gray-700">{tier.resolutionTarget}</td>
-                  <td className="px-4 py-3 text-gray-700">
-                    <div className="flex items-center gap-2">
-                      <MessageSquare className="w-4 h-4 text-gray-400" />
-                      {tier.channels}
-                    </div>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-      )}
-
-      {/* Escalation Path */}
-      {escalation.length > 0 && (
-        <div className="bg-gray-50 rounded-lg p-6 border border-gray-200">
-          <h3 className="text-lg font-semibold text-gray-900 mb-4">Escalation Path</h3>
-          <ol className="space-y-2">
-            {escalation.map((step, index) => (
-              <li key={index} className="flex gap-3">
-                <span
-                  className="flex-shrink-0 w-6 h-6 rounded-full flex items-center justify-center text-sm font-semibold text-white"
-                  style={{ backgroundColor: client.colors.primary }}
+        <motion.div variants={fadeInUp(0.2)}>
+          <Card className="border-2" style={{ borderColor: client.colors.primary }}>
+            <CardContent className="p-6">
+              <div className="flex items-start gap-4">
+                <motion.div
+                  variants={scaleIn()}
+                  className="p-3 rounded-lg"
+                  style={{ backgroundColor: `${client.colors.primary}15` }}
                 >
-                  {index + 1}
-                </span>
-                <span className="text-gray-700 pt-0.5">{step}</span>
-              </li>
-            ))}
-          </ol>
-        </div>
+                  <ShieldCheck className="w-6 h-6" style={{ color: client.colors.primary }} />
+                </motion.div>
+                <div className="flex-1">
+                  <h3 className="text-lg font-semibold text-foreground mb-2">Platform Uptime Guarantee</h3>
+                  <div className="text-3xl font-bold mb-2" style={{ color: client.colors.primary }}>{platformSla.uptime}</div>
+                  <p className="text-muted-foreground">{platformSla.description}</p>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+        </motion.div>
       )}
-    </div>
+
+      {tiers.length > 0 && (
+        <motion.div
+          className="grid grid-cols-1 md:grid-cols-2 gap-4"
+          variants={staggerContainer}
+          initial="initial"
+          whileInView="animate"
+          viewport={defaultViewport}
+        >
+          {tiers.map((tier, index) => (
+            <motion.div key={index} variants={staggerItem}>
+              <Card className="h-full">
+                <CardContent className="p-5 space-y-3">
+                  <div className="flex items-center gap-2">
+                    <Badge variant={getSeverityVariant(tier.severity)} className="gap-1">
+                      <AlertCircle className="w-3 h-3" />
+                      {tier.severity}
+                    </Badge>
+                  </div>
+                  <Separator />
+                  <div className="space-y-2">
+                    <div className="flex items-center gap-2 text-sm">
+                      <Clock className="w-4 h-4 text-muted-foreground" />
+                      <span className="text-muted-foreground">Response:</span>
+                      <span className="font-medium text-foreground">{tier.responseTime}</span>
+                    </div>
+                    <div className="flex items-center gap-2 text-sm">
+                      <ShieldCheck className="w-4 h-4 text-muted-foreground" />
+                      <span className="text-muted-foreground">Resolution:</span>
+                      <span className="font-medium text-foreground">{tier.resolutionTarget}</span>
+                    </div>
+                    <div className="flex items-center gap-2 text-sm">
+                      <MessageSquare className="w-4 h-4 text-muted-foreground" />
+                      <span className="text-muted-foreground">Channels:</span>
+                      <span className="font-medium text-foreground">{tier.channels}</span>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+            </motion.div>
+          ))}
+        </motion.div>
+      )}
+
+      {escalation.length > 0 && (
+        <motion.div variants={fadeInUp(0.4)}>
+          <Card className="bg-muted">
+            <CardContent className="p-6">
+              <h3 className="text-lg font-semibold text-foreground mb-4">Escalation Path</h3>
+              <motion.ol
+                className="space-y-2"
+                variants={staggerContainer}
+                initial="initial"
+                whileInView="animate"
+                viewport={defaultViewport}
+              >
+                {escalation.map((step, index) => (
+                  <motion.li key={index} variants={staggerItem} className="flex gap-3">
+                    <motion.span
+                      variants={scaleIn()}
+                      className="flex-shrink-0 w-6 h-6 rounded-full flex items-center justify-center text-sm font-semibold text-white"
+                      style={{ backgroundColor: client.colors.primary }}
+                    >
+                      {index + 1}
+                    </motion.span>
+                    <span className="text-foreground pt-0.5">{step}</span>
+                  </motion.li>
+                ))}
+              </motion.ol>
+            </CardContent>
+          </Card>
+        </motion.div>
+      )}
+    </motion.div>
   );
 }

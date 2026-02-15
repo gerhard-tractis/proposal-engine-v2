@@ -50,7 +50,7 @@ describe('BlockRenderer', () => {
   it('renders multiple blocks in order', () => {
     const blocks: Block[] = [
       { id: 'title-1', component: 'title-header', data: { title: 'First' } },
-      { id: 'exec-1', component: 'executive-summary', data: { content: 'Second block content' } },
+      { id: 'exec-1', component: 'executive-summary-metrics', data: { content: 'Second block content' } },
     ];
 
     render(<BlockRenderer blocks={blocks} client={mockClient} />);

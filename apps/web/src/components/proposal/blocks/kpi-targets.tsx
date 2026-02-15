@@ -1,5 +1,11 @@
+'use client';
+
 import { Client } from "@repo/shared";
 import { Target } from "lucide-react";
+import { motion } from "framer-motion";
+import { fadeInUp, staggerContainer, staggerItem, scaleIn, hoverLift, defaultViewport } from "@/lib/animations";
+import { Card, CardContent } from "@/components/ui/card";
+import { Progress } from "@/components/ui/progress";
 
 interface BlockComponentProps {
   data: Record<string, unknown>;
@@ -36,16 +42,29 @@ export function KpiTargets({ data, client }: BlockComponentProps) {
   };
 
   return (
-    <section className="py-12">
+    <motion.section
+      initial="initial"
+      whileInView="animate"
+      viewport={defaultViewport}
+      variants={staggerContainer}
+      className="py-12"
+    >
       {sectionTitle && (
-        <h2
+        <motion.h2
+          variants={fadeInUp(0)}
           className="text-3xl font-bold mb-8"
           style={{ color: client.colors.primary }}
         >
           {sectionTitle}
-        </h2>
+        </motion.h2>
       )}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <motion.div
+        variants={staggerContainer}
+        initial="initial"
+        whileInView="animate"
+        viewport={defaultViewport}
+        className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
+      >
         {targets.map((target, index) => {
           const hasProgress =
             target.current !== undefined &&
@@ -56,70 +75,72 @@ export function KpiTargets({ data, client }: BlockComponentProps) {
             : 0;
 
           return (
-            <div
+            <motion.div
               key={index}
-              className="bg-white rounded-lg border border-gray-200 p-6 shadow-sm hover:shadow-md transition-shadow"
+              variants={staggerItem}
+              {...hoverLift}
             >
-              <div className="flex items-start gap-3 mb-4">
-                <div
-                  className="p-2 rounded-lg"
-                  style={{ backgroundColor: `${client.colors.primary}20` }}
-                >
-                  <Target
-                    className="w-6 h-6"
-                    style={{ color: client.colors.primary }}
-                  />
-                </div>
-                <div className="flex-1">
-                  <h3 className="text-lg font-semibold text-gray-900 mb-1">
-                    {target.metric}
-                  </h3>
-                  {target.description && (
-                    <p className="text-sm text-gray-600 mb-3">
-                      {target.description}
-                    </p>
-                  )}
-                </div>
-              </div>
-
-              <div className="mb-4">
-                <div className="flex items-baseline gap-2 mb-2">
-                  <span
-                    className="text-3xl font-bold"
-                    style={{ color: client.colors.primary }}
-                  >
-                    {target.target}
-                  </span>
-                  {hasProgress && (
-                    <span className="text-sm text-gray-500">
-                      (current: {target.current})
-                    </span>
-                  )}
-                </div>
-
-                {hasProgress && (
-                  <div className="w-full bg-gray-200 rounded-full h-2 overflow-hidden">
-                    <div
-                      className="h-full rounded-full transition-all duration-300"
-                      style={{
-                        width: `${progress}%`,
-                        backgroundColor: client.colors.accent,
-                      }}
-                    />
+              <Card>
+                <CardContent className="p-6">
+                  <div className="flex items-start gap-3 mb-4">
+                    <motion.div
+                      variants={scaleIn(0)}
+                      className="p-2 rounded-lg"
+                      style={{ backgroundColor: `${client.colors.primary}20` }}
+                    >
+                      <Target
+                        className="w-6 h-6"
+                        style={{ color: client.colors.primary }}
+                      />
+                    </motion.div>
+                    <div className="flex-1">
+                      <h3 className="text-lg font-semibold text-foreground mb-1">
+                        {target.metric}
+                      </h3>
+                      {target.description && (
+                        <p className="text-sm text-muted-foreground mb-3">
+                          {target.description}
+                        </p>
+                      )}
+                    </div>
                   </div>
-                )}
-              </div>
 
-              {target.timeline && (
-                <div className="text-sm text-gray-600 flex items-center gap-2">
-                  <span className="font-medium">Timeline:</span>
-                  <span>{target.timeline}</span>
-                </div>
-              )}
-            </div>
+                  <div className="mb-4">
+                    <div className="flex items-baseline gap-2 mb-2">
+                      <span
+                        className="text-3xl font-bold"
+                        style={{ color: client.colors.primary }}
+                      >
+                        {target.target}
+                      </span>
+                      {hasProgress && (
+                        <span className="text-sm text-muted-foreground">
+                          (current: {target.current})
+                        </span>
+                      )}
+                    </div>
+
+                    {hasProgress && (
+                      <Progress
+                        value={progress}
+                        className="h-2"
+                        style={{ '--progress-color': client.colors.accent } as React.CSSProperties}
+                      />
+                    )}
+                  </div>
+
+                  {target.timeline && (
+                    <div className="text-sm text-muted-foreground flex items-center gap-2">
+                      <span className="font-medium">Timeline:</span>
+                      <span>{target.timeline}</span>
+                    </div>
+                  )}
+                </CardContent>
+              </Card>
+            </motion.div>
           );
         })}
-      </div>
-    </section>
+      </motion.div>
+    </motion.section>
   );
 }

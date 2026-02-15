@@ -1,4 +1,10 @@
+'use client';
+
 import { Client } from '@repo/shared';
+import { motion } from "framer-motion";
+import { fadeInUp, staggerContainer, staggerItem, scaleIn, defaultViewport } from "@/lib/animations";
+import { Card, CardContent } from "@/components/ui/card";
+import { Separator } from "@/components/ui/separator";
 
 interface BlockComponentProps {
   data: Record<string, unknown>;
@@ -27,66 +33,86 @@ export function LegalSections({ data, client }: BlockComponentProps) {
   }
 
   return (
-    <div className="space-y-8">
+    <motion.div
+      initial="initial"
+      whileInView="animate"
+      viewport={defaultViewport}
+      variants={staggerContainer}
+      className="space-y-8"
+    >
       {sectionTitle && (
-        <h2 className="text-2xl font-bold text-gray-900 pb-4 border-b-2" style={{ borderColor: client.colors.primary }}>
-          {sectionTitle}
-        </h2>
+        <motion.div variants={fadeInUp(0)}>
+          <h2
+            className="text-2xl font-bold text-foreground pb-4"
+          >
+            {sectionTitle}
+          </h2>
+          <Separator style={{ backgroundColor: client.colors.primary }} className="h-0.5" />
+        </motion.div>
       )}
 
       {sections.map((section, index) => {
         const subsections = Array.isArray(section.subsections) ? section.subsections : [];
 
         return (
-          <div key={index} className="space-y-4">
-            {/* Section Header */}
-            <div className="flex gap-3">
-              <div
-                className="flex-shrink-0 w-8 h-8 rounded flex items-center justify-center text-sm font-bold text-white"
-                style={{ backgroundColor: client.colors.primary }}
-              >
-                {section.number}
-              </div>
-              <div className="flex-1">
-                <h3 className="text-xl font-semibold text-gray-900 mb-3">
-                  {section.title}
-                </h3>
-                <div className="text-gray-700 leading-relaxed whitespace-pre-wrap">
-                  {section.content}
-                </div>
-              </div>
-            </div>
-
-            {/* Subsections */}
-            {subsections.length > 0 && (
-              <div className="ml-11 space-y-4 border-l-2 border-gray-200 pl-6">
-                {subsections.map((subsection, subIndex) => (
-                  <div key={subIndex} className="space-y-2">
-                    <div className="flex items-baseline gap-3">
-                      <span
-                        className="flex-shrink-0 font-semibold text-sm"
-                        style={{ color: client.colors.accent }}
-                      >
-                        {subsection.number}
-                      </span>
-                      <h4 className="font-semibold text-gray-900">
-                        {subsection.title}
-                      </h4>
-                    </div>
-                    <div className="text-gray-700 leading-relaxed whitespace-pre-wrap pl-8">
-                      {subsection.content}
+          <motion.div key={index} variants={staggerItem}>
+            <Card>
+              <CardContent className="p-6 space-y-4">
+                <div className="flex gap-3">
+                  <motion.div
+                    variants={scaleIn(0)}
+                    className="flex-shrink-0 w-8 h-8 rounded flex items-center justify-center text-sm font-bold text-white"
+                    style={{ backgroundColor: client.colors.primary }}
+                  >
+                    {section.number}
+                  </motion.div>
+                  <div className="flex-1">
+                    <h3 className="text-xl font-semibold text-foreground mb-3">
+                      {section.title}
+                    </h3>
+                    <div className="text-foreground leading-relaxed whitespace-pre-wrap">
+                      {section.content}
                     </div>
                   </div>
-                ))}
-              </div>
-            )}
-          </div>
+                </div>
+
+                {subsections.length > 0 && (
+                  <>
+                    <Separator />
+                    <div className="ml-11 space-y-4 border-l-2 border-border pl-6">
+                      {subsections.map((subsection, subIndex) => (
+                        <div key={subIndex} className="space-y-2">
+                          <div className="flex items-baseline gap-3">
+                            <span
+                              className="flex-shrink-0 font-semibold text-sm"
+                              style={{ color: client.colors.accent }}
+                            >
+                              {subsection.number}
+                            </span>
+                            <h4 className="font-semibold text-foreground">
+                              {subsection.title}
+                            </h4>
+                          </div>
+                          <div className="text-foreground leading-relaxed whitespace-pre-wrap pl-8">
+                            {subsection.content}
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </>
+                )}
+              </CardContent>
+            </Card>
+          </motion.div>
         );
       })}
 
-      <div className="text-xs text-gray-500 italic pt-6 border-t border-gray-200 text-center">
-        This document constitutes a legally binding agreement. Please review carefully.
-      </div>
-    </div>
+      <motion.div variants={fadeInUp(0.2)}>
+        <Separator />
+        <p className="text-xs text-muted-foreground italic pt-6 text-center">
+          This document constitutes a legally binding agreement. Please review carefully.
+        </p>
+      </motion.div>
+    </motion.div>
   );
 }

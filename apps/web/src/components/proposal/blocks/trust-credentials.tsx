@@ -1,6 +1,13 @@
+'use client';
+
 import { Client } from "@repo/shared";
 import { Award } from "lucide-react";
 import Image from "next/image";
+import { motion } from "framer-motion";
+import { fadeInUp, staggerContainer, staggerItem, scaleIn, hoverLift, defaultViewport } from "@/lib/animations";
+import { Card, CardContent } from "@/components/ui/card";
+import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
+import { Badge } from "@/components/ui/badge";
 
 interface BlockComponentProps {
   data: Record<string, unknown>;
@@ -33,76 +40,90 @@ export function TrustCredentials({ data, client }: BlockComponentProps) {
   };
 
   return (
-    <section className="py-12">
+    <motion.section
+      initial="initial"
+      whileInView="animate"
+      viewport={defaultViewport}
+      variants={staggerContainer}
+      className="py-12"
+    >
       {sectionTitle && (
-        <h2
+        <motion.h2
+          variants={fadeInUp(0)}
           className="text-3xl font-bold mb-8"
           style={{ color: client.colors.primary }}
         >
           {sectionTitle}
-        </h2>
+        </motion.h2>
       )}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <motion.div
+        variants={staggerContainer}
+        initial="initial"
+        whileInView="animate"
+        viewport={defaultViewport}
+        className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
+      >
         {team.map((member, index) => {
           const credentials = Array.isArray(member.credentials)
             ? (member.credentials as string[])
             : [];
 
           return (
-            <div
+            <motion.div
               key={index}
-              className="bg-white rounded-lg border border-gray-200 p-6 shadow-sm hover:shadow-md transition-shadow"
+              variants={staggerItem}
+              {...hoverLift}
             >
-              <div className="flex flex-col items-center mb-4">
-                {member.image ? (
-                  <Image
-                    src={member.image}
-                    alt={member.name}
-                    width={96}
-                    height={96}
-                    className="w-24 h-24 rounded-full object-cover mb-3"
-                  />
-                ) : (
-                  <div
-                    className="w-24 h-24 rounded-full flex items-center justify-center text-white text-2xl font-bold mb-3"
-                    style={{ backgroundColor: client.colors.primary }}
-                  >
-                    {getInitials(member.name)}
-                  </div>
-                )}
-                <h3 className="text-xl font-semibold text-gray-900">
-                  {member.name}
-                </h3>
-                <p
-                  className="text-sm font-medium"
-                  style={{ color: client.colors.accent }}
-                >
-                  {member.role}
-                </p>
-              </div>
-
-              <p className="text-gray-600 text-sm mb-4 text-center">
-                {member.bio}
-              </p>
-
-              {credentials.length > 0 && (
-                <div className="flex flex-wrap gap-2 justify-center">
-                  {credentials.map((credential, credIndex) => (
-                    <span
-                      key={credIndex}
-                      className="inline-flex items-center gap-1 px-3 py-1 rounded-full text-xs font-medium text-white"
-                      style={{ backgroundColor: client.colors.accent }}
+              <Card className="h-full">
+                <CardContent className="pt-6">
+                  <div className="flex flex-col items-center mb-4">
+                    <Avatar className="w-24 h-24 mb-3">
+                      {member.image ? (
+                        <AvatarImage src={member.image} alt={member.name} />
+                      ) : null}
+                      <AvatarFallback
+                        className="text-2xl font-bold text-white"
+                        style={{ backgroundColor: client.colors.primary }}
+                      >
+                        {getInitials(member.name)}
+                      </AvatarFallback>
+                    </Avatar>
+                    <h3 className="text-xl font-semibold text-foreground">
+                      {member.name}
+                    </h3>
+                    <p
+                      className="text-sm font-medium"
+                      style={{ color: client.colors.accent }}
                     >
-                      <Award className="w-3 h-3" />
-                      {credential}
-                    </span>
-                  ))}
-                </div>
-              )}
-            </div>
+                      {member.role}
+                    </p>
+                  </div>
+
+                  <p className="text-muted-foreground text-sm mb-4 text-center">
+                    {member.bio}
+                  </p>
+
+                  {credentials.length > 0 && (
+                    <div className="flex flex-wrap gap-2 justify-center">
+                      {credentials.map((credential, credIndex) => (
+                        <motion.div key={credIndex} variants={scaleIn(credIndex * 0.05)}>
+                          <Badge
+                            className="text-white"
+                            style={{ backgroundColor: client.colors.accent }}
+                          >
+                            <Award className="w-3 h-3 mr-1" />
+                            {credential}
+                          </Badge>
+                        </motion.div>
+                      ))}
+                    </div>
+                  )}
+                </CardContent>
+              </Card>
+            </motion.div>
           );
         })}
-      </div>
-    </section>
+      </motion.div>
+    </motion.section>
   );
 }

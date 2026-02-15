@@ -65,7 +65,7 @@ async function save() {
     process.exit(1);
   }
 
-  console.log(`✅ Proposal saved! URL: http://localhost:3000/proposals/${proposal.slug}/${proposal.token}`);
+  console.log(`✅ Proposal saved! URL: http://localhost:3001/proposals/${proposal.slug}/${proposal.token}`);
 }
 
 save();

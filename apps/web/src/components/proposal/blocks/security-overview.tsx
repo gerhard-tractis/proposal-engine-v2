@@ -1,5 +1,11 @@
+'use client';
+
 import { Client } from '@repo/shared';
 import { ShieldCheck } from 'lucide-react';
+import { motion } from "framer-motion";
+import { fadeInUp, staggerContainer, staggerItem, scaleIn, defaultViewport } from "@/lib/animations";
+import { Card, CardContent } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
 
 interface BlockComponentProps {
   data: Record<string, unknown>;
@@ -19,102 +25,106 @@ export function SecurityOverview({ data, client }: BlockComponentProps) {
   const layers = Array.isArray(data.layers) ? (data.layers as Layer[]) : [];
   const certifications = Array.isArray(data.certifications) ? (data.certifications as string[]) : [];
 
-  if (!content && badges.length === 0 && layers.length === 0 && certifications.length === 0) {
-    return null;
-  }
+  if (!content && badges.length === 0 && layers.length === 0 && certifications.length === 0) return null;
 
   return (
-    <div className="space-y-6">
+    <motion.div
+      className="space-y-6"
+      initial="initial"
+      whileInView="animate"
+      viewport={defaultViewport}
+      variants={fadeInUp(0)}
+    >
       {sectionTitle && (
-        <h3 className="text-2xl font-bold text-gray-900">{sectionTitle}</h3>
+        <motion.h3 className="text-2xl font-bold text-foreground" variants={fadeInUp(0.1)}>
+          {sectionTitle}
+        </motion.h3>
       )}
 
-      {/* Content */}
       {content && (
-        <div className="prose prose-sm max-w-none text-gray-700">
+        <motion.div className="prose prose-sm max-w-none text-muted-foreground" variants={fadeInUp(0.2)}>
           <p>{content}</p>
-        </div>
+        </motion.div>
       )}
 
-      {/* Compliance Badges */}
       {badges.length > 0 && (
-        <div className="space-y-2">
-          <h4 className="text-lg font-semibold text-gray-900">Compliance</h4>
-          <div className="flex flex-wrap gap-3">
+        <motion.div className="space-y-2" variants={fadeInUp(0.3)}>
+          <h4 className="text-lg font-semibold text-foreground">Compliance</h4>
+          <motion.div
+            className="flex flex-wrap gap-3"
+            variants={staggerContainer}
+            initial="initial"
+            whileInView="animate"
+            viewport={defaultViewport}
+          >
             {badges.map((badge, index) => (
-              <div
-                key={index}
-                className="inline-flex items-center px-4 py-2 rounded-full text-sm font-medium text-white shadow-sm"
-                style={{ backgroundColor: client.colors.primary }}
-              >
-                <ShieldCheck className="w-4 h-4 mr-2" />
-                {badge}
-              </div>
+              <motion.div key={index} variants={scaleIn(0)}>
+                <Badge
+                  className="px-4 py-2 text-sm font-medium text-white"
+                  style={{ backgroundColor: client.colors.primary }}
+                >
+                  <ShieldCheck className="w-4 h-4 mr-2" />
+                  {badge}
+                </Badge>
+              </motion.div>
             ))}
-          </div>
-        </div>
+          </motion.div>
+        </motion.div>
       )}
 
-      {/* Security Layers Table */}
       {layers.length > 0 && (
-        <div className="space-y-2">
-          <h4 className="text-lg font-semibold text-gray-900">Security Layers</h4>
-          <div className="overflow-x-auto rounded-lg border border-gray-200">
-            <table className="min-w-full divide-y divide-gray-200">
-              <thead style={{ backgroundColor: client.colors.primary }}>
-                <tr>
-                  <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-white">
-                    Layer
-                  </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-white">
-                    Technology
-                  </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-white">
-                    Description
-                  </th>
-                </tr>
-              </thead>
-              <tbody className="divide-y divide-gray-200 bg-white">
-                {layers.map((layer, index) => (
-                  <tr key={index} className={index % 2 === 1 ? 'bg-gray-50' : ''}>
-                    <td className="px-6 py-4 text-sm font-medium text-gray-900">
-                      {layer.layer}
-                    </td>
-                    <td className="px-6 py-4 text-sm text-gray-700">
-                      {layer.technology}
-                    </td>
-                    <td className="px-6 py-4 text-sm text-gray-700">
-                      {layer.description}
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-        </div>
+        <motion.div className="space-y-2" variants={fadeInUp(0.4)}>
+          <h4 className="text-lg font-semibold text-foreground">Security Layers</h4>
+          <motion.div
+            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4"
+            variants={staggerContainer}
+            initial="initial"
+            whileInView="animate"
+            viewport={defaultViewport}
+          >
+            {layers.map((layer, index) => (
+              <motion.div key={index} variants={staggerItem}>
+                <Card className="h-full border-t-2" style={{ borderTopColor: client.colors.primary }}>
+                  <CardContent className="p-4 space-y-2">
+                    <p className="font-semibold text-foreground">{layer.layer}</p>
+                    <Badge variant="secondary" className="text-xs">{layer.technology}</Badge>
+                    <p className="text-sm text-muted-foreground">{layer.description}</p>
+                  </CardContent>
+                </Card>
+              </motion.div>
+            ))}
+          </motion.div>
+        </motion.div>
       )}
 
-      {/* Certifications */}
       {certifications.length > 0 && (
-        <div className="space-y-2">
-          <h4 className="text-lg font-semibold text-gray-900">Certifications</h4>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+        <motion.div className="space-y-2" variants={fadeInUp(0.5)}>
+          <h4 className="text-lg font-semibold text-foreground">Certifications</h4>
+          <motion.div
+            className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4"
+            variants={staggerContainer}
+            initial="initial"
+            whileInView="animate"
+            viewport={defaultViewport}
+          >
             {certifications.map((cert, index) => (
-              <div
-                key={index}
-                className="bg-white rounded-lg border-2 p-4 text-center shadow-sm hover:shadow-md transition-shadow"
-                style={{ borderColor: client.colors.accent || client.colors.primary }}
-              >
-                <ShieldCheck
-                  className="w-8 h-8 mx-auto mb-2"
-                  style={{ color: client.colors.primary }}
-                />
-                <p className="text-sm font-medium text-gray-900">{cert}</p>
-              </div>
+              <motion.div key={index} variants={staggerItem}>
+                <Card
+                  className="border-2 hover:shadow-md transition-shadow"
+                  style={{ borderColor: client.colors.accent || client.colors.primary }}
+                >
+                  <CardContent className="p-4 text-center">
+                    <motion.div variants={scaleIn(0)}>
+                      <ShieldCheck className="w-8 h-8 mx-auto mb-2" style={{ color: client.colors.primary }} />
+                    </motion.div>
+                    <p className="text-sm font-medium text-foreground">{cert}</p>
+                  </CardContent>
+                </Card>
+              </motion.div>
             ))}
-          </div>
-        </div>
+          </motion.div>
+        </motion.div>
       )}
-    </div>
+    </motion.div>
   );
 }

@@ -1,5 +1,10 @@
+'use client';
+
 import { Client } from "@repo/shared";
 import { Check } from "lucide-react";
+import { motion } from "framer-motion";
+import { fadeInUp, staggerContainer, staggerItem, scaleIn, defaultViewport } from "@/lib/animations";
+import { Accordion, AccordionItem, AccordionTrigger, AccordionContent } from "@/components/ui/accordion";
 
 interface BlockComponentProps {
   data: Record<string, unknown>;
@@ -25,45 +30,68 @@ export function FeaturesAccordion({ data, client }: BlockComponentProps) {
   return (
     <div className="space-y-6">
       {sectionTitle && (
-        <h2 className="text-2xl font-bold text-gray-900">{sectionTitle}</h2>
+        <motion.h2
+          className="text-2xl font-bold text-foreground"
+          initial="initial"
+          whileInView="animate"
+          viewport={defaultViewport}
+          variants={fadeInUp(0)}
+        >
+          {sectionTitle}
+        </motion.h2>
       )}
 
-      <div className="space-y-3">
-        {features.map((feature, index) => (
-          <div
-            key={index}
-            className="bg-white rounded-lg p-6 shadow-sm border-l-4"
-            style={{ borderLeftColor: client.colors.accent }}
-          >
-            <div className="flex items-start gap-4">
-              <div
-                className="px-3 py-1 rounded-md text-sm font-semibold text-white flex-shrink-0"
-                style={{ backgroundColor: client.colors.primary }}
+      <motion.div
+        variants={staggerContainer}
+        initial="initial"
+        whileInView="animate"
+        viewport={defaultViewport}
+      >
+        <Accordion type="single" collapsible defaultValue="item-0">
+          {features.map((feature, index) => (
+            <motion.div key={index} variants={staggerItem}>
+              <AccordionItem
+                value={`item-${index}`}
+                className="border-l-4 rounded-lg bg-card shadow-sm mb-3 border-b-0"
+                style={{ borderLeftColor: client.colors.accent }}
               >
-                {feature.id}
-              </div>
-              <div className="flex-1">
-                <h3 className="text-lg font-bold text-gray-900 mb-3">
-                  {feature.title}
-                </h3>
-                {Array.isArray(feature.details) && feature.details.length > 0 && (
-                  <ul className="space-y-2">
-                    {feature.details.map((detail, detailIndex) => (
-                      <li key={detailIndex} className="flex items-start gap-2">
-                        <Check
-                          className="w-4 h-4 mt-0.5 flex-shrink-0"
-                          style={{ color: client.colors.primary }}
-                        />
-                        <span className="text-gray-700 text-sm">{detail}</span>
-                      </li>
-                    ))}
-                  </ul>
-                )}
-              </div>
-            </div>
-          </div>
-        ))}
-      </div>
+                <AccordionTrigger className="px-6 py-4 hover:no-underline">
+                  <div className="flex items-center gap-4">
+                    <motion.span
+                      className="px-3 py-1 rounded-md text-sm font-semibold text-white flex-shrink-0"
+                      style={{ backgroundColor: client.colors.primary }}
+                      variants={scaleIn()}
+                    >
+                      {feature.id}
+                    </motion.span>
+                    <span className="text-lg font-bold text-foreground text-left">
+                      {feature.title}
+                    </span>
+                  </div>
+                </AccordionTrigger>
+                <AccordionContent className="px-6 pb-6">
+                  {Array.isArray(feature.details) && feature.details.length > 0 && (
+                    <ul className="space-y-2 ml-16">
+                      {feature.details.map((detail, detailIndex) => (
+                        <li
+                          key={detailIndex}
+                          className="flex items-start gap-2"
+                        >
+                          <Check
+                            className="w-4 h-4 mt-0.5 flex-shrink-0"
+                            style={{ color: client.colors.primary }}
+                          />
+                          <span className="text-foreground text-sm">{detail}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  )}
+                </AccordionContent>
+              </AccordionItem>
+            </motion.div>
+          ))}
+        </Accordion>
+      </motion.div>
     </div>
   );
 }

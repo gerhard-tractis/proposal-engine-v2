@@ -11,19 +11,26 @@ INSERT INTO proposals (slug, token, status, client, metadata, blocks, published_
     "favicon": "/logos/imperial-favicon.jpg",
     "colors": {
       "primary": "#f72e3c",
-      "accent": "#0c3a63"
+      "accent": "#0c3a63",
+      "background": "#485360",
+      "foreground": "#ffffff",
+      "card": "#3a4349",
+      "cardForeground": "#ffffff",
+      "muted": "#2d3238",
+      "mutedForeground": "#b0b8c0",
+      "border": "#5a6269"
     }
   }'::jsonb,
   '{
     "title": "Aureon Connect",
     "subtitle": "Propuesta Confidencial",
-    "headerStyle": "dark",
+    "headerStyle": "standard",
     "maxWidth": "7xl"
   }'::jsonb,
   '[
     {
       "id": "imperial-hero",
-      "component": "hero-split",
+      "component": "hero-gradient",
       "data": {
         "title": "Aureon Connect",
         "subtitle": "Integrador Universal de Última Milla",
@@ -130,6 +137,17 @@ INSERT INTO proposals (slug, token, status, client, metadata, blocks, published_
           "phone": "+56990210364"
         }
       }
+    },
+    {
+      "id": "imperial-footer",
+      "component": "footer-branded",
+      "data": {
+        "poweredBy": {
+          "name": "Tractis AI",
+          "logo": "/logos/tractis-color.svg",
+          "url": "https://tractis.ai"
+        }
+      }
     }
   ]'::jsonb,
   '2025-01-15T00:00:00Z'
@@ -145,7 +163,14 @@ INSERT INTO proposals (slug, token, status, client, metadata, blocks, published_
     "logo": "/logos/tractis-color.svg",
     "colors": {
       "primary": "#dfad30",
-      "accent": "#7b8b9d"
+      "accent": "#7b8b9d",
+      "background": "#ffffff",
+      "foreground": "#1a1a1a",
+      "card": "#f8f9fa",
+      "cardForeground": "#1a1a1a",
+      "muted": "#f1f5f9",
+      "mutedForeground": "#64748b",
+      "border": "#e2e8f0"
     }
   }'::jsonb,
   '{
@@ -163,16 +188,16 @@ INSERT INTO proposals (slug, token, status, client, metadata, blocks, published_
     },
     {
       "id": "demo-exec-summary",
-      "component": "executive-summary",
+      "component": "executive-summary-metrics",
       "data": {
-        "content": "We''re proposing a custom AI solution tailored to your business needs. This platform will automate key workflows, enhance decision-making with intelligent insights, and scale seamlessly as your organization grows.\n\nOur approach combines cutting-edge AI technology with practical implementation strategies to deliver measurable ROI within the first quarter.\n\nWith our proven track record and deep technical expertise, we''ll transform your operations while ensuring seamless integration with your existing systems."
-      }
-    },
-    {
-      "id": "demo-needs",
-      "component": "understanding-needs",
-      "data": {
-        "needs": [
+        "sectionTitle": "Executive Summary",
+        "content": "We''re proposing a custom AI solution tailored to your business needs. This platform will automate key workflows, enhance decision-making with intelligent insights, and scale seamlessly as your organization grows.\n\nOur approach combines cutting-edge AI technology with practical implementation strategies to deliver measurable ROI within the first quarter.",
+        "metrics": [
+          { "label": "Productivity Gain", "value": "3x increase" },
+          { "label": "Time Saved", "value": "80% reduction" },
+          { "label": "ROI Timeline", "value": "6 months" }
+        ],
+        "differentiators": [
           "Automate repetitive manual processes that consume 20+ hours per week",
           "Improve decision-making with data-driven insights and predictive analytics",
           "Scale operations without proportional increases in headcount",
@@ -183,81 +208,17 @@ INSERT INTO proposals (slug, token, status, client, metadata, blocks, published_
     },
     {
       "id": "demo-solution",
-      "component": "solution",
+      "component": "solution-capabilities",
       "data": {
-        "content": "We''ll build a custom AI platform that integrates directly with your existing systems. The solution includes natural language processing for document automation, predictive analytics for forecasting, and intelligent workflows that adapt to your team''s patterns. Everything is deployed on secure infrastructure with full audit trails and compliance controls.",
-        "businessCase": {
-          "costSaving": {
-            "value": "$250K annually",
-            "breakdown": [
-              "Current: 500 hours/month × $150/hour × 12 months = $900K/year",
-              "After: 100 hours/month × $150/hour × 12 months = $180K/year",
-              "Annual savings: $900K - $180K = $720K/year",
-              "Conservative estimate (35%): $250K/year"
-            ]
-          },
-          "additionalIncome": {
-            "value": "$500K new revenue",
-            "breakdown": [
-              "Current capacity: 10 proposals/month",
-              "New capacity: 30 proposals/month",
-              "Additional deals: 20 proposals/month × 30% win rate = 6 deals",
-              "Average deal: $7K × 12 months = $84K/year per deal",
-              "New revenue: 6 deals × $84K = $504K/year"
-            ]
-          },
-          "roi": {
-            "value": "6 months",
-            "breakdown": [
-              "Total investment: $45K implementation + $30K (6mo support) = $75K",
-              "Monthly benefit: $250K savings + $500K revenue = $750K/year",
-              "Monthly benefit: $750K ÷ 12 = $62.5K/month",
-              "Payback period: $75K ÷ $62.5K = 1.2 months (rounded to 6 months conservative)"
-            ]
-          },
-          "metrics": [
-            {
-              "label": "Productivity Gain",
-              "value": "3x increase",
-              "breakdown": [
-                "Current: 10 proposals/month per team",
-                "After: 30 proposals/month per team",
-                "Increase: 3x capacity"
-              ]
-            },
-            {
-              "label": "Time Saved",
-              "value": "80% reduction",
-              "breakdown": [
-                "Current time per proposal: 6 hours",
-                "After automation: 1.2 hours",
-                "Time saved: 4.8 hours (80% reduction)"
-              ]
-            }
-          ]
-        },
-        "techStack": {
-          "categories": [
-            { "name": "Frontend", "technologies": ["Next.js 16", "React 19", "TypeScript", "Tailwind CSS"] },
-            { "name": "Backend", "technologies": ["Node.js", "Express", "TypeScript"] },
-            { "name": "AI/ML", "technologies": ["LangChain", "Groq", "Anthropic Claude"] },
-            { "name": "Infrastructure", "technologies": ["Vercel", "Railway", "Docker"] },
-            { "name": "Data & Security", "technologies": ["PostgreSQL", "Zod", "SOC 2 Compliant"] }
-          ]
-        }
-      }
-    },
-    {
-      "id": "demo-features",
-      "component": "features-section",
-      "data": {
-        "features": [
-          { "title": "Intelligent Automation", "description": "Automate document processing, data entry, and routine tasks using advanced NLP and computer vision.", "icon": "Zap" },
-          { "title": "Predictive Analytics", "description": "Forecast trends, identify risks, and surface opportunities using machine learning models trained on your data.", "icon": "TrendingUp" },
-          { "title": "Smart Workflows", "description": "Dynamic workflows that learn from your team and optimize processes over time.", "icon": "Workflow" },
-          { "title": "Seamless Integration", "description": "Connect with your existing tools via APIs, webhooks, and native integrations.", "icon": "Plug" },
-          { "title": "Enterprise Security", "description": "SOC 2 compliant infrastructure with encryption, access controls, and audit logs.", "icon": "Shield" },
-          { "title": "Custom Training", "description": "Models fine-tuned on your domain-specific data for maximum accuracy and relevance.", "icon": "Brain" }
+        "sectionTitle": "Our Solution",
+        "content": "We''ll build a custom AI platform that integrates directly with your existing systems. The solution includes natural language processing for document automation, predictive analytics for forecasting, and intelligent workflows that adapt to your team''s patterns.",
+        "capabilities": [
+          { "number": 1, "title": "Intelligent Automation", "description": "Automate document processing, data entry, and routine tasks using advanced NLP and computer vision." },
+          { "number": 2, "title": "Predictive Analytics", "description": "Forecast trends, identify risks, and surface opportunities using machine learning models trained on your data." },
+          { "number": 3, "title": "Smart Workflows", "description": "Dynamic workflows that learn from your team and optimize processes over time." },
+          { "number": 4, "title": "Seamless Integration", "description": "Connect with your existing tools via APIs, webhooks, and native integrations." },
+          { "number": 5, "title": "Enterprise Security", "description": "SOC 2 compliant infrastructure with encryption, access controls, and audit logs." },
+          { "number": 6, "title": "Custom Training", "description": "Models fine-tuned on your domain-specific data for maximum accuracy and relevance." }
         ]
       }
     },
@@ -283,38 +244,36 @@ INSERT INTO proposals (slug, token, status, client, metadata, blocks, published_
     },
     {
       "id": "demo-pricing",
-      "component": "pricing-section",
+      "component": "pricing-detailed",
       "data": {
-        "pricing": {
-          "tiers": [
-            {
-              "name": "Implementation",
-              "price": "$45,000",
-              "period": "one-time",
-              "features": [
-                "9-week implementation timeline",
-                "Custom AI model development",
-                "Integration with existing systems",
-                "Team training and documentation",
-                "Launch support"
-              ],
-              "recommended": true
-            },
-            {
-              "name": "Ongoing Support",
-              "price": "$5,000",
-              "period": "per month",
-              "features": [
-                "Model retraining and optimization",
-                "Performance monitoring",
-                "Feature updates",
-                "Technical support (8/5 coverage)",
-                "Monthly performance reports"
-              ]
-            }
-          ],
-          "customNote": "Pricing includes all development, infrastructure setup, and initial training. Monthly support is optional but recommended for continuous improvement."
-        }
+        "sectionTitle": "Investment",
+        "tiers": [
+          {
+            "name": "Implementation",
+            "price": "$45,000",
+            "period": "one-time",
+            "features": [
+              "9-week implementation timeline",
+              "Custom AI model development",
+              "Integration with existing systems",
+              "Team training and documentation",
+              "Launch support"
+            ],
+            "recommended": true
+          },
+          {
+            "name": "Ongoing Support",
+            "price": "$5,000",
+            "period": "per month",
+            "features": [
+              "Model retraining and optimization",
+              "Performance monitoring",
+              "Feature updates",
+              "Technical support (8/5 coverage)",
+              "Monthly performance reports"
+            ]
+          }
+        ]
       }
     },
     {

@@ -53,6 +53,7 @@ function setupChain(finalResult: { data: unknown; error: unknown }) {
   const chain = {
     select: vi.fn().mockReturnThis(),
     eq: vi.fn().mockReturnThis(),
+    in: vi.fn().mockReturnThis(),
     order: vi.fn().mockReturnThis(),
     single: vi.fn().mockResolvedValue(finalResult),
     then: undefined as any,

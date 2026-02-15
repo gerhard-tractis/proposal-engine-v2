@@ -4,6 +4,10 @@ import { getProposalBySlugAndToken } from '@/lib/proposal-helpers';
 import { BlockRenderer } from '@/components/proposal/block-renderer';
 import { ProposalErrorBoundary } from '@/components/proposal/proposal-error-boundary';
 
+// Disable caching for proposal pages
+export const dynamic = 'force-dynamic';
+export const revalidate = 0;
+
 interface ProposalPageProps {
   params: Promise<{ slug: string; token: string }>;
 }

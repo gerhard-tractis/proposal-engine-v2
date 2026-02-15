@@ -84,15 +84,6 @@ export const ContactInfoSchema = z.object({
   cta: z.string().min(1),
 });
 
-// Data Table Schemas
-export const DataTableColumnSchema = z.object({
-  key: z.string().min(1),
-  label: z.string().min(1),
-  align: z.enum(['left', 'center', 'right']).optional(),
-});
-
-export const DataTableRowSchema = z.record(z.union([z.string(), z.number(), z.boolean()]));
-
 // Metric Schema
 export const MetricSchema = z.object({
   label: z.string().min(1),
@@ -163,6 +154,13 @@ export const ClientSchema = z.object({
   colors: z.object({
     primary: z.string().regex(/^(#[0-9a-f]{3,8}|rgb\(|hsl\(|oklch\()/i, 'Invalid CSS color format'),
     accent: z.string().regex(/^(#[0-9a-f]{3,8}|rgb\(|hsl\(|oklch\()/i, 'Invalid CSS color format'),
+    background: z.string().regex(/^(#[0-9a-f]{3,8}|rgb\(|hsl\(|oklch\()/i, 'Invalid CSS color format').optional(),
+    foreground: z.string().regex(/^(#[0-9a-f]{3,8}|rgb\(|hsl\(|oklch\()/i, 'Invalid CSS color format').optional(),
+    card: z.string().regex(/^(#[0-9a-f]{3,8}|rgb\(|hsl\(|oklch\()/i, 'Invalid CSS color format').optional(),
+    cardForeground: z.string().regex(/^(#[0-9a-f]{3,8}|rgb\(|hsl\(|oklch\()/i, 'Invalid CSS color format').optional(),
+    muted: z.string().regex(/^(#[0-9a-f]{3,8}|rgb\(|hsl\(|oklch\()/i, 'Invalid CSS color format').optional(),
+    mutedForeground: z.string().regex(/^(#[0-9a-f]{3,8}|rgb\(|hsl\(|oklch\()/i, 'Invalid CSS color format').optional(),
+    border: z.string().regex(/^(#[0-9a-f]{3,8}|rgb\(|hsl\(|oklch\()/i, 'Invalid CSS color format').optional(),
   }),
 });
 
@@ -190,6 +188,73 @@ export const ProposalSchema = z.object({
   blocks: z.array(BlockSchema).min(1),
 });
 
+// ─── HTML Pipeline Schemas ───
+
+// Agent 1 output: Design system extracted from brand scraping
+export const DesignSystemSchema = z.object({
+  brandColors: z.object({
+    primary: z.string(),
+    secondary: z.string().optional(),
+    accent: z.string().optional(),
+  }),
+  backgrounds: z.object({
+    base: z.string(),
+    surface: z.string(),
+    elevated: z.string(),
+  }),
+  text: z.object({
+    primary: z.string(),
+    secondary: z.string(),
+    muted: z.string(),
+  }),
+  borders: z.string(),
+  gradients: z.array(z.string()),
+  shadows: z.array(z.string()),
+  typography: z.object({
+    heading: z.string(),
+    body: z.string(),
+  }),
+  mood: z.enum(['corporate', 'tech', 'premium', 'industrial', 'friendly']),
+  theme: z.enum(['dark', 'light']),
+  logo: z.object({
+    url: z.string(),
+    transparentBg: z.boolean(),
+    bestOn: z.enum(['dark', 'light']),
+  }),
+});
+
+// Agent 2 output: Section architecture blueprint
+export const SectionBlueprintSchema = z.object({
+  id: z.string(),
+  title: z.string(),
+  visualPattern: z.string(),
+  animations: z.array(z.string()),
+  colorScheme: z.enum(['brand', 'inverted', 'gradient', 'subtle']),
+  contentSummary: z.string(),
+  order: z.number(),
+});
+
+// Asset manifest for Storage path tracking
+export const AssetManifestSchema = z.object({
+  clientLogo: z.string(),
+  clientFavicon: z.string().optional(),
+  tractisLogo: z.string(),
+});
+
+// HTML proposal DB record shape
+export const HtmlProposalRecordSchema = z.object({
+  slug: z.string(),
+  token: z.string(),
+  client_name: z.string(),
+  client_url: z.string().optional(),
+  status: z.enum(['draft', 'published', 'sent', 'viewed', 'accepted', 'rejected']),
+  view_count: z.number().default(0),
+  expires_at: z.string().nullable().optional(),
+  html_path: z.string(),
+  asset_manifest: AssetManifestSchema,
+  created_at: z.string().optional(),
+});
+
 // Derive TypeScript types from Zod schemas (single source of truth)
 export type Feature = z.infer<typeof FeatureSchema>;
 export type RoadmapItem = z.infer<typeof RoadmapItemSchema>;
@@ -198,8 +263,6 @@ export type PricingSection = z.infer<typeof PricingSectionSchema>;
 export type BusinessCase = z.infer<typeof BusinessCaseSchema>;
 export type TechStack = z.infer<typeof TechStackSchema>;
 export type ContactInfo = z.infer<typeof ContactInfoSchema>;
-export type DataTableColumn = z.infer<typeof DataTableColumnSchema>;
-export type DataTableRow = z.infer<typeof DataTableRowSchema>;
 export type Metric = z.infer<typeof MetricSchema>;
 export type Kpi = z.infer<typeof KpiSchema>;
 export type Risk = z.infer<typeof RiskSchema>;
@@ -212,3 +275,7 @@ export type Client = z.infer<typeof ClientSchema>;
 export type Block = z.infer<typeof BlockSchema>;
 export type ProposalMetadata = z.infer<typeof ProposalMetadataSchema>;
 export type Proposal = z.infer<typeof ProposalSchema>;
+export type DesignSystem = z.infer<typeof DesignSystemSchema>;
+export type SectionBlueprint = z.infer<typeof SectionBlueprintSchema>;
+export type AssetManifest = z.infer<typeof AssetManifestSchema>;
+export type HtmlProposalRecord = z.infer<typeof HtmlProposalRecordSchema>;

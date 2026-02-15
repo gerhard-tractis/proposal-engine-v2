@@ -1,4 +1,12 @@
+'use client';
+
 import { Client } from '@repo/shared';
+import { Check, Clock, User } from 'lucide-react';
+import { motion } from "framer-motion";
+import { fadeInUp, staggerContainer, staggerItem, defaultViewport } from "@/lib/animations";
+import { Badge } from "@/components/ui/badge";
+import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
+import { Separator } from "@/components/ui/separator";
 
 interface BlockComponentProps {
   data: Record<string, unknown>;
@@ -21,43 +29,39 @@ interface RiskWithActions {
 
 export function RiskMitigationPlan({ data, client }: BlockComponentProps) {
   const sectionTitle = (data.sectionTitle as string) || '';
-  const risks = Array.isArray(data.risks)
-    ? (data.risks as RiskWithActions[])
-    : [];
+  const risks = Array.isArray(data.risks) ? (data.risks as RiskWithActions[]) : [];
 
-  if (risks.length === 0) {
-    return null;
-  }
+  if (risks.length === 0) return null;
 
-  const getSeverityColor = (severity: string): string => {
+  const getSeverityStyle = (severity: string): React.CSSProperties => {
     const normalized = severity.toLowerCase();
     switch (normalized) {
       case 'low':
-        return 'bg-green-100 text-green-800 border-green-200';
+        return { backgroundColor: '#dcfce7', color: '#166534', borderColor: '#bbf7d0' };
       case 'medium':
-        return 'bg-yellow-100 text-yellow-800 border-yellow-200';
+        return { backgroundColor: '#fef9c3', color: '#854d0e', borderColor: '#fef08a' };
       case 'high':
-        return 'bg-orange-100 text-orange-800 border-orange-200';
+        return { backgroundColor: '#ffedd5', color: '#9a3412', borderColor: '#fed7aa' };
       case 'critical':
-        return 'bg-red-100 text-red-800 border-red-200';
+        return { backgroundColor: '#fee2e2', color: '#991b1b', borderColor: '#fecaca' };
       default:
-        return 'bg-gray-100 text-gray-800 border-gray-200';
+        return { backgroundColor: '#f3f4f6', color: '#1f2937', borderColor: '#e5e7eb' };
     }
   };
 
-  const getStatusColor = (status: string): string => {
+  const getStatusStyle = (status: string): React.CSSProperties => {
     const normalized = status.toLowerCase();
     switch (normalized) {
       case 'complete':
       case 'completed':
-        return 'bg-green-100 text-green-800 border-green-200';
+        return { backgroundColor: '#dcfce7', color: '#166534', borderColor: '#bbf7d0' };
       case 'in-progress':
       case 'in progress':
-        return 'bg-blue-100 text-blue-800 border-blue-200';
+        return { backgroundColor: '#dbeafe', color: '#1e40af', borderColor: '#bfdbfe' };
       case 'pending':
-        return 'bg-gray-100 text-gray-800 border-gray-200';
+        return { backgroundColor: '#f3f4f6', color: '#1f2937', borderColor: '#e5e7eb' };
       default:
-        return 'bg-gray-100 text-gray-800 border-gray-200';
+        return { backgroundColor: '#f3f4f6', color: '#1f2937', borderColor: '#e5e7eb' };
     }
   };
 
@@ -68,99 +72,78 @@ export function RiskMitigationPlan({ data, client }: BlockComponentProps) {
   return (
     <div className="space-y-6">
       {sectionTitle && (
-        <h2
+        <motion.h2
           className="text-2xl font-bold"
           style={{ color: client.colors.primary }}
+          initial="initial"
+          whileInView="animate"
+          viewport={defaultViewport}
+          variants={fadeInUp(0)}
         >
           {sectionTitle}
-        </h2>
+        </motion.h2>
       )}
 
-      <div className="space-y-6">
+      <motion.div
+        className="space-y-6"
+        variants={staggerContainer}
+        initial="initial"
+        whileInView="animate"
+        viewport={defaultViewport}
+      >
         {risks.map((risk, riskIndex) => (
-          <div key={riskIndex} className="border rounded-lg bg-white shadow-sm">
-            {/* Risk Header */}
-            <div className="px-6 py-4 border-b bg-gray-50">
-              <h3
-                className="font-semibold text-lg mb-2"
-                style={{ color: client.colors.primary }}
-              >
-                {risk.risk}
-              </h3>
-              <div className="flex gap-3">
-                <div className="flex items-center gap-2">
-                  <span className="text-sm text-gray-600">Probability:</span>
-                  <span
-                    className={`inline-block px-3 py-1 text-xs font-medium rounded-full border ${getSeverityColor(
-                      risk.probability
-                    )}`}
-                  >
-                    {formatText(risk.probability)}
-                  </span>
+          <motion.div key={riskIndex} variants={staggerItem}>
+            <Card className="overflow-hidden shadow-sm">
+              <CardHeader className="border-b border-border bg-muted pb-4">
+                <CardTitle className="text-lg mb-2" style={{ color: client.colors.primary }}>
+                  {risk.risk}
+                </CardTitle>
+                <div className="flex gap-3">
+                  <div className="flex items-center gap-2">
+                    <span className="text-sm text-muted-foreground">Probability:</span>
+                    <Badge variant="outline" style={getSeverityStyle(risk.probability)}>
+                      {formatText(risk.probability)}
+                    </Badge>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <span className="text-sm text-muted-foreground">Impact:</span>
+                    <Badge variant="outline" style={getSeverityStyle(risk.impact)}>
+                      {formatText(risk.impact)}
+                    </Badge>
+                  </div>
                 </div>
-                <div className="flex items-center gap-2">
-                  <span className="text-sm text-gray-600">Impact:</span>
-                  <span
-                    className={`inline-block px-3 py-1 text-xs font-medium rounded-full border ${getSeverityColor(
-                      risk.impact
-                    )}`}
-                  >
-                    {formatText(risk.impact)}
-                  </span>
-                </div>
-              </div>
-            </div>
+              </CardHeader>
 
-            {/* Actions Table */}
-            {Array.isArray(risk.actions) && risk.actions.length > 0 && (
-              <div className="overflow-x-auto">
-                <table className="w-full">
-                  <thead className="bg-gray-50 border-b">
-                    <tr>
-                      <th className="px-6 py-3 text-left text-sm font-semibold text-gray-700">
-                        Action
-                      </th>
-                      <th className="px-6 py-3 text-left text-sm font-semibold text-gray-700 w-40">
-                        Owner
-                      </th>
-                      <th className="px-6 py-3 text-left text-sm font-semibold text-gray-700 w-32">
-                        Deadline
-                      </th>
-                      <th className="px-6 py-3 text-left text-sm font-semibold text-gray-700 w-32">
-                        Status
-                      </th>
-                    </tr>
-                  </thead>
-                  <tbody className="divide-y divide-gray-200">
-                    {risk.actions.map((action, actionIndex) => (
-                      <tr key={actionIndex} className="bg-white hover:bg-gray-50">
-                        <td className="px-6 py-3 text-sm text-gray-700">
-                          {action.action}
-                        </td>
-                        <td className="px-6 py-3 text-sm text-gray-700">
-                          {action.owner}
-                        </td>
-                        <td className="px-6 py-3 text-sm text-gray-700">
-                          {action.deadline}
-                        </td>
-                        <td className="px-6 py-3">
-                          <span
-                            className={`inline-block px-3 py-1 text-xs font-medium rounded-full border ${getStatusColor(
-                              action.status
-                            )}`}
-                          >
-                            {formatText(action.status)}
-                          </span>
-                        </td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
-            )}
-          </div>
+              {Array.isArray(risk.actions) && risk.actions.length > 0 && (
+                <CardContent className="p-4 space-y-3">
+                  {risk.actions.map((action, actionIndex) => (
+                    <div key={actionIndex}>
+                      {actionIndex > 0 && <Separator className="my-3" />}
+                      <div className="flex items-start gap-3">
+                        <Check className="w-4 h-4 mt-1 flex-shrink-0" style={{ color: client.colors.accent }} />
+                        <div className="flex-1">
+                          <p className="text-sm text-foreground font-medium">{action.action}</p>
+                          <div className="flex flex-wrap gap-x-4 gap-y-1 mt-1.5">
+                            <span className="text-xs text-muted-foreground flex items-center gap-1">
+                              <User className="w-3 h-3" /> {action.owner}
+                            </span>
+                            <span className="text-xs text-muted-foreground flex items-center gap-1">
+                              <Clock className="w-3 h-3" /> {action.deadline}
+                            </span>
+                            <Badge variant="outline" className="text-xs h-5" style={getStatusStyle(action.status)}>
+                              {formatText(action.status)}
+                            </Badge>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </CardContent>
+              )}
+            </Card>
+          </motion.div>
         ))}
-      </div>
+      </motion.div>
     </div>
   );
 }

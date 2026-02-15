@@ -130,26 +130,30 @@ pnpm install
 # Run both apps concurrently
 pnpm dev
 
-# Run web app only
+# Run web app only (runs on port 3001)
 pnpm web:dev
 
 # Run agent API only
 pnpm agent:dev
 ```
 
+**Development Server Ports:**
+- **Web App:** http://localhost:3001 (configured in package.json)
+- **Agent API:** http://localhost:3002 (or as configured in .env)
+
 ### Environment Variables
 
 **`apps/web/.env`** (copy from `.env.example`)
 ```env
-AGENT_API_URL=http://localhost:3001
-NEXT_PUBLIC_APP_URL=http://localhost:3000
+AGENT_API_URL=http://localhost:3002
+NEXT_PUBLIC_APP_URL=http://localhost:3001
 ```
 
 **`apps/agent/.env`** (copy from `.env.example`)
 ```env
 GROQ_API_KEY=your_groq_api_key_here
-PORT=3001
-NEXT_PUBLIC_APP_URL=http://localhost:3000
+PORT=3002
+NEXT_PUBLIC_APP_URL=http://localhost:3001
 ```
 
 Get your free Groq API key: https://console.groq.com
@@ -191,7 +195,7 @@ pnpm lint
 
 ## 📚 API Endpoints
 
-**Agent API** (http://localhost:3001)
+**Agent API** (http://localhost:3002)
 
 - `GET /health` - Health check
 - `POST /api/extract-design` - Extract design system from URL
@@ -221,11 +225,11 @@ pnpm lint
 ## 🧪 Testing Local Integration
 
 1. Start both apps: `pnpm dev`
-2. Web app: http://localhost:3000
-3. Agent API: http://localhost:3001/health
+2. Web app: http://localhost:3001
+3. Agent API: http://localhost:3002/health
 4. Test design extraction:
    ```bash
-   curl -X POST http://localhost:3001/api/extract-design \
+   curl -X POST http://localhost:3002/api/extract-design \
      -H "Content-Type: application/json" \
      -d '{"url":"https://tractis.ai"}'
    ```

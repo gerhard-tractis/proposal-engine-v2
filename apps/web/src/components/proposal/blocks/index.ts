@@ -6,101 +6,78 @@ export interface BlockComponentProps {
   client: Client;
 }
 
-// Standard blocks (from existing section components)
-import { ExecutiveSummary } from './executive-summary';
-import { UnderstandingNeeds } from './understanding-needs';
-import { Solution } from './solution';
-import { FeaturesSection } from './features-section';
-import { Roadmap } from './roadmap';
-import { WhyUs } from './why-us';
-import { PricingSection } from './pricing-section';
-import { ContactSection } from './contact-section';
-// Utility blocks
-import { TitleHeader } from './title-header';
-// Phase 1: General-Purpose + Critical Gaps
-import { DataTableStandard } from './data-table-standard';
-import { DataTableComparison } from './data-table-comparison';
-import { MetricsGrid } from './metrics-grid';
-import { KpiDashboard } from './kpi-dashboard';
-import { KpiBeforeAfter } from './kpi-before-after';
-import { SecurityOverview } from './security-overview';
-import { SecurityControls } from './security-controls';
-import { ComplianceMatrix } from './compliance-matrix';
-import { RiskMatrix } from './risk-matrix';
-import { RiskHeatmap } from './risk-heatmap';
-import { RiskMitigationPlan } from './risk-mitigation-plan';
-// Phase 2: Easy Chile Coverage
+// Heroes
+import { HeroGradient } from './hero-gradient';
+// Executive Summary
 import { ExecutiveSummaryMetrics } from './executive-summary-metrics';
-import { ExecutiveSummaryTimeline } from './executive-summary-timeline';
+// Problem / Needs
 import { ProblemMetricsTable } from './problem-metrics-table';
+// Solution
 import { SolutionCapabilities } from './solution-capabilities';
+// Features
 import { FeaturesAccordion } from './features-accordion';
 import { FeaturesTabs } from './features-tabs';
+// Data & Metrics
+import { KpiBeforeAfter } from './kpi-before-after';
+import { KpiTargets } from './kpi-targets';
+// Timeline
+import { Roadmap } from './roadmap';
+// Pricing
 import { PricingDetailed } from './pricing-detailed';
-import { TimelineTable } from './timeline-table';
-import { TimelineGantt } from './timeline-gantt';
-import { CtaActionItems } from './cta-action-items';
-// Phase 3: SLA + Legal + Trust
+// Security & Risk
+import { SecurityOverview } from './security-overview';
+import { RiskMitigationPlan } from './risk-mitigation-plan';
+// SLA
 import { SlaTiers } from './sla-tiers';
-import { SlaComparison } from './sla-comparison';
-import { GuaranteesGrid } from './guarantees-grid';
-import { LegalTermsTable } from './legal-terms-table';
+// Legal
 import { LegalSections } from './legal-sections';
 import { LegalSignature } from './legal-signature';
+// Trust & Social Proof
 import { TrustCredentials } from './trust-credentials';
 import { TrustSocialProof } from './trust-social-proof';
-import { KpiTargets } from './kpi-targets';
-// Phase 4: Hero + Executive Variants
-import { HeroSplit } from './hero-split';
-import { HeroCentered } from './hero-centered';
-import { ChecklistTable } from './checklist-table';
+import { WhyUs } from './why-us';
+// CTA & Contact
+import { CtaActionItems } from './cta-action-items';
+import { ContactSection } from './contact-section';
+// Utility
+import { TitleHeader } from './title-header';
+import { FooterBranded } from './footer-branded';
 
 export const COMPONENT_REGISTRY: Record<string, ComponentType<BlockComponentProps>> = {
-  // Standard blocks (9)
-  'executive-summary': ExecutiveSummary,
-  'understanding-needs': UnderstandingNeeds,
-  'solution': Solution,
-  'features-section': FeaturesSection,
-  'roadmap': Roadmap,
-  'why-us': WhyUs,
-  'pricing-section': PricingSection,
-  'contact-section': ContactSection,
-  'title-header': TitleHeader,
-  // Phase 1: General-Purpose + Critical Gaps (11)
-  'data-table-standard': DataTableStandard,
-  'data-table-comparison': DataTableComparison,
-  'metrics-grid': MetricsGrid,
-  'kpi-dashboard': KpiDashboard,
-  'kpi-before-after': KpiBeforeAfter,
-  'security-overview': SecurityOverview,
-  'security-controls': SecurityControls,
-  'compliance-matrix': ComplianceMatrix,
-  'risk-matrix': RiskMatrix,
-  'risk-heatmap': RiskHeatmap,
-  'risk-mitigation-plan': RiskMitigationPlan,
-  // Phase 2: Easy Chile Coverage (10)
+  // Heroes (1)
+  'hero-gradient': HeroGradient,
+  // Executive Summary (1)
   'executive-summary-metrics': ExecutiveSummaryMetrics,
-  'executive-summary-timeline': ExecutiveSummaryTimeline,
+  // Problem / Needs (1)
   'problem-metrics-table': ProblemMetricsTable,
+  // Solution (1)
   'solution-capabilities': SolutionCapabilities,
+  // Features (2)
   'features-accordion': FeaturesAccordion,
   'features-tabs': FeaturesTabs,
+  // Data & Metrics (2)
+  'kpi-before-after': KpiBeforeAfter,
+  'kpi-targets': KpiTargets,
+  // Timeline (1)
+  'roadmap': Roadmap,
+  // Pricing (1)
   'pricing-detailed': PricingDetailed,
-  'timeline-table': TimelineTable,
-  'timeline-gantt': TimelineGantt,
-  'cta-action-items': CtaActionItems,
-  // Phase 3: SLA + Legal + Trust (9)
+  // Security & Risk (2)
+  'security-overview': SecurityOverview,
+  'risk-mitigation-plan': RiskMitigationPlan,
+  // SLA (1)
   'sla-tiers': SlaTiers,
-  'sla-comparison': SlaComparison,
-  'guarantees-grid': GuaranteesGrid,
-  'legal-terms-table': LegalTermsTable,
+  // Legal (2)
   'legal-sections': LegalSections,
   'legal-signature': LegalSignature,
+  // Trust & Social Proof (3)
   'trust-credentials': TrustCredentials,
   'trust-social-proof': TrustSocialProof,
-  'kpi-targets': KpiTargets,
-  // Phase 4: Hero + Executive Variants (3)
-  'hero-split': HeroSplit,
-  'hero-centered': HeroCentered,
-  'checklist-table': ChecklistTable,
+  'why-us': WhyUs,
+  // CTA & Contact (2)
+  'cta-action-items': CtaActionItems,
+  'contact-section': ContactSection,
+  // Utility (2)
+  'title-header': TitleHeader,
+  'footer-branded': FooterBranded,
 };

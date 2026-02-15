@@ -51,7 +51,7 @@ This is a monorepo for an AI-powered proposal generation system:
 # Install dependencies
 pnpm install
 
-# Run dev servers
+# Run dev servers (web on port 3001, agent on separate port)
 pnpm dev
 
 # Build all packages
@@ -60,6 +60,13 @@ pnpm build
 # Type check
 pnpm --filter=@repo/web type-check
 ```
+
+### Development Server
+- **Web App Port:** Always use **port 3001** for localhost
+  - Configured in `apps/web/package.json`: `next dev -p 3001`
+  - Access at: http://localhost:3001
+- **Agent API:** Runs on configured port (check `apps/agent/.env`)
+- When starting the dev server, always verify port 3001 is available
 
 ## Development Workflow
 

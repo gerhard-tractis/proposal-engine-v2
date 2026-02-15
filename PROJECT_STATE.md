@@ -338,8 +338,8 @@ pnpm test:web         # Run tests (19 passing)
 ```bash
 # Development
 pnpm dev                    # Start both apps
-pnpm web:dev                # Web only (localhost:3000)
-pnpm agent:dev              # Agent only (localhost:3001)
+pnpm web:dev                # Web only (localhost:3001)
+pnpm agent:dev              # Agent only (localhost:3002)
 
 # Testing
 pnpm type-check             # TypeScript check

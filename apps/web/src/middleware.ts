@@ -22,7 +22,7 @@ async function validateToken(slug: string, token: string): Promise<boolean> {
       .select('slug')
       .eq('slug', slug)
       .eq('token', token)
-      .eq('status', 'published')
+      .in('status', ['published', 'sent', 'viewed', 'draft'])
       .single();
 
     if (error) throw error;
@@ -72,9 +72,9 @@ export async function middleware(request: NextRequest) {
       const normalizedPath = path.replace(/\/+$/, '');
       const pathParts = normalizedPath.split('/').filter(Boolean);
 
-      // Expected: ['proposals', slug, token]
+      // Expected: ['proposals', slug, token] or ['proposals', slug, token, 'legacy']
       // Return 404 for ANY deviation to prevent info leakage
-      if (pathParts.length !== 3) {
+      if (pathParts.length !== 3 && !(pathParts.length === 4 && pathParts[3] === 'legacy')) {
         return NextResponse.rewrite(new URL('/404', request.url));
       }
 

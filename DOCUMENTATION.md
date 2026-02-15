@@ -12,10 +12,10 @@
 - Backend: https://repoagent-production-420c.up.railway.app
 
 **Local Development:**
-- Frontend: http://localhost:3000
-- Backend: http://localhost:3001
-- Admin Panel: http://localhost:3000/admin
-- Test Proposal: http://localhost:3000/proposals/tractis-demo/xK8pQ2mN7v
+- Frontend: http://localhost:3001
+- Backend: http://localhost:3002
+- Admin Panel: http://localhost:3001/admin
+- Test Proposal: http://localhost:3001/proposals/tractis-demo/xK8pQ2mN7v
 
 **Key Documentation Files:**
 - `DOCUMENTATION.md` (this file) - Complete system documentation
@@ -403,18 +403,18 @@ pnpm dev
 ```
 
 This starts:
-- **Frontend:** http://localhost:3000
+- **Frontend:** http://localhost:3001
 - **Backend:** http://localhost:3001
 
 ### Access Points
 
 | Page | URL |
 |------|-----|
-| Homepage | http://localhost:3000 |
-| Admin Panel | http://localhost:3000/admin |
-| Test Proposal | http://localhost:3000/proposals/tractis-demo/xK8pQ2mN7v |
-| API Health | http://localhost:3001/health |
-| API Design Extraction | http://localhost:3001/api/extract-design |
+| Homepage | http://localhost:3001 |
+| Admin Panel | http://localhost:3001/admin |
+| Test Proposal | http://localhost:3001/proposals/tractis-demo/xK8pQ2mN7v |
+| API Health | http://localhost:3002/health |
+| API Design Extraction | http://localhost:3002/api/extract-design |
 
 ---
 

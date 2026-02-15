@@ -23,13 +23,30 @@ Ask the user for ALL of the following in a single message:
 
 **Color extraction (if website URL provided):**
 - Run via Bash: `dembrandt <url>`
-- Parse hex colors from stdout using regex `/#([0-9a-fA-F]{6})/g`
-- Use the first color as `primary`, second as `accent`
+- Dembrandt outputs a full design system: colors, typography, buttons, hover states, etc.
+- Analyze the FULL output and build a complete color palette for the proposal:
+
+| Field | How to select from Dembrandt output |
+|-------|-------------------------------------|
+| `primary` | The brand's main action color — look at button backgrounds, hover states, link colors, or the most prominent non-neutral color |
+| `accent` | A secondary brand color — often found in borders, secondary buttons, or link text colors |
+| `background` | The page background — look at the main body/container background. Use white if the site is light-themed, or a dark color if dark-themed |
+| `foreground` | Main text color — look at body text or heading text colors |
+| `card` | Card/section background — slightly different from page background. Look at card components or alternating section backgrounds |
+| `cardForeground` | Text on cards — usually same as foreground |
+| `muted` | Subtle background for secondary areas — look at input backgrounds, disabled states, or light gray sections |
+| `mutedForeground` | Secondary text color — look at caption/label text, muted links, or placeholder text |
+| `border` | Border color — look at input borders, card borders, or divider colors |
+
+- Skip toastify/framework utility colors (--toastify-*, --tw-*, --swiper-*) — these are library defaults, not brand colors
 - If Dembrandt fails (timeout, network error, non-zero exit), fall back to Tractis defaults and inform the user
 
 **Tractis defaults (when no URL or Dembrandt fails):**
 - Primary: `#e6c15c` (gold)
 - Accent: `#5e6b7b` (slate)
+- Background: `#ffffff`, foreground: `#1a1a1a`
+- Card: `#f8f9fa`, muted: `#f1f5f9`, mutedForeground: `#64748b`
+- Border: `#e2e8f0`
 
 **Logo handling:**
 - If user provides a logo path/URL, use it
@@ -67,7 +84,7 @@ Now design the actual proposal blocks.
 
 ### Step 1: Read the Component Registry
 
-Read the file `apps/web/src/components/proposal/blocks/index.ts` to get the current `COMPONENT_REGISTRY`. This gives you all available component names.
+Read the file `apps/web/src/components/proposal/blocks/index.ts` to get the current `COMPONENT_REGISTRY`. This gives you all 22 available component names.
 
 ### Step 2: Read Component Source Files
 
@@ -75,13 +92,13 @@ For each component you consider using, read its source file at `apps/web/src/com
 
 ### Step 3: Cross-Reference with Seed Data
 
-Refer to `supabase/seed.sql` for canonical examples of how blocks are structured. Here are 3 key examples:
+Refer to `supabase/seed.sql` for canonical examples. Key examples:
 
-**Example 1: `hero-split`**
+**Example 1: `hero-gradient`**
 ```json
 {
   "id": "imperial-hero",
-  "component": "hero-split",
+  "component": "hero-gradient",
   "data": {
     "title": "Aureon Connect",
     "subtitle": "Integrador Universal de Última Milla",
@@ -105,8 +122,7 @@ Refer to `supabase/seed.sql` for canonical examples of how blocks are structured
     "content": "Dependencia crítica de un solo proveedor TMS...",
     "metrics": [
       { "label": "Tiempo de integración actual", "value": "3-4 semanas" },
-      { "label": "Proveedores TMS soportados", "value": "1 solo" },
-      { "label": "Riesgo de vendor lock-in", "value": "Crítico" }
+      { "label": "Proveedores TMS soportados", "value": "1 solo" }
     ],
     "differentiators": [
       "Point 1...",
@@ -116,13 +132,30 @@ Refer to `supabase/seed.sql` for canonical examples of how blocks are structured
 }
 ```
 
-**Example 3: `contact-section`**
+**Example 3: `solution-capabilities`**
+```json
+{
+  "id": "imperial-solution",
+  "component": "solution-capabilities",
+  "data": {
+    "sectionTitle": "La Solución",
+    "content": "Overview paragraph...",
+    "capabilities": [
+      { "number": 1, "title": "Capability Name", "description": "Description..." }
+    ],
+    "architecture": [
+      { "component": "API Layer", "technology": "Node.js", "purpose": "REST endpoints" }
+    ]
+  }
+}
+```
+
+**Example 4: `contact-section`**
 ```json
 {
   "id": "demo-contact",
   "component": "contact-section",
   "data": {
-    "sectionTitle": "Let's Talk",
     "contact": {
       "name": "Gerhard Neumann",
       "role": "Founder & CEO",
@@ -142,7 +175,6 @@ Refer to `supabase/seed.sql` for canonical examples of how blocks are structured
 Build an ordered `blocks[]` array where each block has `{ id, component, data }`.
 
 **Block ID format:** `{slug}-{descriptive-section-name}` — always lowercase with hyphens.
-Examples: `acme-hero`, `acme-problem`, `acme-pricing`, `acme-why-us`, `acme-contact`
 
 **ALWAYS append these two fixed blocks at the end:**
 
@@ -186,11 +218,11 @@ Show the user the full block plan with reasoning for each choice before proceedi
 ### Quality Gates
 
 Before finalizing, verify:
-- **Component variety**: Don't use the same component type for multiple sections when alternatives exist
-- **Content-component fit**: Data-heavy content → metrics/table components; narrative → text components
-- **Visual coherence**: Mix of full-width and contained components
-- **Audience alignment**: Technical vs executive tone matches the document
-- **Data shape validation**: Each block's `data` matches what the component source file expects
+- **Hero**: Always `hero-gradient` as first block
+- **Component variety**: Mix component types for visual rhythm
+- **Content-component fit**: Data shapes match what components expect
+- **Ending**: `why-us` → `contact-section` always last
+- **Data shape validation**: Read each component's `.tsx` source to verify interfaces
 
 ---
 
@@ -223,7 +255,14 @@ Build the full proposal object matching `ProposalSchema`:
     "logo": "<logo path or /logos/tractis-color.svg>",
     "colors": {
       "primary": "<extracted or #e6c15c>",
-      "accent": "<extracted or #5e6b7b>"
+      "accent": "<extracted or #5e6b7b>",
+      "background": "<extracted or #ffffff>",
+      "foreground": "<extracted or #1a1a1a>",
+      "card": "<extracted or #f8f9fa>",
+      "cardForeground": "<extracted or #1a1a1a>",
+      "muted": "<extracted or #f1f5f9>",
+      "mutedForeground": "<extracted or #64748b>",
+      "border": "<extracted or #e2e8f0>"
     }
   },
   "metadata": {
@@ -238,14 +277,14 @@ Build the full proposal object matching `ProposalSchema`:
 
 ### Step 3: Save
 
-1. Write the JSON to a temp file using the `Write` tool: `{project-root}/.tmp-proposal-{slug}.json` (use the slug to avoid collisions with concurrent runs)
+1. Write the JSON to a temp file using the `Write` tool: `{project-root}/.tmp-proposal-{slug}.json`
 2. Run the save script via Bash: `cd apps/agent && npx tsx ../../scripts/save-proposal.ts ../../.tmp-proposal-{slug}.json`
 3. If the insert fails due to a slug+token collision (unique constraint), generate a new token and retry (max 3 attempts)
-4. On success, delete the temp file and report the URL. On failure, also delete the temp file to avoid leaving artifacts:
+4. On success, delete the temp file and report the URL. On failure, also delete the temp file:
 
 ```
 ✅ Proposal saved!
-URL: http://localhost:3000/proposals/{slug}/{token}
+URL: http://localhost:3001/proposals/{slug}/{token}
 ```
 
 ---
@@ -258,3 +297,4 @@ URL: http://localhost:3000/proposals/{slug}/{token}
 - **The `status: 'published'` field** is added by the save script, not in the JSON file
 - **Token format**: 10-char alphanumeric (`[A-Za-z0-9_-]`)
 - **Slug format**: lowercase alphanumeric with hyphens only (`[a-z0-9-]`)
+- **22 components available** — no tables, all card-based layouts

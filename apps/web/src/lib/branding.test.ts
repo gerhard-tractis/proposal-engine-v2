@@ -75,7 +75,8 @@ describe('Branding Module', () => {
 
       const cssVars = generateBrandingCSSVars(mockProposal) as CSSVarsResult;
 
-      expect(cssVars['--primary']).toBe('#00ff00');
+      // --primary returns HSL space-separated string (e.g., "120 100% 50%"), not hex
+      expect(cssVars['--primary']).toBe('120 100% 50%'); // #00ff00 in HSL
       expect(cssVars['--primary']).not.toBe('#dfad30'); // Old bug
     });
 
@@ -97,7 +98,8 @@ describe('Branding Module', () => {
 
       const cssVars = generateBrandingCSSVars(mockProposal) as CSSVarsResult;
 
-      expect(cssVars['--border']).toBe('#0000ff');
+      // --border returns HSL space-separated string (e.g., "240 100% 50%"), not hex
+      expect(cssVars['--border']).toBe('240 100% 50%'); // #0000ff in HSL
       expect(cssVars['--border']).not.toBe('#7b8b9d'); // Old bug
     });
 
@@ -119,7 +121,8 @@ describe('Branding Module', () => {
 
       const cssVars = generateBrandingCSSVars(mockProposal) as CSSVarsResult;
 
-      expect(cssVars['--ring']).toBe('#ff00ff');
+      // --ring returns HSL space-separated string (e.g., "300 100% 50%"), not hex
+      expect(cssVars['--ring']).toBe('300 100% 50%'); // #ff00ff in HSL
       expect(cssVars['--ring']).not.toBe('#dfad30'); // Old bug
     });
 
@@ -171,11 +174,14 @@ describe('Branding Module', () => {
       const cssVars = generateBrandingCSSVars(imperialProposal) as CSSVarsResult;
 
       // Verify all Imperial colors are applied correctly
+      // --brand-primary and --brand-accent return hex values (direct assignment)
       expect(cssVars['--brand-primary']).toBe('#f72e3c');
       expect(cssVars['--brand-accent']).toBe('#85909e');
-      expect(cssVars['--primary']).toBe('#f72e3c');
-      expect(cssVars['--border']).toBe('#85909e');
-      expect(cssVars['--ring']).toBe('#f72e3c');
+
+      // --primary, --border, and --ring return HSL space-separated strings (via hexToHsl)
+      expect(cssVars['--primary']).toBe('356 93% 57%'); // #f72e3c in HSL
+      expect(cssVars['--border']).toBe('214 11% 57%');  // #85909e in HSL
+      expect(cssVars['--ring']).toBe('356 93% 57%');    // #f72e3c in HSL
 
       // Verify NO Tractis colors are present
       expect(cssVars['--brand-primary']).not.toBe('#dfad30');
