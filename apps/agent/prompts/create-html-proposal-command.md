@@ -291,11 +291,13 @@ Update the temp file using the `Edit` tool (or `Write` if changes are extensive)
 
 Run the following steps via Bash commands. All scripts are in the `scripts/` directory and use `npx tsx`.
 
-### Step 1: Generate Slug and Token
+### Step 1: Generate Slug, Token, and Password
 
 **Slug** — already generated in Phase 5 from the client name.
 
 **Token** — generate a 10-character random string using `[A-Za-z0-9_-]`. You can generate this inline (e.g., `node -e "console.log(require('crypto').randomBytes(8).toString('base64url').slice(0,10))"`).
+
+**Password** — generate a 6-digit numeric code (e.g., `node -e "console.log(String(Math.floor(100000 + Math.random() * 900000)))"`).
 
 ### Step 2: Upload Client Assets
 
@@ -368,6 +370,7 @@ const supabase = createClient(process.env.SUPABASE_URL, process.env.SUPABASE_SER
 const { error } = await supabase.from('proposals').insert({
   slug: 'SLUG',
   token: 'TOKEN',
+  password: 'PASSWORD',
   client_name: 'CLIENT_NAME',
   client_url: 'CLIENT_URL',
   status: 'draft',
@@ -390,6 +393,7 @@ If the insert fails due to a unique constraint violation, generate a new token a
 ✅ HTML Proposal generated!
    URL: https://proposal.tractis.ai/proposals/{slug}/{token}
    Local: http://localhost:3001/proposals/{slug}/{token}
+   🔒 Access Code: {password}
 ```
 
 ---
