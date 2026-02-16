@@ -226,6 +226,17 @@ ${errorHtml}
       });
 
     function reveal(proposalHtml){
+      // Update parent tab title and favicon from proposal HTML
+      var titleMatch=proposalHtml.match(/<title[^>]*>([^<]+)<\\/title>/i);
+      if(titleMatch) document.title=titleMatch[1];
+      var faviconMatch=proposalHtml.match(/<link[^>]*rel=["'](?:icon|shortcut icon)["'][^>]*href=["']([^"']+)["']/i);
+      if(!faviconMatch) faviconMatch=proposalHtml.match(/<link[^>]*href=["']([^"']+)["'][^>]*rel=["'](?:icon|shortcut icon)["']/i);
+      if(faviconMatch){
+        var link=document.querySelector("link[rel='icon']")||document.createElement('link');
+        link.rel='icon';link.href=faviconMatch[1];
+        document.head.appendChild(link);
+      }
+
       var iframe=document.createElement('iframe');
       iframe.className='proposal-frame';
       iframe.style.width='100vw';
