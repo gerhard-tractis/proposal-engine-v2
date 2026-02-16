@@ -240,13 +240,13 @@ Nuestros Tres Pilares:
 3. Seguridad & Privacidad — aislado, encriptado y protegido en cada capa
 ```
 
-**"Conversemos" contact section** — Include `{{photo:gerhard}}` as a circular headshot above the name. Match language of the proposal:
+**"Conversemos" contact section** — Include `{{photo:gerhard}}` as a circular headshot above the name. Match language of the proposal. **IMPORTANT: All contact details MUST be hyperlinked** — email as `mailto:`, phone as `tel:`, website as external link, LinkedIn as external link:
 ```
 [Photo: {{photo:gerhard}} — circular, with brand-primary border]
 Gerhard Neumann
 Founder & CEO
-gerhard@tractis.ai | +56 990210364
-tractis.ai | LinkedIn: gneumannv
+<a href="mailto:gerhard@tractis.ai">gerhard@tractis.ai</a> | <a href="tel:+56990210364">+56 990210364</a>
+<a href="https://tractis.ai">tractis.ai</a> | <a href="https://www.linkedin.com/in/gneumannv">LinkedIn: gneumannv</a>
 "Agenda una reunión para conversar cómo podemos transformar tu operación"
 ```
 
