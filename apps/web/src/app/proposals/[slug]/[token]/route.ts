@@ -88,8 +88,6 @@ body::before{content:'';position:fixed;top:-50%;left:-50%;width:200%;height:200%
 /* Crossfade overlay */
 .overlay{position:fixed;inset:0;background:var(--bg);opacity:0;pointer-events:none;z-index:100;transition:opacity .6s cubic-bezier(.4,0,.2,1)}
 .overlay.active{opacity:1}
-.proposal-frame{position:fixed;inset:0;z-index:200;border:none;opacity:0;transition:opacity .8s cubic-bezier(.4,0,.2,1)}
-.proposal-frame.visible{opacity:1}
 h1{font-family:'Manrope',system-ui,sans-serif;font-size:21px;font-weight:700;letter-spacing:-0.02em;margin-bottom:8px}
 .sub{font-size:14px;color:var(--text-muted);margin-bottom:32px;line-height:1.5}
 .input-wrap{display:flex;justify-content:center;gap:8px;margin-bottom:8px}
@@ -226,31 +224,10 @@ ${errorHtml}
       });
 
     function reveal(proposalHtml){
-      // Update parent tab title and favicon from proposal HTML
-      var titleMatch=proposalHtml.match(/<title[^>]*>([^<]+)<\\/title>/i);
-      if(titleMatch) document.title=titleMatch[1];
-      var faviconMatch=proposalHtml.match(/<link[^>]*rel=["'](?:icon|shortcut icon)["'][^>]*href=["']([^"']+)["']/i);
-      if(!faviconMatch) faviconMatch=proposalHtml.match(/<link[^>]*href=["']([^"']+)["'][^>]*rel=["'](?:icon|shortcut icon)["']/i);
-      if(faviconMatch){
-        var link=document.querySelector("link[rel='icon']")||document.createElement('link');
-        link.rel='icon';link.href=faviconMatch[1];
-        document.head.appendChild(link);
-      }
-
-      var iframe=document.createElement('iframe');
-      iframe.className='proposal-frame';
-      iframe.style.width='100vw';
-      iframe.style.height='100vh';
-      document.body.appendChild(iframe);
-      var doc=iframe.contentDocument||iframe.contentWindow.document;
-      doc.open();
-      doc.write(proposalHtml);
-      doc.close();
-      requestAnimationFrame(function(){
-        requestAnimationFrame(function(){
-          iframe.classList.add('visible');
-        });
-      });
+      // Replace the entire document with the proposal HTML
+      document.open();
+      document.write(proposalHtml);
+      document.close();
     }
   });
 
