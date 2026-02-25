@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Inter, JetBrains_Mono } from "next/font/google";
+import { Analytics } from "@vercel/analytics/react";
 import "./globals.css";
 
 // Tractis brand fonts from design system
@@ -40,6 +41,7 @@ export default function RootLayout({
         style={{ fontFamily: 'var(--font-inter), -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif' }}
       >
         {children}
+        <Analytics />
       </body>
     </html>
   );
