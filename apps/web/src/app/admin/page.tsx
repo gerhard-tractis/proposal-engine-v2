@@ -191,22 +191,24 @@ function ProposalDashboard() {
               <div className="flex items-start justify-between">
                 <div className="flex-1">
                   <div className="flex items-center gap-3 mb-2">
-                    <h3 className="text-xl font-semibold">{proposal.client.name}</h3>
+                    <h3 className="text-xl font-semibold">{proposal.client?.name || proposal.slug}</h3>
                     <Badge variant="outline" className="font-mono text-xs">
                       {proposal.slug}
                     </Badge>
                     <Badge variant="secondary" className="font-semibold text-xs">
-                      {proposal.blocks.length} blocks
+                      {(proposal.blocks?.length || 0) > 0 ? `${proposal.blocks.length} blocks` : 'HTML'}
                     </Badge>
                   </div>
 
                   <p className="text-sm text-muted-foreground mb-4 line-clamp-2">
                     {(() => {
+                      if (!proposal.blocks?.length) return 'HTML proposal';
                       const execData = getBlockData(proposal.blocks, 'executive-summary');
                       return (execData?.content as string) || 'No summary available';
                     })()}
                   </p>
 
+                  {proposal.client?.colors && (
                   <div className="flex items-center gap-4 text-sm text-muted-foreground">
                     <div className="flex items-center gap-2">
                       <div
@@ -223,6 +225,7 @@ function ProposalDashboard() {
                       <span className="font-mono">{proposal.client.colors.accent}</span>
                     </div>
                   </div>
+                  )}
                 </div>
 
                 <div className="flex flex-col gap-2 ml-4">
@@ -250,7 +253,7 @@ function ProposalDashboard() {
                   Token: {proposal.token}
                 </div>
                 <div>
-                  {proposal.blocks.length} blocks
+                  {(proposal.blocks?.length || 0) > 0 ? `${proposal.blocks.length} blocks` : 'HTML'}
                 </div>
               </div>
             </Card>

@@ -97,9 +97,7 @@ export async function getAllProposals(): Promise<Proposal[]> {
       .order('created_at', { ascending: false });
 
     if (error) throw error;
-    return (data || [])
-      .map(mapRowToProposal)
-      .filter((p) => ProposalSchema.safeParse(p).success);
+    return (data || []).map(mapRowToProposal);
   } catch (error) {
     console.error('Supabase query failed:', (error as Error).message);
     return [];
